@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>蜗牛轨迹</title>
+  <title>白色键盘</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="写博客，记录重要知识，iOS学习">
 <meta property="og:type" content="website">
-<meta property="og:title" content="蜗牛轨迹">
+<meta property="og:title" content="白色键盘">
 <meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="蜗牛轨迹">
+<meta property="og:site_name" content="白色键盘">
 <meta property="og:description" content="写博客，记录重要知识，iOS学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="蜗牛轨迹">
+<meta name="twitter:title" content="白色键盘">
 <meta name="twitter:description" content="写博客，记录重要知识，iOS学习">
   
-    <link rel="alternative" href="/atom.xml" title="蜗牛轨迹" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="白色键盘" type="application/atom+xml">
   
   
     <link rel="icon" href="/images/photo.jpg">
@@ -30,12 +30,12 @@
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
 			
-			<img lazy-src="null" class="js-avatar">
+			<img lazy-src="/images/photo.jpg" class="js-avatar">
 			
 		</a>
 
 		<hgroup>
-		  <h1 class="header-author"><a href="/">王跃</a></h1>
+		  <h1 class="header-author"><a href="/">苹果</a></h1>
 		</hgroup>
 
 		
@@ -81,15 +81,15 @@
       <nav id="mobile-nav">
   	<div class="overlay">
   		<div class="slider-trigger"></div>
-  		<h1 class="header-author js-mobile-header hide">王跃</h1>
+  		<h1 class="header-author js-mobile-header hide">苹果</h1>
   	</div>
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img lazy-src="null" class="js-avatar">
+				<img lazy-src="/images/photo.jpg" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author">王跃</h1>
+			  <h1 class="header-author">苹果</h1>
 			</hgroup>
 			
 			<nav class="header-menu">
@@ -118,6 +118,103 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-EGOCache-check-cache-expired" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/16/EGOCache-check-cache-expired/" class="article-date">
+  	<time datetime="2015-08-16T15:59:47.000Z" itemprop="datePublished">2015-08-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/16/EGOCache-check-cache-expired/">EGOCache check cache expired</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>子曰:学而不思则罔,思而不学则殆。</p>
+</blockquote>
+<p>在上一篇文章中：EGOCache缓存框架详细讲解 提到EGOCache可以设定缓存过期时间，默认是1天。查看了一下EGOCache源码，设置默认时间：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr_selector">[self setDefaultTimeoutInterval:86400]</span>;</span><br><span class="line"><span class="comment">//86400 = 24 * 60 * 60 刚好是一天时间。</span></span><br></pre></td></tr></table></figure></p>
+<p>EGOCache为什么要提供设定缓存过期时间呢？或者说设定缓存过期时间有什么好处呢？我觉得最大的好处就是可以定时清除缓存。可以设置某一项的缓存时间，很方便管理缓存。</p>
+<p>那么问题来了：</p>
+<ol>
+<li>EGOCache是怎么检测缓存过期时间的呢？</li>
+<li>检测到时间过期之后，什么时候触发删除缓存项的？</li>
+</ol>
+<p>带着这两个问题，我们来继续分析。</p>
+<h4 id="你会怎么实现">你会怎么实现</h4><p>记得在公司里，老板经常会举这样的例子：<br><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">某某同志，刚来我们公司的时候，遇到问题就知道抱怨。从来不知道去思考怎么解决，只知道把问题抛给领导。工作半年下来，成长了很多。现在碰到问题，不仅把问题抛出来，而且还提供了自己的解决方案...</span><br></pre></td></tr></table></figure></p>
+<p>类似的例子，相信大家都听过。同样，既然前面我们提出这两个问题，我们也先来思考一下，如果我们来做该怎么解决？</p>
+<p>如果让我来写的话，我脑海里初步实现方法有几个：</p>
+<ol>
+<li>通过定时器来轮询，每隔一段时间检测一次。</li>
+<li>写一个while循环来检测。</li>
+<li>每次去读取缓存项的时候，判断缓存时间有没有过期。没过期，就返回读取的缓存项；否则，返回nil。</li>
+</ol>
+<p>当然，还有一些方法，不一一例举了。仔细想想，这些方法弊端很容易显露出来。</p>
+<ol>
+<li>为了小小的缓存时间，就用定时器轮询，显然是资源浪费</li>
+<li>跟方法1差不多。</li>
+<li>每次读取的时候判断是否过期，如果一直不读取，app的缓存会越来越大，也不可取。</li>
+</ol>
+<p>这些方法都被排除了，还有好的方法吗？继续往下看：</p>
+<h4 id="EGOCache是怎么实现的？">EGOCache是怎么实现的？</h4><p>仔细查看EGOCache源码，发现在initWithCacheDirectory:方法里，每次初始化EGOCache实例对象的时，会遍历一遍plist文件中所有已存在的缓存项，拿每个缓存项的时间和当前时间作比较，缓存项过期时间早于当前时间，则删除对应缓存文件，并删除 plist 文件中对应 key 的记录。</p>
+<p>具体实现代码如下：</p>
+<h4 id="读取缓存项信息">读取缓存项信息</h4><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="name">_cacheInfo</span> = [[<span class="name">NSDictionary</span> <span class="atom">dictionaryWithContentsOfFile</span>:<span class="atom">cachePathForKey</span>(<span class="name">_directory</span>, @<span class="string">"EGOCache.plist"</span>)] <span class="atom">mutableCopy</span>];</span><br><span class="line"></span><br><span class="line"><span class="atom">if</span>(!<span class="name">_cacheInfo</span>) &#123;</span><br><span class="line">    <span class="name">_cacheInfo</span> = [[<span class="name">NSMutableDictionary</span> <span class="atom">alloc</span>] <span class="atom">init</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="获取当前时间的NSTimeInterval">获取当前时间的NSTimeInterval</h4><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSTimeInterval now = <span class="comment">[<span class="comment">[NSDate date]</span> timeIntervalSinceReferenceDate]</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="声明removedKeys保存过期的缓存项对应的key">声明removedKeys保存过期的缓存项对应的key</h4><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSMutableArray* removedKeys = <span class="comment">[<span class="comment">[NSMutableArray alloc]</span> init]</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="遍历缓存项信息并判断缓存时间">遍历缓存项信息并判断缓存时间</h4><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">for</span>(NSString* key in _cacheInfo) &#123;</span><br><span class="line">    <span class="comment">//判断缓存项过期时间是否早于当前时间</span></span><br><span class="line">    <span class="tag">if</span>([_cacheInfo[key] timeIntervalSinceReferenceDate] &lt;= now) &#123;</span><br><span class="line">        <span class="comment">//如果缓存项过期时间早于当前时间，移除缓存项</span></span><br><span class="line">        <span class="attr_selector">[[NSFileManager defaultManager]</span> <span class="tag">removeItemAtPath</span><span class="pseudo">:cachePathForKey</span>(_directory, key) <span class="tag">error</span><span class="pseudo">:NULL</span>];</span><br><span class="line">        <span class="comment">//把过期的缓存项对于的key保存到removedKeys里面</span></span><br><span class="line">        <span class="attr_selector">[removedKeys addObject:key]</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="删除过期缓存项对于的key">删除过期缓存项对于的key</h4><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">[_cacheInfo removeObjectsForKeys:removedKeys]</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>看到这些，是不是觉得人家思路特牛叉，反正，我是觉得这个作者不简单。到这一步就解决了吗？</p>
+<h4 id="EGOCache还做了什么？">EGOCache还做了什么？</h4><p>细心的童鞋会发现：EGOCache是个单列类，也就是说整个程序应用周期只初始化一次。<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">+<span class="function"> (</span>instancetype<span class="function">)</span>globalCache &#123;</span><br><span class="line">   <span class="keyword"> static</span> id instance;</span><br><span class="line"></span><br><span class="line">   <span class="keyword"> static</span> dispatch_once_t onceToken;</span><br><span class="line">   <span class="function"> dispatch_once(</span>&amp;onceToken, ^&#123;</span><br><span class="line">       <span class="instruction"> instance </span>= <span class="keyword">[</span><span class="keyword">[</span><span class="keyword">[</span>self class] alloc] init];</span><br><span class="line">    &#125;<span class="function">)</span>;</span><br><span class="line"></span><br><span class="line">   <span class="instruction"> return </span>instance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>每次初始化的时候去判断了缓存项是否过期，这样做非常正确。思考一个场景：</p>
+<ol>
+<li>用户打开app，EGOCache被初始化，并判断了缓存项是否过期。</li>
+<li>如果刚好有一些缓存项在EGOCache被初始化之后过期。这个时候我们依然可以读到这个缓存项。这就不对了。</li>
+</ol>
+<p>继续分析EGOCache源码发现，EGOCache在读取一个缓存项的时候，先判断缓存项是否存在，然后读取缓存项（注意：是读取EGOCache初始化的时候没有过期的缓存项，并没有说现在没有过期），最后去判断读取到的缓存项跟当前时间相比是否过期.</p>
+<p>具体实现如下：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)hasCacheForKey:(<span class="built_in">NSString</span>*)key &#123;</span><br><span class="line">    <span class="comment">//读取EGOCache初始化的时候没有过期的缓存项</span></span><br><span class="line">    <span class="built_in">NSDate</span>* date = [<span class="keyword">self</span> dateForKey:key];</span><br><span class="line">    <span class="keyword">if</span>(date == <span class="literal">nil</span>) <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">    <span class="comment">//判断读取到的缓存项当前是否过期</span></span><br><span class="line">    <span class="keyword">if</span>([date timeIntervalSinceReferenceDate] &lt; <span class="built_in">CFAbsoluteTimeGetCurrent</span>()) <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> [[<span class="built_in">NSFileManager</span> defaultManager] fileExistsAtPath:cachePathForKey(_directory, key)];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSDate</span>*)dateForKey:(<span class="built_in">NSString</span>*)key &#123;</span><br><span class="line">    __block <span class="built_in">NSDate</span>* date = <span class="literal">nil</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">dispatch_sync</span>(_frozenCacheInfoQueue, ^&#123;</span><br><span class="line">        date = (<span class="keyword">self</span><span class="variable">.frozenCacheInfo</span>)[key];</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> date;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>EGOCache检测缓存时间过期的思路值得学习，以后遇到类似场景，完全可以借鉴。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-multiple-uiimage-merged" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -135,7 +232,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/12/multiple-uiimage-merged/">multiple-uiimage-merged</a>
+      <a class="article-title" href="/2015/08/12/multiple-uiimage-merged/">iOS多张图片合并</a>
     </h1>
   
 
@@ -746,62 +843,6 @@ frame.origin.y = position.y - <span class="built_in">anchor</span>Point.y * boun
 
 
   
-    <article id="post-view-rotation-animation" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/11/09/view-rotation-animation/" class="article-date">
-  	<time datetime="2014-11-08T18:17:37.000Z" itemprop="datePublished">2014-11-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/11/09/view-rotation-animation/">iOS View rotation animation</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>iOS中View的旋转，transform和rotation。<br>项目中经常遇到需要对view做rotation的动画，记录下来常用的方法。</p>
-<figure class="highlight"><figcaption><span>使用 transform</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)rotationAnimation&#10;&#123;&#10;    CGAffineTransform endAngle = CGAffineTransformMakeRotation(&#60;#angle#&#62; * (M_PI / 180.0f));&#10;    &#10;    [UIView animateWithDuration:0.01 delay:0 options:UIViewAnimationOptionCurveLinear animations:^&#123;&#10;        &#60;#view#&#62;.transform = endAngle;&#10;    &#125; completion:^(BOOL finished) &#123;&#10;        &#60;#angle#&#62; += 10;&#10;        [self rotationAnimation];&#10;    &#125;];&#10;&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight"><figcaption><span>使用 transform.rotation.z</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;-(void)transformRotationZ&#123;&#10;    CABasicAnimation* rotationAnimation = [CABasicAnimation animationWithKeyPath:@&#34;transform.rotation.z&#34;];&#10;    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];&#10;    rotationAnimation.duration = &#60;#duration#&#62;;&#10;    rotationAnimation.cumulative = YES;&#10;    rotationAnimation.repeatCount = &#60;#repeat#&#62;;&#10;    &#10;    [&#60;#view#&#62;.layer addAnimation:rotationAnimation forKey:&#60;#key#&#62;];&#10;&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/iOS/">iOS</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -812,7 +853,7 @@ frame.origin.y = position.y - <span class="built_in">anchor</span>Point.y * boun
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2015 王跃
+    		&copy; 2015 苹果
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
