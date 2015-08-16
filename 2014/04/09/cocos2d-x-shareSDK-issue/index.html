@@ -3,21 +3,36 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Hello World | 蜗牛轨迹</title>
+  <title>cocos2d-x ShareSDK | 蜗牛轨迹</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+  <meta name="description" content="###Cocos2d-x集成ShareSDK出现的问题
+异常信息1：
+分享完成，回到app过程中异常退出
+
+Fatal signal 11 (SIGSEGV) at xxxxxxxx (code=1), thread xxxx (xxxxxx)
+call to OpenGL ES API with no current context (logged once per thread)
+Androi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2015/08/16/hello-world/index.html">
+<meta property="og:title" content="cocos2d-x ShareSDK">
+<meta property="og:url" content="http://yoursite.com/2014/04/09/cocos2d-x-shareSDK-issue/index.html">
 <meta property="og:site_name" content="蜗牛轨迹">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2015-08-16T01:33:05.000Z">
+<meta property="og:description" content="###Cocos2d-x集成ShareSDK出现的问题
+异常信息1：
+分享完成，回到app过程中异常退出
+
+Fatal signal 11 (SIGSEGV) at xxxxxxxx (code=1), thread xxxx (xxxxxx)
+call to OpenGL ES API with no current context (logged once per thread)
+Androi">
+<meta property="og:updated_time" content="2015-03-06T09:00:09.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="cocos2d-x ShareSDK">
+<meta name="twitter:description" content="###Cocos2d-x集成ShareSDK出现的问题
+异常信息1：
+分享完成，回到app过程中异常退出
+
+Fatal signal 11 (SIGSEGV) at xxxxxxxx (code=1), thread xxxx (xxxxxx)
+call to OpenGL ES API with no current context (logged once per thread)
+Androi">
   
     <link rel="alternative" href="/atom.xml" title="蜗牛轨迹" type="application/atom+xml">
   
@@ -120,11 +135,11 @@ Quick">
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-cocos2d-x-shareSDK-issue" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/08/16/hello-world/" class="article-date">
-  	<time datetime="2015-08-16T01:33:05.000Z" itemprop="datePublished">2015-08-16</time>
+      <a href="/2014/04/09/cocos2d-x-shareSDK-issue/" class="article-date">
+  	<time datetime="2014-04-09T13:31:48.000Z" itemprop="datePublished">2014-04-09</time>
 </a>
     </div>
   
@@ -137,7 +152,7 @@ Quick">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      cocos2d-x ShareSDK
     </h1>
   
 
@@ -146,6 +161,10 @@ Quick">
       <div class="article-info article-info-post">
         
         
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/cocos2d-x-shareSDK/">cocos2d-x shareSDK</a>
+	</div>
+
 
         <div class="clearfix"></div>
       </div>
@@ -153,16 +172,29 @@ Quick">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p>###Cocos2d-x集成ShareSDK出现的问题</p>
+<p><code>异常信息1：</code></p>
+<pre><code>分享完成，回到app过程中异常退出
 
+Fatal signal 11 (SIGSEGV) at xxxxxxxx (code=1), thread xxxx (xxxxxx)
+<span class="operator"><span class="keyword">call</span> <span class="keyword">to</span> OpenGL ES API <span class="keyword">with</span> <span class="keyword">no</span> <span class="keyword">current</span> <span class="keyword">context</span> (logged once per <span class="keyword">thread</span>)</span>
+</code></pre><p>Android在回到cocos2d-x时，应该使用OpenGL的Thread：</p>
+<pre><code><span class="type">Cocos2dxGLSurfaceView</span>.getInstance<span class="literal">()</span>.queueEvent(<span class="keyword">new</span> <span class="type">Runnable</span><span class="literal">()</span>{<span class="keyword">do</span> something});
+</code></pre><p><code>异常信息2：</code></p>
+<pre><code>java.lang.IllegalStateException: Target host must <span class="operator">not</span> be <span class="constant">null</span>, <span class="operator">or</span> <span class="built_in">set</span> <span class="operator">in</span> parameters.
+scheme=<span class="constant">null</span>, host=<span class="constant">null</span>, path=<span class="constant">null</span>
+版本ShareSDK Android <span class="number">2.3</span><span class="number">.7</span>
+</code></pre><p>所有的参数都为null，估计是我们哪里参数转换或传入出了问题，和在线客服的多次沟通下，终于找到问题所在。</p>
+<pre><code>在ShareSDKUtils.java文件中找到如下代码
+<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> onekeyShare(<span class="built_in">int</span> platformId, <span class="keyword">String</span> contentJson)
+{
+  ....
+  <span class="keyword">HashMap</span>&lt;<span class="keyword">String</span>, <span class="keyword">Object</span>&gt; content = hashon.fromJson(contentJson);
+  content = nativeMapToJavaMap(content);<span class="comment">//注释本行代码</span>
+  <span class="keyword">HashMap</span>&lt;<span class="keyword">String</span>, <span class="keyword">Object</span>&gt; <span class="built_in">map</span> = nativeMapToJavaMap(content);
+  ....
+}
+</code></pre>
       
     </div>
     
@@ -171,9 +203,18 @@ Quick">
     
 <nav id="article-nav">
   
+    <a href="/2014/04/12/cocos2d-x-screenshot/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          cocos2d-x-screenshot
+        
+      </div>
+    </a>
   
-    <a href="/2015/08/12/multiple-uiimage-merged/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">multiple-uiimage-merged</div>
+  
+    <a href="/2014/04/08/cocos2d-x-debug/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">android NDK debug</div>
       <strong class="article-nav-caption">></strong>
     </a>
   

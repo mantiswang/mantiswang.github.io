@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Cocos2d-x ShareSDK腾讯微博集成 | 蜗牛轨迹</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="使用腾讯微博登录app，并实现关注某帐号，获取用户粉丝列表，互粉粉丝
+腾讯微博登陆，关注某微博帐号，获取粉丝列表，获取互粉列表123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869	void SN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cocos2d-x ShareSDK腾讯微博集成">
+<meta property="og:url" content="http://yoursite.com/2014/05/22/cocos2d-x-tencentweibo/index.html">
+<meta property="og:site_name" content="蜗牛轨迹">
+<meta property="og:description" content="使用腾讯微博登录app，并实现关注某帐号，获取用户粉丝列表，互粉粉丝
+腾讯微博登陆，关注某微博帐号，获取粉丝列表，获取互粉列表123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869	void SN">
+<meta property="og:updated_time" content="2015-03-06T09:00:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Cocos2d-x ShareSDK腾讯微博集成">
+<meta name="twitter:description" content="使用腾讯微博登录app，并实现关注某帐号，获取用户粉丝列表，互粉粉丝
+腾讯微博登陆，关注某微博帐号，获取粉丝列表，获取互粉列表123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869	void SN">
+  
+    <link rel="alternative" href="/atom.xml" title="蜗牛轨迹" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="null" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">王跃</a></h1>
+		</hgroup>
+
+		
+
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">王跃</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="null" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">王跃</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-cocos2d-x-tencentweibo" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/05/22/cocos2d-x-tencentweibo/" class="article-date">
+  	<time datetime="2014-05-22T00:25:52.000Z" itemprop="datePublished">2014-05-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Cocos2d-x ShareSDK腾讯微博集成
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/cocos2d-x-IOS-shareSDK/">cocos2d-x IOS shareSDK</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>使用腾讯微博登录app，并实现关注某帐号，获取用户粉丝列表，互粉粉丝</p>
+<figure class="highlight c++"><figcaption><span>腾讯微博登陆，关注某微博帐号，获取粉丝列表，获取互粉列表</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">	<span class="keyword">void</span> SNSUtils::loginQQWeibo()</span><br><span class="line">	&#123;</span><br><span class="line">	    id&lt;ISSAuthOptions&gt; authOptions = [ShareSDK authOptionsWithAutoAuth:<span class="literal">true</span> allowCallback:YES scopes:[NSDictionary dictionaryWithObjectsAndKeys:@<span class="string">"all"</span>,@<span class="number">2</span>,nil] powerByHidden:YES followAccounts:nil authViewStyle:SSAuthViewStylePopup viewDelegate:nil authManagerViewDelegate:nil];</span><br><span class="line">	    [ShareSDK getUserInfoWithType:ShareTypeTencentWeibo</span><br><span class="line">          authOptions:authOptions</span><br><span class="line">               result:^(BOOL result, id&lt;ISSPlatformUser&gt; userInfo, id&lt;ICMErrorInfo&gt; error) &#123;</span><br><span class="line">                   <span class="keyword">if</span> (result) &#123;</span><br><span class="line">                       NSLog(@<span class="string">"成功, %@, %@, %@"</span>,[userInfo uid], [userInfo url], [userInfo sourceData]);</span><br><span class="line">                       </span><br><span class="line">                       <span class="comment">//关注官方微博</span></span><br><span class="line">		               <span class="comment">/**</span><br><span class="line">		               * 这里我直接使用sharesdk name,可以参看ShareSDK api，</span><br><span class="line">		               **/</span></span><br><span class="line">                       [ShareSDK followUserWithType:ShareTypeTencentWeibo field:@<span class="string">"sharesdk"</span></span><br><span class="line">                                          fieldType:SSUserFieldTypeName authOptions:authOptions viewDelegate:nil result:^ (SSResponseState state, id&lt;ISSPlatformUser&gt; userInfo, id&lt;ICMErrorInfo&gt; error)</span><br><span class="line">                        &#123;</span><br><span class="line">                            <span class="keyword">if</span> (state == SSResponseStateSuccess) &#123;</span><br><span class="line">                                NSLog(@<span class="string">"关注官方微博"</span>);</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="keyword">else</span></span><br><span class="line">                            &#123;</span><br><span class="line">                                NSLog(@<span class="string">"%i, %@"</span>, [error errorCode], [error errorDescription]);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;];</span><br><span class="line">                       </span><br><span class="line">                       <span class="comment">//获取好友列表</span></span><br><span class="line">                       id&lt;ISSPage&gt; page = [ShareSDK pageWithPageNo:<span class="number">1</span> pageSize:<span class="number">10</span>];</span><br><span class="line">                       [ShareSDK getFriendsWithType:ShareTypeTencentWeibo page:page authOptions:authOptions result:^(SSResponseState state, NSArray *users, <span class="keyword">long</span> <span class="keyword">long</span> curr, <span class="keyword">long</span> <span class="keyword">long</span> prev, <span class="keyword">long</span> <span class="keyword">long</span> next, BOOL hasNext, NSDictionary *extInfo, id&lt;ICMErrorInfo&gt; error)</span><br><span class="line">                        &#123;</span><br><span class="line">                            <span class="keyword">if</span>(state == SSResponseStateSuccess)</span><br><span class="line">                            &#123;</span><br><span class="line">                                NSLog(@<span class="string">"获取好友列表成功"</span>);</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="keyword">else</span>&#123;</span><br><span class="line">                                NSLog(@<span class="string">"失败"</span>);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;];</span><br><span class="line"></span><br><span class="line">                       <span class="comment">//获取互粉的uid</span></span><br><span class="line">                       id&lt;ISSPlatformCredential&gt; credential = [ShareSDK getCredentialWithType:ShareTypeTencentWeibo];</span><br><span class="line">                       NSLog(@<span class="string">"token is %@"</span>, [credential token]);</span><br><span class="line">                       id&lt;ISSTencentWeiboApp&gt; app = (id&lt;ISSTencentWeiboApp&gt;)[ShareSDK getClientWithType:ShareTypeTencentWeibo];</span><br><span class="line">                       id&lt;ISSCParameters&gt; params = [ShareSDKCoreService parameters];</span><br><span class="line">                       [params addParameter:@<span class="string">"fopenid"</span> value:[userInfo uid]];</span><br><span class="line">                       [params addParameter:@<span class="string">"format"</span> value:@<span class="string">"json"</span>];</span><br><span class="line">                       [params addParameter:@<span class="string">"startindex"</span> value:@<span class="number">0</span>];</span><br><span class="line">                       [params addParameter:@<span class="string">"reqnum"</span> value:@<span class="number">10</span>];</span><br><span class="line">                       <span class="comment">//TODO 设置是否过滤安装应用好友</span></span><br><span class="line">                       <span class="comment">//0-不考虑该参数，1-获取已安装应用好友，2-获取未安装应用好友</span></span><br><span class="line">                       [params addParameter:@<span class="string">"install"</span> value:@<span class="number">0</span>];</span><br><span class="line">                       [params addParameter:@<span class="string">"oauth_consumer_key"</span> value:@<span class="string">"801494292"</span>];</span><br><span class="line">                       [params addParameter:@<span class="string">"access_token"</span> value:[credential token]];</span><br><span class="line">                       [params addParameter:@<span class="string">"oauth_version"</span> value:@<span class="number">2.0</span>];</span><br><span class="line">                       <span class="comment">//调用接口</span></span><br><span class="line"><span class="comment">//                                   http://open.t.qq.com/api/friends/mutual_list?format=xml&amp;name=wbapihelper&amp;fopenid=&amp;startindex=0&amp;reqnum=20&amp;install=0&amp;oauth_consumer_key=xx&amp;access_token=xx&amp;openid=xx&amp;clientip=xx&amp;oauth_version=2.a&amp;scope=xx</span></span><br><span class="line">                       [app api:@<span class="string">"https://open.t.qq.com/api/friends/mutual_list"</span> method:SSTecentWeiboRequestMethodGet params:params user:nil result:^(id responder) &#123;</span><br><span class="line">	                        NSLog(@<span class="string">"互粉数据%@"</span>, responder);</span><br><span class="line"></span><br><span class="line">                       &#125; fault:^(CMErrorInfo *error) &#123;</span><br><span class="line">                           NSLog(@<span class="string">"%@"</span>, [error description]);</span><br><span class="line">                       &#125;];</span><br><span class="line">                   &#125;</span><br><span class="line">                   <span class="keyword">else</span></span><br><span class="line">                   &#123;</span><br><span class="line">                       NSLog(@<span class="string">"失败"</span>);</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;];</span><br><span class="line"></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/07/31/hmsegmentedcontrol-selected-section-textcolor/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          HMSegmentedControl-选中section的字体颜色
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/05/21/cocos2d-x-sinaweibo/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Cocos2d-x ShareSDK新浪微博集成</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 王跃
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

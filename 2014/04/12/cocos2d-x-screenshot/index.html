@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>cocos2d-x-screenshot | 蜗牛轨迹</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在做sharesdk分享的时候，iPhone设备上面原始尺寸屏幕截图保存下来，达到1M左右，实在太大了。
+虽说IOS用户都是高富帅，不care，但也不排除有屌丝在没有wifi的情况下小手一抖，1M没有了，回来论坛里骂我们开发人员傻X，为啥不把这个图片压小点，给他们节省的流量，让他们多玩两把 。
+好吧，那就让万能的代码来解决这个问题吧，让在cocos2d-x截屏的时候把屏幕缩小一倍，这样保存下来的图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cocos2d-x-screenshot">
+<meta property="og:url" content="http://yoursite.com/2014/04/12/cocos2d-x-screenshot/index.html">
+<meta property="og:site_name" content="蜗牛轨迹">
+<meta property="og:description" content="在做sharesdk分享的时候，iPhone设备上面原始尺寸屏幕截图保存下来，达到1M左右，实在太大了。
+虽说IOS用户都是高富帅，不care，但也不排除有屌丝在没有wifi的情况下小手一抖，1M没有了，回来论坛里骂我们开发人员傻X，为啥不把这个图片压小点，给他们节省的流量，让他们多玩两把 。
+好吧，那就让万能的代码来解决这个问题吧，让在cocos2d-x截屏的时候把屏幕缩小一倍，这样保存下来的图">
+<meta property="og:updated_time" content="2015-03-06T09:00:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cocos2d-x-screenshot">
+<meta name="twitter:description" content="在做sharesdk分享的时候，iPhone设备上面原始尺寸屏幕截图保存下来，达到1M左右，实在太大了。
+虽说IOS用户都是高富帅，不care，但也不排除有屌丝在没有wifi的情况下小手一抖，1M没有了，回来论坛里骂我们开发人员傻X，为啥不把这个图片压小点，给他们节省的流量，让他们多玩两把 。
+好吧，那就让万能的代码来解决这个问题吧，让在cocos2d-x截屏的时候把屏幕缩小一倍，这样保存下来的图">
+  
+    <link rel="alternative" href="/atom.xml" title="蜗牛轨迹" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="null" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">王跃</a></h1>
+		</hgroup>
+
+		
+
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">王跃</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="null" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">王跃</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-cocos2d-x-screenshot" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/04/12/cocos2d-x-screenshot/" class="article-date">
+  	<time datetime="2014-04-12T15:02:27.000Z" itemprop="datePublished">2014-04-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      cocos2d-x-screenshot
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/cocos2d-x/">cocos2d-x</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在做sharesdk分享的时候，iPhone设备上面原始尺寸屏幕截图保存下来，达到1M左右，实在太大了。</p>
+<p>虽说IOS用户都是高富帅，不care，但也不排除有屌丝在没有wifi的情况下小手一抖，1M没有了，回来论坛里骂我们开发人员傻X，为啥不把这个图片压小点，给他们节省的流量，让他们多玩两把 。</p>
+<p>好吧，那就让万能的代码来解决这个问题吧，<br>让在cocos2d-x截屏的时候把屏幕缩小一倍，这样保存下来的图的size变为原来的一半，但占用空间只有原图的1/4大小。</p>
+<figure class="highlight openscad"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">void ShareUtils::ScreenShoot<span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	CCSize size = CCDirector::sharedDirector<span class="params">()</span>-&gt;getVisibleSize<span class="params">()</span>;</span><br><span class="line">	<span class="comment">//定义一个屏幕大小的渲染纹理</span></span><br><span class="line">	CCRenderTexture<span class="built_in">*</span> pScreen = CCRenderTexture::create<span class="params">(size.width * .<span class="number">5</span> ,size.height * .<span class="number">5</span> , kCCTexture2DPixelFormat_RGBA8888)</span>;</span><br><span class="line">	<span class="comment">//获得当前的场景指针</span></span><br><span class="line">	CCScene<span class="built_in">*</span> pCurScene = CCDirector::sharedDirector<span class="params">()</span>-&gt;getRunningScene<span class="params">()</span>;</span><br><span class="line">	CCPoint ancPos = pCurScene-&gt;getAnchorPoint<span class="params">()</span>;</span><br><span class="line">	<span class="comment">//渲染纹理开始捕捉</span></span><br><span class="line">	pScreen-&gt;begin<span class="params">()</span>;</span><br><span class="line">	<span class="comment">//重点</span></span><br><span class="line">	<span class="comment">// 缩小屏幕截屏区域</span></span><br><span class="line">	pCurScene-&gt;setScale<span class="params">(.<span class="number">5</span>)</span>;</span><br><span class="line">	pCurScene-&gt;setAnchorPoint<span class="params">(ccp<span class="params">(<span class="number">0</span>, <span class="number">0</span>)</span>)</span>;</span><br><span class="line">	<span class="comment">//当前场景参与绘制</span></span><br><span class="line">	pCurScene-&gt;visit<span class="params">()</span>;</span><br><span class="line">	<span class="comment">//结束捕捉</span></span><br><span class="line">	pScreen-&gt;end<span class="params">()</span>;</span><br><span class="line">	<span class="comment">//保存为jpg</span></span><br><span class="line">	pScreen-&gt;saveToFile<span class="params">(filename, kCCImageFormatJPEG)</span>;</span><br><span class="line">	<span class="comment">//重点</span></span><br><span class="line">	<span class="comment">// 恢复屏幕尺寸</span></span><br><span class="line">	pCurScene-&gt;setScale<span class="params">(<span class="number">1</span>)</span>;</span><br><span class="line">	pCurScene-&gt;setAnchorPoint<span class="params">(ancPos)</span>;</span><br><span class="line">	CC_SAFE_DELETE<span class="params">(pScreen)</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/05/19/server-client-rsa/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Android、IOS与服务器端rsa加密解密通讯
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/04/09/cocos2d-x-shareSDK-issue/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">cocos2d-x ShareSDK</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 王跃
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

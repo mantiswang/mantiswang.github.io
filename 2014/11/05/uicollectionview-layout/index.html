@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Hello World | 蜗牛轨迹</title>
+  <title>UICollectionView Layout | 蜗牛轨迹</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+  <meta name="description" content="UICollectionView 从iOS6就已经引入了，最近才开始使用－_－b 
+UICollectionView 提供很多布局，一支持自定义布局。可以通过继承UICollectionViewLayout，或响应的子类来实现布局。UICollectionViewLayout (UISubclassingHooks)1// UICollectionView calls these four met">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2015/08/16/hello-world/index.html">
+<meta property="og:title" content="UICollectionView Layout">
+<meta property="og:url" content="http://yoursite.com/2014/11/05/uicollectionview-layout/index.html">
 <meta property="og:site_name" content="蜗牛轨迹">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2015-08-16T01:33:05.000Z">
+<meta property="og:description" content="UICollectionView 从iOS6就已经引入了，最近才开始使用－_－b 
+UICollectionView 提供很多布局，一支持自定义布局。可以通过继承UICollectionViewLayout，或响应的子类来实现布局。UICollectionViewLayout (UISubclassingHooks)1// UICollectionView calls these four met">
+<meta property="og:updated_time" content="2015-03-06T09:00:09.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="UICollectionView Layout">
+<meta name="twitter:description" content="UICollectionView 从iOS6就已经引入了，最近才开始使用－_－b 
+UICollectionView 提供很多布局，一支持自定义布局。可以通过继承UICollectionViewLayout，或响应的子类来实现布局。UICollectionViewLayout (UISubclassingHooks)1// UICollectionView calls these four met">
   
     <link rel="alternative" href="/atom.xml" title="蜗牛轨迹" type="application/atom+xml">
   
@@ -120,11 +120,11 @@ Quick">
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-uicollectionview-layout" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/08/16/hello-world/" class="article-date">
-  	<time datetime="2015-08-16T01:33:05.000Z" itemprop="datePublished">2015-08-16</time>
+      <a href="/2014/11/05/uicollectionview-layout/" class="article-date">
+  	<time datetime="2014-11-05T13:38:25.000Z" itemprop="datePublished">2014-11-05</time>
 </a>
     </div>
   
@@ -137,7 +137,7 @@ Quick">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      UICollectionView Layout
     </h1>
   
 
@@ -146,6 +146,10 @@ Quick">
       <div class="article-info article-info-post">
         
         
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS/">iOS</a>
+	</div>
+
 
         <div class="clearfix"></div>
       </div>
@@ -153,15 +157,10 @@ Quick">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p>UICollectionView 从iOS6就已经引入了，最近才开始使用－_－b </p>
+<p>UICollectionView 提供很多布局，一支持自定义布局。可以通过继承UICollectionViewLayout，或响应的子类来实现布局。<br><figure class="highlight"><figcaption><span>UICollectionViewLayout (UISubclassingHooks)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// UICollectionView calls these four methods to determine the layout information.&#10;// Implement -layoutAttributesForElementsInRect: to return layout attributes for for supplementary or decoration views, or to perform layout in an as-needed-on-screen fashion.&#10;// Additionally, all layout subclasses should implement -layoutAttributesForItemAtIndexPath: to return layout attributes instances on demand for specific index paths.&#10;// If the layout supports any supplementary or decoration view types, it should also implement the respective atIndexPath: methods for those types.&#10;- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect; // return an array layout attributes instances for all the views in the given rect</span><br></pre></td></tr></table></figure></p>
+<p>为了是布局紧凑，两两cell之间不会出现过大的间隙，自定义Layout<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect&#10;&#123;&#10;    NSArray *attributes = [[super layoutAttributesForElementsInRect:rect] mutableCopy];&#10;    NSMutableArray *array = [NSMutableArray arrayWithArray:attributes];&#10;    &#10;    for(int i = 1; i &#60; [array count]; ++i) &#123;&#10;        UICollectionViewLayoutAttributes *currentLayoutAttributes = array[i];&#10;        UICollectionViewLayoutAttributes *prevLayoutAttributes = array[i - 1];&#10;        NSInteger maximumSpacing = 10;&#10;        NSInteger origin = CGRectGetMaxX(prevLayoutAttributes.frame);&#10;        if(origin + maximumSpacing + currentLayoutAttributes.frame.size.width &#60; self.collectionViewContentSize.width) &#123;&#10;            CGRect frame = currentLayoutAttributes.frame;&#10;            frame.origin.x = origin + maximumSpacing;&#10;            currentLayoutAttributes.frame = frame;&#10;        &#125;&#10;        &#10;        [array replaceObjectAtIndex:i withObject:currentLayoutAttributes];&#10;    &#125;&#10;    &#10;    return array;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>网上很多关于UICollectionView的各种花样布局，接下来要去好好研究一番</p>
 
       
     </div>
@@ -171,9 +170,18 @@ Quick">
     
 <nav id="article-nav">
   
+    <a href="/2014/11/07/ios8-lame-arm64/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          iOS lame 实现录音转MP3格式
+        
+      </div>
+    </a>
   
-    <a href="/2015/08/12/multiple-uiimage-merged/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">multiple-uiimage-merged</div>
+  
+    <a href="/2014/11/02/hmsegmentedcontrol-image-title-postion/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HMSegmentedControl image title postion</div>
       <strong class="article-nav-caption">></strong>
     </a>
   

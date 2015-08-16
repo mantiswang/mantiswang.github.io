@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS lame 实现录音转MP3格式 | 蜗牛轨迹</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="iOS 实现录音转MP3格式，下载lame源码，编译，将lame.h和libmp3lame.a导入工程。编译脚本如下
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS lame 实现录音转MP3格式">
+<meta property="og:url" content="http://yoursite.com/2014/11/07/ios8-lame-arm64/index.html">
+<meta property="og:site_name" content="蜗牛轨迹">
+<meta property="og:description" content="iOS 实现录音转MP3格式，下载lame源码，编译，将lame.h和libmp3lame.a导入工程。编译脚本如下
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475">
+<meta property="og:updated_time" content="2015-03-06T09:00:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS lame 实现录音转MP3格式">
+<meta name="twitter:description" content="iOS 实现录音转MP3格式，下载lame源码，编译，将lame.h和libmp3lame.a导入工程。编译脚本如下
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475">
+  
+    <link rel="alternative" href="/atom.xml" title="蜗牛轨迹" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="null" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">王跃</a></h1>
+		</hgroup>
+
+		
+
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">王跃</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="null" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">王跃</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-ios8-lame-arm64" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/11/07/ios8-lame-arm64/" class="article-date">
+  	<time datetime="2014-11-07T14:47:34.000Z" itemprop="datePublished">2014-11-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS lame 实现录音转MP3格式
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS/">iOS</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>iOS 实现录音转MP3格式，下载lame源码，编译，将lame.h和libmp3lame.a导入工程。<br>编译脚本如下</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="shebang">#!/bin/sh</span><br><span class="line"></span></span><br><span class="line">CONFIGURE_FLAGS=<span class="string">"--disable-shared --disable-frontend"</span></span><br><span class="line"></span><br><span class="line">ARCHS=<span class="string">"arm64 armv7s x86_64 i386 armv7"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># directories</span></span><br><span class="line">SOURCE=<span class="string">"lame"</span></span><br><span class="line">FAT=<span class="string">"fat-lame"</span></span><br><span class="line"></span><br><span class="line">SCRATCH=<span class="string">"scratch-lame"</span></span><br><span class="line"><span class="comment"># must be an absolute path</span></span><br><span class="line">THIN=`<span class="built_in">pwd</span>`/<span class="string">"thin-lame"</span></span><br><span class="line"></span><br><span class="line">COMPILE=<span class="string">"y"</span></span><br><span class="line">LIPO=<span class="string">"y"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"$*"</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">	<span class="keyword">if</span> [ <span class="string">"$*"</span> = <span class="string">"lipo"</span> ]</span><br><span class="line">	<span class="keyword">then</span></span><br><span class="line">		<span class="comment"># skip compile</span></span><br><span class="line">		COMPILE=</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		ARCHS=<span class="string">"$*"</span></span><br><span class="line">		<span class="keyword">if</span> [ <span class="variable">$#</span> <span class="operator">-eq</span> <span class="number">1</span> ]</span><br><span class="line">		<span class="keyword">then</span></span><br><span class="line">			<span class="comment"># skip lipo</span></span><br><span class="line">			LIPO=</span><br><span class="line">		<span class="keyword">fi</span></span><br><span class="line">	<span class="keyword">fi</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$COMPILE</span>"</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">	CWD=`<span class="built_in">pwd</span>`</span><br><span class="line">	<span class="keyword">for</span> ARCH <span class="keyword">in</span> <span class="variable">$ARCHS</span></span><br><span class="line">	<span class="keyword">do</span></span><br><span class="line">		<span class="built_in">echo</span> <span class="string">"building <span class="variable">$ARCH</span>..."</span></span><br><span class="line">		mkdir -p <span class="string">"<span class="variable">$SCRATCH</span>/<span class="variable">$ARCH</span>"</span></span><br><span class="line">		<span class="built_in">cd</span> <span class="string">"<span class="variable">$SCRATCH</span>/<span class="variable">$ARCH</span>"</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> [ <span class="string">"<span class="variable">$ARCH</span>"</span> = <span class="string">"i386"</span> -o <span class="string">"<span class="variable">$ARCH</span>"</span> = <span class="string">"x86_64"</span> ]</span><br><span class="line">		<span class="keyword">then</span></span><br><span class="line">		    PLATFORM=<span class="string">"iPhoneSimulator"</span></span><br><span class="line">		    <span class="keyword">if</span> [ <span class="string">"<span class="variable">$ARCH</span>"</span> = <span class="string">"x86_64"</span> ]</span><br><span class="line">		    <span class="keyword">then</span></span><br><span class="line">		    	SIMULATOR=<span class="string">"-mios-simulator-version-min=7.0"</span></span><br><span class="line">                        HOST=x86_64-apple-darwin</span><br><span class="line">		    <span class="keyword">else</span></span><br><span class="line">		    	SIMULATOR=<span class="string">"-mios-simulator-version-min=5.0"</span></span><br><span class="line">                        HOST=i386-apple-darwin</span><br><span class="line">		    <span class="keyword">fi</span></span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		    PLATFORM=<span class="string">"iPhoneOS"</span></span><br><span class="line">		    SIMULATOR=</span><br><span class="line">                    HOST=arm-apple-darwin</span><br><span class="line">		<span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">		XCRUN_SDK=`<span class="built_in">echo</span> <span class="variable">$PLATFORM</span> | tr <span class="string">'[:upper:]'</span> <span class="string">'[:lower:]'</span>`</span><br><span class="line">		CC=<span class="string">"xcrun -sdk <span class="variable">$XCRUN_SDK</span> clang -arch <span class="variable">$ARCH</span>"</span></span><br><span class="line">		<span class="comment">#AS="$CWD/$SOURCE/extras/gas-preprocessor.pl $CC"</span></span><br><span class="line">		CFLAGS=<span class="string">"-arch <span class="variable">$ARCH</span> <span class="variable">$SIMULATOR</span>"</span></span><br><span class="line">		CXXFLAGS=<span class="string">"<span class="variable">$CFLAGS</span>"</span></span><br><span class="line">		LDFLAGS=<span class="string">"<span class="variable">$CFLAGS</span>"</span></span><br><span class="line"></span><br><span class="line">		CC=<span class="variable">$CC</span> <span class="variable">$CWD</span>/<span class="variable">$SOURCE</span>/configure \</span><br><span class="line">		    <span class="variable">$CONFIGURE_FLAGS</span> \</span><br><span class="line">                    --host=<span class="variable">$HOST</span> \</span><br><span class="line">		    --prefix=<span class="string">"<span class="variable">$THIN</span>/<span class="variable">$ARCH</span>"</span> \</span><br><span class="line">                    CC=<span class="string">"<span class="variable">$CC</span>"</span> CFLAGS=<span class="string">"<span class="variable">$CFLAGS</span>"</span> LDFLAGS=<span class="string">"<span class="variable">$LDFLAGS</span>"</span></span><br><span class="line"></span><br><span class="line">		make -j3 install</span><br><span class="line">		<span class="built_in">cd</span> <span class="variable">$CWD</span></span><br><span class="line">	<span class="keyword">done</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$LIPO</span>"</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"building fat binaries..."</span></span><br><span class="line">	mkdir -p <span class="variable">$FAT</span>/lib</span><br><span class="line">	<span class="built_in">set</span> - <span class="variable">$ARCHS</span></span><br><span class="line">	CWD=`<span class="built_in">pwd</span>`</span><br><span class="line">	<span class="built_in">cd</span> <span class="variable">$THIN</span>/<span class="variable">$1</span>/lib</span><br><span class="line">	<span class="keyword">for</span> LIB <span class="keyword">in</span> *.a</span><br><span class="line">	<span class="keyword">do</span></span><br><span class="line">		<span class="built_in">cd</span> <span class="variable">$CWD</span></span><br><span class="line">		lipo -create `find <span class="variable">$THIN</span> -name <span class="variable">$LIB</span>` -output <span class="variable">$FAT</span>/lib/<span class="variable">$LIB</span></span><br><span class="line">	<span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">	<span class="built_in">cd</span> <span class="variable">$CWD</span></span><br><span class="line">	cp -rf <span class="variable">$THIN</span>/<span class="variable">$1</span>/include <span class="variable">$FAT</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/11/09/view-rotation-animation/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          iOS View rotation animation
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/11/05/uicollectionview-layout/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">UICollectionView Layout</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 王跃
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

@@ -3,21 +3,30 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Hello World | 蜗牛轨迹</title>
+  <title>MacOS 安装、卸载mysql | 蜗牛轨迹</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+  <meta name="description" content="如果你brew install mysql 之后出现问题要卸载：brew remove mysql
+brew cleanup
+launchctl unload -w ~/Library/LaunchAgents/com.mysql.mysqld.plist  #这里不一定是这个文件
+rm ~/Library/LaunchAgents/com.mysql.mysqld.plist
+sudo rm -">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2015/08/16/hello-world/index.html">
+<meta property="og:title" content="MacOS 安装、卸载mysql">
+<meta property="og:url" content="http://yoursite.com/2015/03/29/brew-uninstall-mysql/index.html">
 <meta property="og:site_name" content="蜗牛轨迹">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2015-08-16T01:33:05.000Z">
+<meta property="og:description" content="如果你brew install mysql 之后出现问题要卸载：brew remove mysql
+brew cleanup
+launchctl unload -w ~/Library/LaunchAgents/com.mysql.mysqld.plist  #这里不一定是这个文件
+rm ~/Library/LaunchAgents/com.mysql.mysqld.plist
+sudo rm -">
+<meta property="og:updated_time" content="2015-03-29T07:57:13.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="MacOS 安装、卸载mysql">
+<meta name="twitter:description" content="如果你brew install mysql 之后出现问题要卸载：brew remove mysql
+brew cleanup
+launchctl unload -w ~/Library/LaunchAgents/com.mysql.mysqld.plist  #这里不一定是这个文件
+rm ~/Library/LaunchAgents/com.mysql.mysqld.plist
+sudo rm -">
   
     <link rel="alternative" href="/atom.xml" title="蜗牛轨迹" type="application/atom+xml">
   
@@ -120,11 +129,11 @@ Quick">
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-brew-uninstall-mysql" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/08/16/hello-world/" class="article-date">
-  	<time datetime="2015-08-16T01:33:05.000Z" itemprop="datePublished">2015-08-16</time>
+      <a href="/2015/03/29/brew-uninstall-mysql/" class="article-date">
+  	<time datetime="2015-03-29T04:18:34.000Z" itemprop="datePublished">2015-03-29</time>
 </a>
     </div>
   
@@ -137,7 +146,7 @@ Quick">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      MacOS 安装、卸载mysql
     </h1>
   
 
@@ -146,6 +155,10 @@ Quick">
       <div class="article-info article-info-post">
         
         
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/mac/">mac</a>
+	</div>
+
 
         <div class="clearfix"></div>
       </div>
@@ -153,16 +166,29 @@ Quick">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p>如果你brew install mysql 之后出现问题要卸载：<br>brew remove mysql</p>
+<p>brew cleanup</p>
+<p>launchctl unload -w ~/Library/LaunchAgents/com.mysql.mysqld.plist  #这里不一定是这个文件</p>
+<p>rm ~/Library/LaunchAgents/com.mysql.mysqld.plist</p>
+<p>sudo rm -rf /usr/local/var/mysql</p>
+<p>然后重新开始</p>
+<pre><code>installed mysql with brew <span class="operator"><span class="keyword">install</span> mysql
 
+run the commands brew suggested:
+
+unset TMPDIR
+
+mysql_install_db <span class="comment">--verbose --user=`whoami` --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql --tmpdir=/tmp</span>
+
+<span class="keyword">Start</span> mysql <span class="keyword">with</span> mysql.<span class="keyword">server</span> command, <span class="keyword">to</span> be able <span class="keyword">to</span> <span class="keyword">log</span> <span class="keyword">on</span> it
+
+Used the alternate <span class="keyword">security</span> script:
+
+/usr/<span class="keyword">local</span>/Cellar/mysql/<span class="number">5.5</span><span class="number">.10</span>/<span class="keyword">bin</span>/mysql_secure_installation
+
+Followed the launchctl <span class="keyword">section</span> <span class="keyword">from</span> the brew <span class="keyword">package</span> script <span class="keyword">output</span>
+Boom.</span>
+</code></pre>
       
     </div>
     
@@ -171,9 +197,18 @@ Quick">
     
 <nav id="article-nav">
   
+    <a href="/2015/04/05/redis-basic/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          redis 安装
+        
+      </div>
+    </a>
   
-    <a href="/2015/08/12/multiple-uiimage-merged/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">multiple-uiimage-merged</div>
+  
+    <a href="/2015/03/25/register-new-ios-developer-account/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">注册开发者账号</div>
       <strong class="article-nav-caption">></strong>
     </a>
   

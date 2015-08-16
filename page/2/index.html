@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>蜗牛轨迹</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="写博客，记录重要知识，iOS学习">
+<meta property="og:type" content="website">
+<meta property="og:title" content="蜗牛轨迹">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta property="og:site_name" content="蜗牛轨迹">
+<meta property="og:description" content="写博客，记录重要知识，iOS学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="蜗牛轨迹">
+<meta name="twitter:description" content="写博客，记录重要知识，iOS学习">
+  
+    <link rel="alternative" href="/atom.xml" title="蜗牛轨迹" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="null" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">王跃</a></h1>
+		</hgroup>
+
+		
+
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">王跃</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="null" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">王跃</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap">
+  
+    <article id="post-view-rotation-animation" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/11/09/view-rotation-animation/" class="article-date">
+  	<time datetime="2014-11-08T18:17:37.000Z" itemprop="datePublished">2014-11-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/09/view-rotation-animation/">iOS View rotation animation</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>iOS中View的旋转，transform和rotation。<br>项目中经常遇到需要对view做rotation的动画，记录下来常用的方法。</p>
+<figure class="highlight"><figcaption><span>使用 transform</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)rotationAnimation&#10;&#123;&#10;    CGAffineTransform endAngle = CGAffineTransformMakeRotation(&#60;#angle#&#62; * (M_PI / 180.0f));&#10;    &#10;    [UIView animateWithDuration:0.01 delay:0 options:UIViewAnimationOptionCurveLinear animations:^&#123;&#10;        &#60;#view#&#62;.transform = endAngle;&#10;    &#125; completion:^(BOOL finished) &#123;&#10;        &#60;#angle#&#62; += 10;&#10;        [self rotationAnimation];&#10;    &#125;];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><figcaption><span>使用 transform.rotation.z</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;-(void)transformRotationZ&#123;&#10;    CABasicAnimation* rotationAnimation = [CABasicAnimation animationWithKeyPath:@&#34;transform.rotation.z&#34;];&#10;    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];&#10;    rotationAnimation.duration = &#60;#duration#&#62;;&#10;    rotationAnimation.cumulative = YES;&#10;    rotationAnimation.repeatCount = &#60;#repeat#&#62;;&#10;    &#10;    [&#60;#view#&#62;.layer addAnimation:rotationAnimation forKey:&#60;#key#&#62;];&#10;&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS/">iOS</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-ios8-lame-arm64" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/11/07/ios8-lame-arm64/" class="article-date">
+  	<time datetime="2014-11-07T14:47:34.000Z" itemprop="datePublished">2014-11-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/07/ios8-lame-arm64/">iOS lame 实现录音转MP3格式</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>iOS 实现录音转MP3格式，下载lame源码，编译，将lame.h和libmp3lame.a导入工程。<br>编译脚本如下</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="shebang">#!/bin/sh</span><br><span class="line"></span></span><br><span class="line">CONFIGURE_FLAGS=<span class="string">"--disable-shared --disable-frontend"</span></span><br><span class="line"></span><br><span class="line">ARCHS=<span class="string">"arm64 armv7s x86_64 i386 armv7"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># directories</span></span><br><span class="line">SOURCE=<span class="string">"lame"</span></span><br><span class="line">FAT=<span class="string">"fat-lame"</span></span><br><span class="line"></span><br><span class="line">SCRATCH=<span class="string">"scratch-lame"</span></span><br><span class="line"><span class="comment"># must be an absolute path</span></span><br><span class="line">THIN=`<span class="built_in">pwd</span>`/<span class="string">"thin-lame"</span></span><br><span class="line"></span><br><span class="line">COMPILE=<span class="string">"y"</span></span><br><span class="line">LIPO=<span class="string">"y"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"$*"</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">	<span class="keyword">if</span> [ <span class="string">"$*"</span> = <span class="string">"lipo"</span> ]</span><br><span class="line">	<span class="keyword">then</span></span><br><span class="line">		<span class="comment"># skip compile</span></span><br><span class="line">		COMPILE=</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		ARCHS=<span class="string">"$*"</span></span><br><span class="line">		<span class="keyword">if</span> [ <span class="variable">$#</span> <span class="operator">-eq</span> <span class="number">1</span> ]</span><br><span class="line">		<span class="keyword">then</span></span><br><span class="line">			<span class="comment"># skip lipo</span></span><br><span class="line">			LIPO=</span><br><span class="line">		<span class="keyword">fi</span></span><br><span class="line">	<span class="keyword">fi</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$COMPILE</span>"</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">	CWD=`<span class="built_in">pwd</span>`</span><br><span class="line">	<span class="keyword">for</span> ARCH <span class="keyword">in</span> <span class="variable">$ARCHS</span></span><br><span class="line">	<span class="keyword">do</span></span><br><span class="line">		<span class="built_in">echo</span> <span class="string">"building <span class="variable">$ARCH</span>..."</span></span><br><span class="line">		mkdir -p <span class="string">"<span class="variable">$SCRATCH</span>/<span class="variable">$ARCH</span>"</span></span><br><span class="line">		<span class="built_in">cd</span> <span class="string">"<span class="variable">$SCRATCH</span>/<span class="variable">$ARCH</span>"</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> [ <span class="string">"<span class="variable">$ARCH</span>"</span> = <span class="string">"i386"</span> -o <span class="string">"<span class="variable">$ARCH</span>"</span> = <span class="string">"x86_64"</span> ]</span><br><span class="line">		<span class="keyword">then</span></span><br><span class="line">		    PLATFORM=<span class="string">"iPhoneSimulator"</span></span><br><span class="line">		    <span class="keyword">if</span> [ <span class="string">"<span class="variable">$ARCH</span>"</span> = <span class="string">"x86_64"</span> ]</span><br><span class="line">		    <span class="keyword">then</span></span><br><span class="line">		    	SIMULATOR=<span class="string">"-mios-simulator-version-min=7.0"</span></span><br><span class="line">                        HOST=x86_64-apple-darwin</span><br><span class="line">		    <span class="keyword">else</span></span><br><span class="line">		    	SIMULATOR=<span class="string">"-mios-simulator-version-min=5.0"</span></span><br><span class="line">                        HOST=i386-apple-darwin</span><br><span class="line">		    <span class="keyword">fi</span></span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		    PLATFORM=<span class="string">"iPhoneOS"</span></span><br><span class="line">		    SIMULATOR=</span><br><span class="line">                    HOST=arm-apple-darwin</span><br><span class="line">		<span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">		XCRUN_SDK=`<span class="built_in">echo</span> <span class="variable">$PLATFORM</span> | tr <span class="string">'[:upper:]'</span> <span class="string">'[:lower:]'</span>`</span><br><span class="line">		CC=<span class="string">"xcrun -sdk <span class="variable">$XCRUN_SDK</span> clang -arch <span class="variable">$ARCH</span>"</span></span><br><span class="line">		<span class="comment">#AS="$CWD/$SOURCE/extras/gas-preprocessor.pl $CC"</span></span><br><span class="line">		CFLAGS=<span class="string">"-arch <span class="variable">$ARCH</span> <span class="variable">$SIMULATOR</span>"</span></span><br><span class="line">		CXXFLAGS=<span class="string">"<span class="variable">$CFLAGS</span>"</span></span><br><span class="line">		LDFLAGS=<span class="string">"<span class="variable">$CFLAGS</span>"</span></span><br><span class="line"></span><br><span class="line">		CC=<span class="variable">$CC</span> <span class="variable">$CWD</span>/<span class="variable">$SOURCE</span>/configure \</span><br><span class="line">		    <span class="variable">$CONFIGURE_FLAGS</span> \</span><br><span class="line">                    --host=<span class="variable">$HOST</span> \</span><br><span class="line">		    --prefix=<span class="string">"<span class="variable">$THIN</span>/<span class="variable">$ARCH</span>"</span> \</span><br><span class="line">                    CC=<span class="string">"<span class="variable">$CC</span>"</span> CFLAGS=<span class="string">"<span class="variable">$CFLAGS</span>"</span> LDFLAGS=<span class="string">"<span class="variable">$LDFLAGS</span>"</span></span><br><span class="line"></span><br><span class="line">		make -j3 install</span><br><span class="line">		<span class="built_in">cd</span> <span class="variable">$CWD</span></span><br><span class="line">	<span class="keyword">done</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$LIPO</span>"</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"building fat binaries..."</span></span><br><span class="line">	mkdir -p <span class="variable">$FAT</span>/lib</span><br><span class="line">	<span class="built_in">set</span> - <span class="variable">$ARCHS</span></span><br><span class="line">	CWD=`<span class="built_in">pwd</span>`</span><br><span class="line">	<span class="built_in">cd</span> <span class="variable">$THIN</span>/<span class="variable">$1</span>/lib</span><br><span class="line">	<span class="keyword">for</span> LIB <span class="keyword">in</span> *.a</span><br><span class="line">	<span class="keyword">do</span></span><br><span class="line">		<span class="built_in">cd</span> <span class="variable">$CWD</span></span><br><span class="line">		lipo -create `find <span class="variable">$THIN</span> -name <span class="variable">$LIB</span>` -output <span class="variable">$FAT</span>/lib/<span class="variable">$LIB</span></span><br><span class="line">	<span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">	<span class="built_in">cd</span> <span class="variable">$CWD</span></span><br><span class="line">	cp -rf <span class="variable">$THIN</span>/<span class="variable">$1</span>/include <span class="variable">$FAT</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS/">iOS</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-uicollectionview-layout" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/11/05/uicollectionview-layout/" class="article-date">
+  	<time datetime="2014-11-05T13:38:25.000Z" itemprop="datePublished">2014-11-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/05/uicollectionview-layout/">UICollectionView Layout</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>UICollectionView 从iOS6就已经引入了，最近才开始使用－_－b </p>
+<p>UICollectionView 提供很多布局，一支持自定义布局。可以通过继承UICollectionViewLayout，或响应的子类来实现布局。<br><figure class="highlight"><figcaption><span>UICollectionViewLayout (UISubclassingHooks)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// UICollectionView calls these four methods to determine the layout information.&#10;// Implement -layoutAttributesForElementsInRect: to return layout attributes for for supplementary or decoration views, or to perform layout in an as-needed-on-screen fashion.&#10;// Additionally, all layout subclasses should implement -layoutAttributesForItemAtIndexPath: to return layout attributes instances on demand for specific index paths.&#10;// If the layout supports any supplementary or decoration view types, it should also implement the respective atIndexPath: methods for those types.&#10;- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect; // return an array layout attributes instances for all the views in the given rect</span><br></pre></td></tr></table></figure></p>
+<p>为了是布局紧凑，两两cell之间不会出现过大的间隙，自定义Layout<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect&#10;&#123;&#10;    NSArray *attributes = [[super layoutAttributesForElementsInRect:rect] mutableCopy];&#10;    NSMutableArray *array = [NSMutableArray arrayWithArray:attributes];&#10;    &#10;    for(int i = 1; i &#60; [array count]; ++i) &#123;&#10;        UICollectionViewLayoutAttributes *currentLayoutAttributes = array[i];&#10;        UICollectionViewLayoutAttributes *prevLayoutAttributes = array[i - 1];&#10;        NSInteger maximumSpacing = 10;&#10;        NSInteger origin = CGRectGetMaxX(prevLayoutAttributes.frame);&#10;        if(origin + maximumSpacing + currentLayoutAttributes.frame.size.width &#60; self.collectionViewContentSize.width) &#123;&#10;            CGRect frame = currentLayoutAttributes.frame;&#10;            frame.origin.x = origin + maximumSpacing;&#10;            currentLayoutAttributes.frame = frame;&#10;        &#125;&#10;        &#10;        [array replaceObjectAtIndex:i withObject:currentLayoutAttributes];&#10;    &#125;&#10;    &#10;    return array;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>网上很多关于UICollectionView的各种花样布局，接下来要去好好研究一番</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS/">iOS</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-hmsegmentedcontrol-image-title-postion" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/11/02/hmsegmentedcontrol-image-title-postion/" class="article-date">
+  	<time datetime="2014-11-02T13:48:42.000Z" itemprop="datePublished">2014-11-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/02/hmsegmentedcontrol-image-title-postion/">HMSegmentedControl image title postion</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>项目中需要实现这种效果，HMSegmentedControl支持image和title一起，但image只能在title的左边，所以在HMSegmentedControl的基础上自己改了一下</p>
+<figure class="highlight"><figcaption><span>HMSegmentedControl.h</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;imageAtTitleRight &#29992;&#26469;&#34920;&#31034;image&#21644;title&#30340;&#24038;&#21491;&#30456;&#23545;&#20301;&#32622;&#65292;separatorColor&#29992;&#26469;&#34920;&#31034;&#22312;&#30456;&#37051;&#20004;&#20010;segment&#20043;&#38388;&#30340;&#20998;&#38548;&#32447;&#39068;&#33394;&#65288;&#22914;&#26524;&#35774;&#32622;&#30340;&#35805;&#65289;&#10;/*&#10; When HMSegmentedControlType == HMSegmentedControlTypeTextImages&#10; &#10; imageLeft set image left title&#10; &#10; Default is imageLeft (image title)&#10; */&#10;@property (nonatomic, getter = isImageAtTitleRight) BOOL imageAtTitleRight;&#10;&#10;/*&#10; Separator Color between two segment.&#10; &#10; Default no separator&#10; */&#10;@property (nonatomic, strong) UIColor *separatorColor;</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><figcaption><span>HMSegmentedControl.m</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HMSegmentedControl.m&#30340;drawRect&#26041;&#27861;&#26367;&#25442;&#10;- (void)drawRect:(CGRect)rect &#123;&#10;    [self.backgroundColor setFill];&#10;    UIRectFill([self bounds]);&#10;    &#10;    self.selectionIndicatorArrowLayer.backgroundColor = self.selectionIndicatorColor.CGColor;&#10;    &#10;    self.selectionIndicatorStripLayer.backgroundColor = self.selectionIndicatorColor.CGColor;&#10;    &#10;    self.selectionIndicatorBoxLayer.backgroundColor = self.selectionIndicatorColor.CGColor;&#10;    self.selectionIndicatorBoxLayer.borderColor = self.selectionIndicatorColor.CGColor;&#10;    &#10;    // Remove all sublayers to avoid drawing images over existing ones&#10;    self.scrollView.layer.sublayers = nil;&#10;    &#10;    if (self.type == HMSegmentedControlTypeText) &#123;&#10;        [self.sectionTitles enumerateObjectsUsingBlock:^(id titleString, NSUInteger idx, BOOL *stop) &#123;&#10;            &#10;            CGFloat stringWidth = 0;&#10;            CGFloat stringHeight = 0;&#10;            if([titleString respondsToSelector:@selector(sizeWithAttributes:)]) &#123;&#10;                stringWidth = [titleString sizeWithAttributes:@&#123;NSFontAttributeName: self.font&#125;].width;&#10;                stringHeight = [titleString sizeWithAttributes:@&#123;NSFontAttributeName: self.font&#125;].height;&#10;            &#125;&#10;            else &#123;&#10;                stringWidth = roundf([titleString sizeWithFont:self.font].width);&#10;                stringHeight = roundf([titleString sizeWithFont:self.font].height);&#10;            &#125;&#10;            &#10;            // Text inside the CATextLayer will appear blurry unless the rect values are rounded&#10;            CGFloat y = roundf(CGRectGetHeight(self.frame) - self.selectionIndicatorHeight)/2 - stringHeight/2 + ((self.selectionIndicatorLocation == HMSegmentedControlSelectionIndicatorLocationUp) ? self.selectionIndicatorHeight : 0);&#10;            &#10;            CGRect rect;&#10;            if (self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleFixed) &#123;&#10;                rect = CGRectMake((self.segmentWidth * idx) + (self.segmentWidth - stringWidth)/2, y, stringWidth, stringHeight);&#10;            &#125; else if (self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleDynamic) &#123;&#10;                // When we are drawing dynamic widths, we need to loop the widths array to calculate the xOffset&#10;                CGFloat xOffset = 0;&#10;                NSInteger i = 0;&#10;                for (NSNumber *width in self.segmentWidthsArray) &#123;&#10;                    if (idx == i)&#10;                        break;&#10;                    xOffset = xOffset + [width floatValue];&#10;                    i++;&#10;                &#125;&#10;                &#10;                rect = CGRectMake(xOffset, y, [[self.segmentWidthsArray objectAtIndex:idx] floatValue], stringHeight);&#10;            &#125;&#10;            &#10;            CATextLayer *titleLayer = [CATextLayer layer];&#10;            titleLayer.frame = rect;&#10;            titleLayer.font = (__bridge CFTypeRef)(self.font.fontName);&#10;            titleLayer.fontSize = self.font.pointSize;&#10;            titleLayer.alignmentMode = kCAAlignmentCenter;&#10;            titleLayer.string = titleString;&#10;            titleLayer.truncationMode = kCATruncationEnd;&#10;            &#10;            if (self.selectedSegmentIndex == idx) &#123;&#10;                titleLayer.foregroundColor = self.selectedTextColor.CGColor;&#10;            &#125; else &#123;&#10;                titleLayer.foregroundColor = self.textColor.CGColor;&#10;            &#125;&#10;            &#10;            titleLayer.contentsScale = [[UIScreen mainScreen] scale];&#10;            [self.scrollView.layer addSublayer:titleLayer];&#10;            &#10;            //set separator&#10;            if(idx &#60; [self sectionCount] - 1)&#10;            &#123;&#10;                CGRect separatorRect;&#10;                if(self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleFixed)&#10;                &#123;&#10;                    separatorRect = CGRectMake(self.segmentWidth*(idx+1) - 0.5 , 10, 0.5, CGRectGetHeight(self.frame) - 2 * 10);&#10;                &#125;&#10;                else if (self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleDynamic)&#10;                &#123;&#10;                    separatorRect = CGRectMake([self.segmentWidthsArray[idx] floatValue] - 0.5 , 10, 0.5, CGRectGetHeight(self.frame) - 2 * 10);&#10;                &#125;&#10;                CALayer *separatorLayer = [CALayer layer];&#10;                separatorLayer.frame = separatorRect;&#10;                separatorLayer.backgroundColor = self.separatorColor.CGColor;&#10;                [self.scrollView.layer addSublayer:separatorLayer];&#10;            &#125;&#10;        &#125;];&#10;    &#125; else if (self.type == HMSegmentedControlTypeImages) &#123;&#10;        [self.sectionImages enumerateObjectsUsingBlock:^(id iconImage, NSUInteger idx, BOOL *stop) &#123;&#10;            UIImage *icon = iconImage;&#10;            CGFloat imageWidth = icon.size.width;&#10;            CGFloat imageHeight = icon.size.height;&#10;            CGFloat y = roundf(CGRectGetHeight(self.frame) - self.selectionIndicatorHeight) / 2 - imageHeight / 2 + ((self.selectionIndicatorLocation == HMSegmentedControlSelectionIndicatorLocationUp) ? self.selectionIndicatorHeight : 0);&#10;            CGFloat x = self.segmentWidth * idx + (self.segmentWidth - imageWidth)/2.0f;&#10;            CGRect rect = CGRectMake(x, y, imageWidth, imageHeight);&#10;            &#10;            CALayer *imageLayer = [CALayer layer];&#10;            imageLayer.frame = rect;&#10;            &#10;            if (self.selectedSegmentIndex == idx) &#123;&#10;                if (self.sectionSelectedImages) &#123;&#10;                    UIImage *highlightIcon = [self.sectionSelectedImages objectAtIndex:idx];&#10;                    imageLayer.contents = (id)highlightIcon.CGImage;&#10;                &#125; else &#123;&#10;                    imageLayer.contents = (id)icon.CGImage;&#10;                &#125;&#10;            &#125; else &#123;&#10;                imageLayer.contents = (id)icon.CGImage;&#10;            &#125;&#10;            &#10;            [self.scrollView.layer addSublayer:imageLayer];&#10;            &#10;            //set separator&#10;            if(idx &#60; [self sectionCount] - 1)&#10;            &#123;&#10;                CGRect separatorRect;&#10;                if(self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleFixed)&#10;                &#123;&#10;                    separatorRect = CGRectMake(self.segmentWidth*(idx+1) - 0.5 , 10, 0.5, CGRectGetHeight(self.frame) - 2 * 10);&#10;                &#125;&#10;                else if (self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleDynamic)&#10;                &#123;&#10;                    separatorRect = CGRectMake([self.segmentWidthsArray[idx] floatValue] - 0.5 , 10, 0.5, CGRectGetHeight(self.frame) - 2 * 10);&#10;                &#125;&#10;                CALayer *separatorLayer = [CALayer layer];&#10;                separatorLayer.frame = separatorRect;&#10;                separatorLayer.backgroundColor = self.separatorColor.CGColor;&#10;                [self.scrollView.layer addSublayer:separatorLayer];&#10;            &#125;&#10;        &#125;];&#10;    &#125; else if (self.type == HMSegmentedControlTypeTextImages)&#123;&#10;        [self.sectionImages enumerateObjectsUsingBlock:^(id iconImage, NSUInteger idx, BOOL *stop) &#123;&#10;            // When we have both an image and a title, we start with the image and use segmentImageTextPadding before drawing the text.&#10;            // So the image will be left to the text, centered in the middle&#10;            UIImage *icon = iconImage;&#10;            CGFloat imageWidth = icon.size.width;&#10;            CGFloat imageHeight = icon.size.height;&#10;            &#10;            CGFloat stringHeight = roundf([self.sectionTitles[idx] sizeWithFont:self.font].height);&#10;            CGFloat stringWidth = roundf([self.sectionTitles[idx] sizeWithFont:self.font].width);&#10;            &#10;            CGFloat stringYOffset = roundf(((CGRectGetHeight(self.frame) - self.selectionIndicatorHeight) / 2) - (stringHeight / 2));&#10;            CGFloat imageYOffset = roundf(((CGRectGetHeight(self.frame) - self.selectionIndicatorHeight) / 2) - (imageHeight / 2));&#10;            &#10;            CGFloat leftOffset = self.segmentEdgeInset.left; // Start with edge inset&#10;            CGFloat rightOffset;&#10;            CGRect imageRect, textRect;&#10;            &#10;            if (self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleFixed)&#10;                leftOffset = self.segmentWidth * idx + self.segmentWidth / 2 - (imageWidth + stringWidth + segmentImageTextPadding)/2;&#10;            else if (self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleDynamic) &#123;&#10;                // When we are drawing dynamic widths, we need to loop the widths array to calculate the xOffset&#10;                NSInteger i = 0;&#10;                for (NSNumber *width in self.segmentWidthsArray) &#123;&#10;                    if (idx == i)&#10;                        break;&#10;                    leftOffset = leftOffset + [width floatValue];&#10;                    i++;&#10;                &#125;&#10;            &#125;&#10;            &#10;            if(self.imageAtTitleRight)&#10;            &#123;&#10;                textRect = CGRectMake(leftOffset, stringYOffset, stringWidth, stringHeight);&#10;                rightOffset = leftOffset + stringWidth + segmentImageTextPadding;&#10;                imageRect = CGRectMake(rightOffset, imageYOffset, imageWidth, imageHeight);&#10;            &#125;&#10;            else&#10;            &#123;&#10;                imageRect = CGRectMake(leftOffset, imageYOffset, imageWidth, imageHeight);&#10;                rightOffset = leftOffset + imageWidth + segmentImageTextPadding;&#10;                textRect = CGRectMake(rightOffset, stringYOffset, stringWidth, stringHeight);&#10;            &#125;&#10;            &#10;            CATextLayer *titleLayer = [CATextLayer layer];&#10;            titleLayer.frame = textRect;&#10;            titleLayer.font = (__bridge CFTypeRef)(self.font.fontName);&#10;            titleLayer.fontSize = self.font.pointSize;&#10;            titleLayer.alignmentMode = kCAAlignmentCenter;&#10;            titleLayer.string = self.sectionTitles[idx];&#10;            titleLayer.truncationMode = kCATruncationEnd;&#10;            &#10;            CALayer *imageLayer = [CALayer layer];&#10;            imageLayer.frame = imageRect;&#10;            &#10;            if (self.selectedSegmentIndex == idx) &#123;&#10;                if (self.sectionSelectedImages) &#123;&#10;                    UIImage *highlightIcon = [self.sectionSelectedImages objectAtIndex:idx];&#10;                    imageLayer.contents = (id)highlightIcon.CGImage;&#10;                &#125; else &#123;&#10;                    imageLayer.contents = (id)icon.CGImage;&#10;                &#125;&#10;                titleLayer.foregroundColor = self.selectedTextColor.CGColor;&#10;            &#125; else &#123;&#10;                imageLayer.contents = (id)icon.CGImage;&#10;                titleLayer.foregroundColor = self.textColor.CGColor;&#10;            &#125;&#10;            &#10;            [self.scrollView.layer addSublayer:imageLayer];&#10;            titleLayer.contentsScale = [[UIScreen mainScreen] scale];&#10;            [self.scrollView.layer addSublayer:titleLayer];&#10;&#10;            //set separator&#10;            if(idx &#60; [self sectionCount] - 1)&#10;            &#123;&#10;                CGRect separatorRect;&#10;                if(self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleFixed)&#10;                &#123;&#10;                    separatorRect = CGRectMake(self.segmentWidth*(idx+1) - 0.5 , 10, 0.5, CGRectGetHeight(self.frame) - 2 * 10);&#10;                &#125;&#10;                else if (self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleDynamic)&#10;                &#123;&#10;                    separatorRect = CGRectMake([self.segmentWidthsArray[idx] floatValue] - 0.5 , 10, 0.5, CGRectGetHeight(self.frame) - 2 * 10);&#10;                &#125;&#10;                CALayer *separatorLayer = [CALayer layer];&#10;                separatorLayer.frame = separatorRect;&#10;                separatorLayer.backgroundColor = self.separatorColor.CGColor;&#10;                [self.scrollView.layer addSublayer:separatorLayer];&#10;            &#125;&#10;        &#125;];&#10;    &#125;&#10;&#10;    // Add the selection indicators&#10;    if (self.selectedSegmentIndex != HMSegmentedControlNoSegment) &#123;&#10;        if (self.selectionStyle == HMSegmentedControlSelectionStyleArrow) &#123;&#10;            if (!self.selectionIndicatorArrowLayer.superlayer) &#123;&#10;                [self setArrowFrame];&#10;                [self.scrollView.layer addSublayer:self.selectionIndicatorArrowLayer];&#10;            &#125;&#10;        &#125; else &#123;&#10;            if (!self.selectionIndicatorStripLayer.superlayer) &#123;&#10;                self.selectionIndicatorStripLayer.frame = [self frameForSelectionIndicator];&#10;                [self.scrollView.layer addSublayer:self.selectionIndicatorStripLayer];&#10;                &#10;                if (self.selectionStyle == HMSegmentedControlSelectionStyleBox &#38;&#38; !self.selectionIndicatorBoxLayer.superlayer) &#123;&#10;                    self.selectionIndicatorBoxLayer.frame = [self frameForFillerSelectionIndicator];&#10;                    [self.scrollView.layer insertSublayer:self.selectionIndicatorBoxLayer atIndex:0];&#10;                &#125;&#10;            &#125;&#10;        &#125;&#10;    &#125;&#10;    &#10;&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/mantiswang/HMSegmentedControl" target="_blank" rel="external">全部代码</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS/">iOS</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-iphone6-ui-adjust-quikly" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/09/23/iphone6-ui-adjust-quikly/" class="article-date">
+  	<time datetime="2014-09-22T16:37:28.000Z" itemprop="datePublished">2014-09-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/23/iphone6-ui-adjust-quikly/">快速适配iPhone6 iPhone6 plus </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p></p><p>图片转自网络</p><br><img src="/images/ios/iPhone6DesignResource.png"><p></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS/">iOS</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-ios-dev-upload-ipa-to-appstore-slow" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/09/17/ios-dev-upload-ipa-to-appstore-slow/" class="article-date">
+  	<time datetime="2014-09-16T23:40:53.000Z" itemprop="datePublished">2014-09-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/17/ios-dev-upload-ipa-to-appstore-slow/">ios dev upload ipa to appStore slow</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前几天在使用Application Loader上传ipa的时候，等了半小时没反应，连’斑马线’都没出现。<br><br></p>
+<p>在<a href="http://stackoverflow.com" target="_blank" rel="external">stackoverflow</a>上面找到一个解决方案<br><a href="http://stackoverflow.com/questions/8395000/application-loader-apple-stuck-on-sending-api-usage-to-itunes-connect" target="_blank" rel="external">http://stackoverflow.com/questions/8395000/application-loader-apple-stuck-on-sending-api-usage-to-itunes-connect</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> Application Loader &gt; Contents &gt; MacOS &gt; itms &gt; java &gt; lib - Open net.properties &lt;br/&gt;</span><br><span class="line"> Change the line</span><br><span class="line">&lt;br/&gt;</span><br><span class="line"> <span class="preprocessor"># https.proxyPort=<span class="number">443</span> to https.proxyPort=<span class="number">80.</span> </span></span><br><span class="line">&lt;br/&gt;</span><br><span class="line"> This enables the application to use the HTTP port <span class="keyword">for</span> HTTPS.</span><br><span class="line"> Worked straight away after <span class="keyword">this</span>. Hope <span class="keyword">this</span> helps.</span><br></pre></td></tr></table></figure>
+<p>重启ApplicationLoader,重新上传,搞定</p>
+<p>如何打包生成ipa,见<a href="stackoverflow.com/questions/5937660/how-to-create-the-upload-file-for-application-loader">stackoverflow.com/questions/5937660/how-to-create-the-upload-file-for-application-loader </a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS-ApplicationLoader/">iOS ApplicationLoader</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-mac-octopress-cocoapods-ruby-version" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/09/17/mac-octopress-cocoapods-ruby-version/" class="article-date">
+  	<time datetime="2014-09-16T23:18:24.000Z" itemprop="datePublished">2014-09-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/17/mac-octopress-cocoapods-ruby-version/">Mac安装过Octopress，无法安装cocoapods解决方法</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Mac安装过Octopress，ruby使用1.9.3导致无法成功安装cocoapods。</p>
+<p>电脑安装了Octopress，后来想试试cocoapods发现怎么也额安装不成功，一直以来困扰的问题终于解决了：<br><img src="/images/ios/Mac-Octopress-cocoapods.png"></p>
+<figure class="highlight sh"><figcaption><span>推荐使用ruby.taobao.org的源</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ gem sources --remove https://rubygems.org/</span><br><span class="line">$ gem sources <span class="operator">-a</span> https://ruby.taobao.org/</span><br><span class="line">$ gem sources <span class="operator">-l</span></span><br><span class="line">*** CURRENT SOURCES ***</span><br><span class="line"></span><br><span class="line">https://ruby.taobao.org</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/Mac/">Mac</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-ios8-cllocationmanager" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/09/16/ios8-cllocationmanager/" class="article-date">
+  	<time datetime="2014-09-15T16:22:16.000Z" itemprop="datePublished">2014-09-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/16/ios8-cllocationmanager/">IOS8 CLLocationManager 定位服务不能用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>IOS8修改了位置设置里的内容，增加了一套状态（<code>使用中可用／通常可用</code>），所以以前的CLLcationManage的注册后，delegate接口不响应了。</p>
+<p>There also needs to be <code>NSLocationAlwaysUsageDescription</code> or <code>NSLocationWhenInUseUsageDescription</code> key in <code>Info.plist</code> with a message to be displayed in the prompt. </p>
+<p><a href="http://stackoverflow.com/questions/24062509/ios-8-location-services-not-working" target="_blank" rel="external">http://stackoverflow.com/questions/24062509/ios-8-location-services-not-working</a><br><a href="http://matthewfecher.com/app-developement/getting-gps-location-using-core-location-in-ios-8-vs-ios-7/" target="_blank" rel="external">http://matthewfecher.com/app-developement/getting-gps-location-using-core-location-in-ios-8-vs-ios-7/</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/IOS/">IOS</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-ipa-wireless-sender" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/09/12/ipa-wireless-sender/" class="article-date">
+  	<time datetime="2014-09-12T14:19:27.000Z" itemprop="datePublished">2014-09-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/12/ipa-wireless-sender/">ipa 无线发布 OTA的使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>无线发布iOS应用（OTA）让用户不通过App Store直接下载iOS应用,目的是让企业用户能够在脱离 Apple App Store 的情况下通过网页无线发布 iOS 应用。</p>
+<p>使用item-services协议，通过Safari浏览器可以自动安装ipa</p>
+<p><a href="https://github.com/OpenFibers/php-tot" target="_blank" rel="external">php-tot OTA Server github地址</a></p>
+<p>上面连接中地址中提到一些第三方的OTA web 服务和开源的OTA服务项目，<br>其中 <a href="http://testflightapp.com/" target="_blank" rel="external">testflight</a> 很好用。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/IOS-OTA/">IOS OTA</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-ios-request-record-permission" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/09/12/ios-request-record-permission/" class="article-date">
+  	<time datetime="2014-09-11T23:21:43.000Z" itemprop="datePublished">2014-09-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/12/ios-request-record-permission/">IOS录音</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">AVAudioSession *audioSession = [AVAudioSession sharedInstance];</span><br><span class="line"><span class="keyword">if</span> ([audioSession respondsToSelector:@selector(requestRecordPermission:)]) &#123;</span><br><span class="line">    [audioSession performSelector:@selector(requestRecordPermission:)</span><br><span class="line">     withObject:^(BOOL granted) &#123;</span><br><span class="line">        <span class="keyword">if</span> (granted) &#123;</span><br><span class="line">            <span class="comment">//开始录音相关事宜</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//不允许APP录音，请设置。。。。</span></span><br><span class="line">            dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">                [[[UIAlertView alloc] initWithTitle:nil</span><br><span class="line">                    message:@<span class="string">"APP需要访问您的麦克风。\n请启用麦克风-设置/隐私/麦克风"</span></span><br><span class="line">                    delegate:nil</span><br><span class="line">                    cancelButtonTitle:@<span class="string">"关闭"</span></span><br><span class="line">                    otherButtonTitles:nil] show];</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/IOS-codeSnippet/">IOS codeSnippet</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    </nav>
+  
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 王跃
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

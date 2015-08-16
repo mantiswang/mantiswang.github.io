@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Hello World | 蜗牛轨迹</title>
+  <title>iOS View rotation animation | 蜗牛轨迹</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+  <meta name="description" content="iOS中View的旋转，transform和rotation。项目中经常遇到需要对view做rotation的动画，记录下来常用的方法。
+使用 transform1- (void)rotationAnimation&amp;#10;&amp;#123;&amp;#10;    CGAffineTransform endAngle = CGAffineTransformMakeRotation(&amp;#60;#angle#&amp;#">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2015/08/16/hello-world/index.html">
+<meta property="og:title" content="iOS View rotation animation">
+<meta property="og:url" content="http://yoursite.com/2014/11/09/view-rotation-animation/index.html">
 <meta property="og:site_name" content="蜗牛轨迹">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2015-08-16T01:33:05.000Z">
+<meta property="og:description" content="iOS中View的旋转，transform和rotation。项目中经常遇到需要对view做rotation的动画，记录下来常用的方法。
+使用 transform1- (void)rotationAnimation&amp;#10;&amp;#123;&amp;#10;    CGAffineTransform endAngle = CGAffineTransformMakeRotation(&amp;#60;#angle#&amp;#">
+<meta property="og:updated_time" content="2015-03-06T09:00:09.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="iOS View rotation animation">
+<meta name="twitter:description" content="iOS中View的旋转，transform和rotation。项目中经常遇到需要对view做rotation的动画，记录下来常用的方法。
+使用 transform1- (void)rotationAnimation&amp;#10;&amp;#123;&amp;#10;    CGAffineTransform endAngle = CGAffineTransformMakeRotation(&amp;#60;#angle#&amp;#">
   
     <link rel="alternative" href="/atom.xml" title="蜗牛轨迹" type="application/atom+xml">
   
@@ -120,11 +120,11 @@ Quick">
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-view-rotation-animation" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/08/16/hello-world/" class="article-date">
-  	<time datetime="2015-08-16T01:33:05.000Z" itemprop="datePublished">2015-08-16</time>
+      <a href="/2014/11/09/view-rotation-animation/" class="article-date">
+  	<time datetime="2014-11-08T18:17:37.000Z" itemprop="datePublished">2014-11-09</time>
 </a>
     </div>
   
@@ -137,7 +137,7 @@ Quick">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      iOS View rotation animation
     </h1>
   
 
@@ -146,6 +146,10 @@ Quick">
       <div class="article-info article-info-post">
         
         
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS/">iOS</a>
+	</div>
+
 
         <div class="clearfix"></div>
       </div>
@@ -153,16 +157,9 @@ Quick">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
+        <p>iOS中View的旋转，transform和rotation。<br>项目中经常遇到需要对view做rotation的动画，记录下来常用的方法。</p>
+<figure class="highlight"><figcaption><span>使用 transform</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)rotationAnimation&#10;&#123;&#10;    CGAffineTransform endAngle = CGAffineTransformMakeRotation(&#60;#angle#&#62; * (M_PI / 180.0f));&#10;    &#10;    [UIView animateWithDuration:0.01 delay:0 options:UIViewAnimationOptionCurveLinear animations:^&#123;&#10;        &#60;#view#&#62;.transform = endAngle;&#10;    &#125; completion:^(BOOL finished) &#123;&#10;        &#60;#angle#&#62; += 10;&#10;        [self rotationAnimation];&#10;    &#125;];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><figcaption><span>使用 transform.rotation.z</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;-(void)transformRotationZ&#123;&#10;    CABasicAnimation* rotationAnimation = [CABasicAnimation animationWithKeyPath:@&#34;transform.rotation.z&#34;];&#10;    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];&#10;    rotationAnimation.duration = &#60;#duration#&#62;;&#10;    rotationAnimation.cumulative = YES;&#10;    rotationAnimation.repeatCount = &#60;#repeat#&#62;;&#10;    &#10;    [&#60;#view#&#62;.layer addAnimation:rotationAnimation forKey:&#60;#key#&#62;];&#10;&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -171,9 +168,18 @@ Quick">
     
 <nav id="article-nav">
   
+    <a href="/2014/11/12/svn-trunk-merge/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          SVN分支和合并的简单例子
+        
+      </div>
+    </a>
   
-    <a href="/2015/08/12/multiple-uiimage-merged/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">multiple-uiimage-merged</div>
+  
+    <a href="/2014/11/07/ios8-lame-arm64/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS lame 实现录音转MP3格式</div>
       <strong class="article-nav-caption">></strong>
     </a>
   

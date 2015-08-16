@@ -177,6 +177,638 @@
 
 
   
+    <article id="post-multiple-uiimage-merged" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/12/multiple-uiimage-merged/" class="article-date">
+  	<time datetime="2015-08-12T15:45:58.000Z" itemprop="datePublished">2015-08-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/12/multiple-uiimage-merged/">multiple-uiimage-merged</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>写了两篇关于照片保存的文章：</p>
+<p>iOS开发之保存照片到系统相册（Photo Album）<br>iOS开发之保存照片到自己创建的相簿<br>介绍了如何将图片保存到系统相册，也可以将照片保存到自己的相簿。里面还介绍了一个第三方<code>ALAssetsLibrary+CustomPhotoAlbum</code>保存照片的方法。</p>
+<p>本篇文章将会介绍如何将多个<code>UIImage</code>合并成一个<code>UIImage</code>。听起来似乎有点晕晕乎乎的，这个可以合并吗？答案是肯定的。我们拿两个<code>UIImage</code>来举例。</p>
+<p>创建两个UIImage<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIImage</span> *image1 = [<span class="built_in">UIImage</span> imageNamed:<span class="string">@"iOSDevTip"</span>];</span><br><span class="line"><span class="built_in">UIImage</span> *image2 = [<span class="built_in">UIImage</span> imageNamed:<span class="string">@"CodePush"</span>];</span><br></pre></td></tr></table></figure></p>
+<p>创建UIImage的方法有很多种，我们就简单的通过imageNamed:方法来创建。</p>
+<hr>
+<p>合并之后的size<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CGSize <span class="built_in">size</span> = CGSizeMake(image1.<span class="built_in">size</span>.<span class="variable">width</span> + image2.<span class="built_in">size</span>.<span class="variable">width</span>, image1.<span class="built_in">size</span>.<span class="variable">height</span>);</span><br></pre></td></tr></table></figure></p>
+<p>合并两个<code>UIImage</code>，需要计算合并之后的<code>size</code>。假设这两个<code>UIImage</code>的高度是是相同的，把他们的宽度相加，得到合并之后的<code>UIImage</code>的<code>size</code>。</p>
+<hr>
+<p>合并方法</p>
+<p>有了UIImage和size接下来就是把两个<code>UIImage</code>合并，方法如下：<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> UIGraphicsBeginImageContext(<span class="built_in">size</span>);</span><br><span class="line">[image1 drawInRect:CGRectMake(<span class="number">0</span>, <span class="number">0</span>, image1.<span class="built_in">size</span>.<span class="variable">width</span>, <span class="built_in">size</span>.<span class="variable">height</span>)];</span><br><span class="line">[image2 drawInRect:CGRectMake(image1.<span class="built_in">size</span>.<span class="variable">width</span>, <span class="number">0</span>, image2.<span class="built_in">size</span>.<span class="variable">width</span>, <span class="built_in">size</span>.<span class="variable">height</span>)];</span><br><span class="line">UIImage *togetherImage = UIGraphicsGetImageFromCurrentImageContext();</span><br><span class="line">UIGraphicsEndImageContext();</span><br></pre></td></tr></table></figure></p>
+<p>通过上述的代码，就可以实现两个<code>UIImage</code>的合并。` 这个小功能还挺有用的。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS/">iOS</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-baidumapsdk" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/04/09/baidumapsdk/" class="article-date">
+  	<time datetime="2015-04-08T23:58:30.000Z" itemprop="datePublished">2015-04-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/09/baidumapsdk/">集成百度地图sdk出现的问题记录</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-_Undefined_symbols_for_architecture_x86_64:_“_OBJCCLASS$_BMKMapManager”,_referenced_from:">1. Undefined symbols for architecture x86_64:   “_OBJC<em>CLASS</em>$_BMKMapManager”, referenced from:</h3><p>在<code>Other linker Flags</code> 加入 -ObjC -all_load -lbaidumapapi</p>
+<h3 id="2-_manager_start_failed">2. manager start failed</h3><p>Xcode 6上遇到manager start failed<br>原因:info.plipst中设置Bundle display name<br>*这个要跟申请key的时候保持一致！！！</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS/">iOS</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-redis-basic" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/04/05/redis-basic/" class="article-date">
+  	<time datetime="2015-04-05T10:58:30.000Z" itemprop="datePublished">2015-04-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/05/redis-basic/">redis 安装</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="redis_安装">redis 安装</h2><p>说句题外话，下载ZTMD慢。。。。。。。。</p>
+<p>###下载编译<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://download.redis.io/releases/redis-3.0.0.tar.gz&#10;$ tar xzf redis-3.0.0.tar.gz&#10;$ cd redis-3.0.0&#10;$ make</span><br></pre></td></tr></table></figure></p>
+<p>###启动<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd src&#10;&#10;$ src/redis-server</span><br></pre></td></tr></table></figure></p>
+<p>###测试<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ src/redis-cli&#10;redis&#62; set foo bar&#10;OK&#10;redis&#62; get foo&#10;&#34;bar&#34;</span><br></pre></td></tr></table></figure></p>
+<p>开启redis之旅吧～</p>
+<p><a href="http://redis.io/commands" target="_blank" rel="external">使用手册</a> </p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/redis/">redis</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-brew-uninstall-mysql" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/03/29/brew-uninstall-mysql/" class="article-date">
+  	<time datetime="2015-03-29T04:18:34.000Z" itemprop="datePublished">2015-03-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/29/brew-uninstall-mysql/">MacOS 安装、卸载mysql</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>如果你brew install mysql 之后出现问题要卸载：<br>brew remove mysql</p>
+<p>brew cleanup</p>
+<p>launchctl unload -w ~/Library/LaunchAgents/com.mysql.mysqld.plist  #这里不一定是这个文件</p>
+<p>rm ~/Library/LaunchAgents/com.mysql.mysqld.plist</p>
+<p>sudo rm -rf /usr/local/var/mysql</p>
+<p>然后重新开始</p>
+<pre><code>installed mysql with brew <span class="operator"><span class="keyword">install</span> mysql
+
+run the commands brew suggested:
+
+unset TMPDIR
+
+mysql_install_db <span class="comment">--verbose --user=`whoami` --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql --tmpdir=/tmp</span>
+
+<span class="keyword">Start</span> mysql <span class="keyword">with</span> mysql.<span class="keyword">server</span> command, <span class="keyword">to</span> be able <span class="keyword">to</span> <span class="keyword">log</span> <span class="keyword">on</span> it
+
+Used the alternate <span class="keyword">security</span> script:
+
+/usr/<span class="keyword">local</span>/Cellar/mysql/<span class="number">5.5</span><span class="number">.10</span>/<span class="keyword">bin</span>/mysql_secure_installation
+
+Followed the launchctl <span class="keyword">section</span> <span class="keyword">from</span> the brew <span class="keyword">package</span> script <span class="keyword">output</span>
+Boom.</span>
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/mac/">mac</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-register-new-ios-developer-account" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/03/25/register-new-ios-developer-account/" class="article-date">
+  	<time datetime="2015-03-25T13:30:56.000Z" itemprop="datePublished">2015-03-25</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/25/register-new-ios-developer-account/">注册开发者账号</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>注册开发者账号步骤：<br><a href="https://developer.apple.com/programs/start/standard/create.php" target="_blank" rel="external">https://developer.apple.com/programs/start/standard/create.php</a></p>
+<p><img src="/images/ios/account/step-1.png"></p>
+<p>点击继续<br>提示申请公司账号，还是个人账号</p>
+<p><img src="/images/ios/account/step-2.png"></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/ios/">ios</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-position-and-anchorpoint" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/03/13/position-and-anchorpoint/" class="article-date">
+  	<time datetime="2015-03-13T15:50:05.000Z" itemprop="datePublished">2015-03-13</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/13/position-and-anchorpoint/">彻底理解position与anchorPoint</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>引言</p>
+<p>相信初接触到CALayer的人都会遇到以下几个问题：<br>为什么修改anchorPoint会移动layer的位置？<br>CALayer的position点是哪一点呢?<br>anchorPoint与position有什么关系？</p>
+<p>我也迷惑过，找过网上的教程，大部分都是复制粘贴的，有些是翻译的文章但很有问题，看得似懂非懂，还是自己写代码彻底弄懂了，做点笔记吧。</p>
+<p>每一个UIView内部都默认关联着一个CALayer, UIView有frame、bounds和center三个属性，CALayer也有类似的属性，分别为frame、bounds、position、anchorPoint。frame和bounds比较好理解，bounds可以视为x坐标和y坐标都为0的frame，那position、anchorPoint是什么呢？先看看两者的原型，可知都是CGPoint点。</p>
+<pre><code><span class="variable">@property</span> CGPoint position
+<span class="variable">@property</span> CGPoint anchorPoint
+</code></pre><p>#####anchorPoint<br>一般都是先介绍position，再介绍anchorPoint。我这里反过来，先来说说anchorPoint。</p>
+<p>从一个例子开始入手吧，想象一下，把一张A4白纸用图钉订在书桌上，如果订得不是很紧的话，白纸就可以沿顺时针或逆时针方向围绕图钉旋转，这时候图钉就起着支点的作用。我们要解释的anchorPoint就相当于白纸上的图钉，它主要的作用就是用来作为变换的支点，旋转就是一种变换，类似的还有平移、缩放。</p>
+<p>继续扩展，很明显，白纸的旋转形态随图钉的位置不同而不同，图钉订在白纸的正中间与左上角时分别造就了两种旋转形态，这是由图钉（anchorPoint）的位置决定的。如何衡量图钉（anchorPoint）在白纸中的位置呢？在iOS中，anchorPoint点的值是用一种相对bounds的比例值来确定的，在白纸的左上角、右下角，anchorPoint分为为(0,0), (1, 1)，也就是说anchorPoint是在单元坐标空间(同时也是左手坐标系)中定义的。类似地，可以得出在白纸的中心点、左下角和右上角的anchorPoint为(0.5,0.5), (0,1), (1,0)。</p>
+<p>然后再来看下面两张图，注意图中分iOS与MacOS，因为两者的坐标系不相同，iOS使用左手坐标系，坐标原点在左上角，MacOS使用右手坐标系，原点在左下角，我们看iOS部分即可。<br><img src="/images/ios/layer_coords_anchorpoint_position_2x.png"><br>图1<br><img src="/images/ios/anchorpoint2.jpg"><br>图2</p>
+<p>像UIView有superView与subView的概念一样，CALayer也有superLayer与layer的概念，前面说到的白纸和图中的矩形可以理解为layer，书桌和图中矩形以外的坐标系可以理解成superLayer。如果各自以左上角为原点，则在图中有相对的两个坐标空间。</p>
+<p>#####position</p>
+<p>在图1中，anchorPoint有(0.5,0.5)和(0,0)两种情况，分别为矩形的中心点与原点。那么，这两个anchorPoint在superLayer中的实际位置分别为多少呢？简单计算一下就可以得到(100, 100)和(40, 60)，把这两个值分别与各自的position值比较，发现完全一致，该不会是巧合？</p>
+<p>这时候可以大胆猜测一下，position是不是就是anchorPoint在superLayer中的位置呢？答案是确定的，更确切地说，position是layer中的anchorPoint点在superLayer中的位置坐标。因此可以说, position点是相对suerLayer的，anchorPoint点是相对layer的，两者是相对不同的坐标空间的一个重合点。</p>
+<p>再来看看position的原始定义： The layer’s position in its superlayer’s coordinate space。<br>中文可以理解成为position是layer相对superLayer坐标空间的位置，很显然，这里的位置是根据anchorPoint来确定的。</p>
+<p>图2中是矩形沿不同的anchorPoint点旋转的形态，这就是类似于刚才讲的图钉订在白纸的正中间与左上角时分别造就了两种旋转形态。</p>
+<p>#####anchorPoint、position、frame</p>
+<p>anchorPoint的默认值为(0.5,0.5)，也就是anchorPoint默认在layer的中心点。默认情况下，使用addSublayer函数添加layer时，如果已知layer的frame值，根据上面的结论，那么position的值便可以用下面的公式计算：</p>
+<pre><code><span class="keyword">position</span>.x = frame.origin.x + <span class="number">0.5</span> * bounds.<span class="built_in">size</span>.width；  
+<span class="keyword">position</span>.y = frame.origin.y + <span class="number">0.5</span> * bounds.<span class="built_in">size</span>.height；  
+</code></pre><p>里面的0.5是因为anchorPoint取默认值，更通用的公式应该是下面的：</p>
+<pre><code>position.x = frame.origin.x + <span class="built_in">anchor</span>Point.x * bounds.size.width；  
+position.y = frame.origin.y + <span class="built_in">anchor</span>Point.y * bounds.size.height；
+</code></pre><p>下面再来看另外两个问题，如果单方面修改layer的position位置，会对anchorPoint有什么影响呢？修改anchorPoint又如何影响position呢？<br>根据代码测试，两者互不影响，受影响的只会是frame.origin，也就是layer坐标原点相对superLayer会有所改变。换句话说，frame.origin由position和anchorPoint共同决定，上面的公式可以变换成下面这样的：</p>
+<pre><code>frame.origin.x = position.x - <span class="built_in">anchor</span>Point.x * bounds.size.width；  
+frame.origin.y = position.y - <span class="built_in">anchor</span>Point.y * bounds.size.height；
+</code></pre><p>这就解释了为什么修改anchorPoint会移动layer，因为position不受影响，只能是frame.origin做相应的改变，因而会移动layer。</p>
+<p>#####理解与运用<br>在Apple doc对frame的描述中有这么一句话：</p>
+<blockquote>
+<p>Layers have an implicit frame that is a function of the position, bounds, anchorPoint, and transform properties.</p>
+</blockquote>
+<p>可以看到我们推导的公式基本符合这段描述，只不过还缺少了transform，加上transform的话就比较复杂，这里就不展开讲了。</p>
+<hr>
+<p>Apple doc中还有一句描述是这样的：</p>
+<blockquote>
+<p>When you specify the frame of a layer, position is set relative to the anchor point.<br>When you specify the position of the layer, bounds is set relative to the anchor point.</p>
+</blockquote>
+<p>大意是：当你设置图层的frame属性的时候，position根据锚点（anchorPoint）的值来确定，而当你设置图层的position属性的时候，bounds会根据锚点(anchorPoint)来确定。</p>
+<p>这段翻译的上半句根据前面的公式容易理解，后半句可能就有点令人迷惑了，当修改position时，bounds的width与height会随之修改吗？其实,position是点，bounds是矩形，根据锚点(anchorPoint)来确定的只是它们的位置，而不是内部属性。所以，上面这段英文这么翻译就容易理解了：</p>
+<blockquote>
+<p>当你设置图层的frame属性的时候，position点的位置（也就是position坐标）根据锚点（anchorPoint）的值来确定，而当你设置图层的position属性的时候，bounds的位置（也就是frame的orgin坐标）会根据锚点(anchorPoint)来确定。<br>在实际情况中，可能还有这样一种需求，我需要修改anchorPoint，但又不想要移动layer也就是不想修改frame.origin，那么根据前面的公式，就需要position做相应地修改。简单地推导，可以得到下面的公式：</p>
+</blockquote>
+<pre><code>positionNew.x = positionOld.x + (<span class="built_in">anchor</span>PointNew.x - <span class="built_in">anchor</span>PointOld.x)  * bounds.size.width  
+positionNew.y = positionOld.y + (<span class="built_in">anchor</span>PointNew.y - <span class="built_in">anchor</span>PointOld.y)  * bounds.size.height
+</code></pre><p>但是在实际使用没必要这么麻烦。修改anchorPoint而不想移动layer，在修改anchorPoint后再重新设置一遍frame就可以达到目的，这时position就会自动进行相应的改变。写成函数就是下面这样的：</p>
+<pre><code>- (void) <span class="built_in">set</span>AnchorPoint:(CGPoint)anchorpoint <span class="keyword">for</span>View:(UIView *)view{
+     CGRect oldFrame = view.frame;
+     view.layer.<span class="built_in">anchor</span>Point = anchorpoint;
+     view.frame = oldFrame;
+}
+</code></pre><p>总结</p>
+<p>1、position是layer中的anchorPoint在superLayer中的位置坐标。<br>2、互不影响原则：单独修改position与anchorPoint中任何一个属性都不影响另一个属性。<br>3、frame、position与anchorPoint有以下关系：</p>
+<pre><code>frame.origin.x = position.x - <span class="built_in">anchor</span>Point.x * bounds.size.width；  
+frame.origin.y = position.y - <span class="built_in">anchor</span>Point.y * bounds.size.height；
+</code></pre><p>第2条的互不影响原则还可以这样理解：position与anchorPoint是处于不同坐标空间中的重合点，修改重合点在一个坐标空间的位置不影响该重合点在另一个坐标空间中的位置。</p>
+<p>关于修改anchorPoint为什么会移动layer的位置，在刚才回复finder的评论时想到了一个更好的解释：<br>还是以桌子与白纸为例，如果固定图钉在桌上的位置，也就是positon不变，这个时候图钉处在白纸的不同地方就是不同的anchorPoint，相应地也就是不同的frame。<br>另一方面，如果固定图钉在白纸上的位置（没订在桌子上），不管怎么平移白纸，anchorPoint肯定是不变的，但frame肯定是随之变化的</p>
+<p>#####参考<br><a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/CoreAnimationBasics/CoreAnimationBasics.html#//apple_ref/doc/uid/TP40004514-CH2-SW15" target="_blank" rel="external">Core Animation Programming Guide</a><br><a href="http://stackoverflow.com/questions/1968017/changing-my-calayers-anchorpoint-moves-the-view" target="_blank" rel="external">Changing my CALayer’s anchorPoint moves the view</a><br><a href="http://www.cocoachina.com/bbs/simple/?t87118.html" target="_blank" rel="external">对于anchorPoint的一点理解</a><br><a href="http://www.dreamingwish.com/dream-2012/coreanimation-programming-guide-10-kvc.html" target="_blank" rel="external">CoreAnimation编程指南(十)KVC</a><br><a href="http://www.dreamingwish.com/dream-2012/coreanimation-programming-guide-c-the-geometric-transformation.html" target="_blank" rel="external">CoreAnimation编程指南(三)几何变换</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS/">iOS</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-uitableview-optimal" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/03/10/uitableview-optimal/" class="article-date">
+  	<time datetime="2015-03-09T16:07:49.000Z" itemprop="datePublished">2015-03-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/10/uitableview-optimal/">UITableView性能优化和改进</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>记一下 UITableView 性能优化需要注意和改进的地方。</p>
+<ol>
+<li>网络图片异步加载，SDWebImage。</li>
+<li>文字直接 drawInRect/drawAtPoint 绘制，参考 ABTableViewCell，AdvancedTableViewCells。</li>
+<li>本地图片也可以直接绘制，或者用 CALayer 来添加显示。</li>
+<li>cell 重用机制。</li>
+<li>cell 内容尽量避免透明效果。</li>
+<li>如非必要，减少 reloadData 全部 cell，只 reloadRowsAtIndexPaths。</li>
+<li>如果 cell 是动态行高，计算出高度后缓存。tableView 会在加载的时候把全部 cell 的高度通过 heightForRowAtIndexPath: 都计算出来，即使 cell 还没有展示。</li>
+<li>如果 cell content 的展示位置也不固定，第一次计算后也要缓存。</li>
+<li>cell 高度固定的话直接用 cell.rowHeight 设置高度，不要再实现 tableView:heightForRowAtIndexPath: delegate.</li>
+<li>cell content 的解析操作（尤其是复杂的解析）异步进行＋预执行，解析结果要缓存。</li>
+<li>可以预先加载需要的网络资源（图片等），SDWebImagePrefetcher.</li>
+</ol>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS/">iOS</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-gcd-basic" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/03/05/gcd-basic/" class="article-date">
+  	<time datetime="2015-03-05T15:55:05.000Z" itemprop="datePublished">2015-03-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/05/gcd-basic/">iOS 多线程GCD入门</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>GCD中有三种类队列类型：</p>
+<p>1.The main queue：与主线程功能相同。实际上，提交至main queue的任务会到主线程中执行。main queue可以调用dispatch_get_main_queue()来获得。因为main queue是与主线程相关的，所以这是一个穿行队列。</p>
+<p>2.Global queues：全局队列是并发队列，并由整个进程共享。进程中存在3个全局队列：高、中（默认）、低三个优先级队列。可以调用dispatch_get_global_queue函数传入优先级来访问队列。</p>
+<p>3.自定义队列：串行队列。通过dispatch_queue_create创建的队列。</p>
+<p>典型应用场景</p>
+<figure class="highlight"><figcaption><span>创建一个异步任务，并在任务完成后更新界面</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^&#123;&#10;        [self goDoSomethingLongAndInvolved];&#10;        dispatch_async(dispatch_get_main_queue(), ^&#123;&#10;            [textField setStringValue:@&#34;Done doing something long and involved&#34;];&#10;        &#125;);&#10;&#125;);</span><br></pre></td></tr></table></figure>
+<p>平行进行doSomethingIntensiveWith，等待所有任务完成进行doSomethingWith</p>
+<figure class="highlight"><figcaption><span>dispatch_group_t 使用</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;dispatch_queue_t queue = dispatch_get_global_qeueue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);&#10;dispatch_group_t group = dispatch_group_create();&#10;for(id obj in array)&#10;    dispatch_group_async(group, queue, ^&#123;&#10;        [self doSomethingIntensiveWith:obj];&#10;    &#125;);&#10;dispatch_group_wait(group, DISPATCH_TIME_FOREVER);&#10;dispatch_release(group);&#10; &#10;[self doSomethingWith:array];</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS/">iOS</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-svn-trunk-merge" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/11/12/svn-trunk-merge/" class="article-date">
+  	<time datetime="2014-11-12T13:30:56.000Z" itemprop="datePublished">2014-11-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/12/svn-trunk-merge/">SVN分支和合并的简单例子</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>SVN分支和合并的简单例子<br>尽管svn没有作强制要求，但是一般svn版本库目录建议创建trunk、branches和tags三个目录。 在实际操作时，trunk主干版本要时刻保持干净，即随时可以基于这个版本进行修改并将应用部署上线。branches是分支目录，存放并行开发的项目代码，因为分支是主干的廉价拷贝（相当只是提交了一次主干版本，增加了一个版本号，并没有取出版本库作镜像拷贝），所以你可以放心建立很多分支版本。不过Subversion不支持跨版本库的拷贝，当使用svn copy时你只能在同一个版本库内操作。tags目录存放trunk某个的快照，比如说release-1.0即trunk处于1.0版本时的快照。</p>
+<p>使用svn来作团队的代码管理，那么分支和合并将是非常常用的操作。下面是一个简单的示例。</p>
+<ol>
+<li>创建分支。这里假设你要负责一个叫theme的项目，分支号1.7.2。</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#这里的localhost是svn服务器地址</span></span><br><span class="line">svn copy -m <span class="string">"1.7.2 - theme"</span> svn://localhost/www/trunk svn://localhost/www/branches/branch1.<span class="number">7.2</span>-theme</span><br><span class="line">svn co svn://localhost/www/branches/branch1.<span class="number">7.2</span>-theme</span><br></pre></td></tr></table></figure>
+<ol>
+<li>从trunk中merge到分支。忙了一个星期终于开发完了，但是开发期间trunk版本有过改动，部署上线前你需要合并trunk的代码。</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#branch1.7.2-theme是分支目录，注意不可以进到分支子目录</span></span><br><span class="line"><span class="built_in">cd</span> branch1.<span class="number">7.2</span>-theme</span><br><span class="line"><span class="comment">#前面的12972是开分支之前trunk的版本号，后面的12991是merge时trunk的版本号</span></span><br><span class="line">svn merge -r <span class="number">12972</span>:<span class="number">12991</span> svn://localhost/www/trunk</span><br></pre></td></tr></table></figure>
+<p>如果有冲突选择p(postpone)，merge完了之后使用svn st|grep ^C查看冲突文件，然后比对修改冲突文件。解决冲突后再check in ，信息写上执行的merge操作。<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn ci -m <span class="string">'svn merge -r 12972:12991 svn://localhost/www/trunk'</span></span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>从分支merge到trunk。上线测试完毕，你很幸运，一切都如预期正常，这时就要将分支回归trunk，将trunk更新到最新。</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#先从trunk checkout一份新鲜的代码，然后cd到该版本目录下</span></span><br><span class="line">svn co svn://localhost/www/trunk</span><br><span class="line"><span class="built_in">cd</span> trunk</span><br><span class="line"><span class="comment">#12973是分支开始的版本号，13006是分支结束的版本号</span></span><br><span class="line">svn merge -r <span class="number">12973</span>:<span class="number">13006</span> svn://localhost/www/branches/branch1.<span class="number">7.2</span>-theme</span><br></pre></td></tr></table></figure>
+<p>如步骤2一样解决冲突，解决冲突后再check in，信息写上执行的merge操作。<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn ci -m <span class="string">"svn merge -r 12973:13006 svn://localhost/www/branches/branch1.7.2-theme"</span></span><br></pre></td></tr></table></figure></p>
+<p>相关的手册可以参阅svn文档。</p>
+<p><a href="http://www.panweizeng.com/svn-branching-merging.html" target="_blank" rel="external">转</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/tools/">tools</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 </div>
       <footer id="footer">
