@@ -118,62 +118,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-view-rotation-animation" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/11/09/view-rotation-animation/" class="article-date">
-  	<time datetime="2014-11-08T18:17:37.000Z" itemprop="datePublished">2014-11-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/11/09/view-rotation-animation/">iOS View rotation animation</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>iOS中View的旋转，transform和rotation。<br>项目中经常遇到需要对view做rotation的动画，记录下来常用的方法。</p>
-<figure class="highlight"><figcaption><span>使用 transform</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)rotationAnimation&#10;&#123;&#10;    CGAffineTransform endAngle = CGAffineTransformMakeRotation(&#60;#angle#&#62; * (M_PI / 180.0f));&#10;    &#10;    [UIView animateWithDuration:0.01 delay:0 options:UIViewAnimationOptionCurveLinear animations:^&#123;&#10;        &#60;#view#&#62;.transform = endAngle;&#10;    &#125; completion:^(BOOL finished) &#123;&#10;        &#60;#angle#&#62; += 10;&#10;        [self rotationAnimation];&#10;    &#125;];&#10;&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight"><figcaption><span>使用 transform.rotation.z</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;-(void)transformRotationZ&#123;&#10;    CABasicAnimation* rotationAnimation = [CABasicAnimation animationWithKeyPath:@&#34;transform.rotation.z&#34;];&#10;    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];&#10;    rotationAnimation.duration = &#60;#duration#&#62;;&#10;    rotationAnimation.cumulative = YES;&#10;    rotationAnimation.repeatCount = &#60;#repeat#&#62;;&#10;    &#10;    [&#60;#view#&#62;.layer addAnimation:rotationAnimation forKey:&#60;#key#&#62;];&#10;&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/iOS/">iOS</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-ios8-lame-arm64" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -666,6 +610,65 @@
       
 	<div class="article-category tagcloud">
 	<a class="article-category-link" href="/categories/IOS-codeSnippet/">IOS codeSnippet</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-custom-button-title-and-icon" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/08/07/custom-button-title-and-icon/" class="article-date">
+  	<time datetime="2014-08-06T22:24:14.000Z" itemprop="datePublished">2014-08-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/08/07/custom-button-title-and-icon/">自定义icon和title的button</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/ios/button_icon_title.png"><br><br><br>记录这类按钮的自定义方法</p>
+<p>我们知道UIButton包含以下三个属性，分别表示content大小范围，title的大小范围以及image的大小范围。<br><figure class="highlight c++"><figcaption><span>UIButton.h</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UIEdgeInsets           _contentEdgeInsets;</span><br><span class="line">UIEdgeInsets           _titleEdgeInsets;</span><br><span class="line">UIEdgeInsets           _imageEdgeInsets;</span><br></pre></td></tr></table></figure></p>
+<p>通过自定义的button类继承UIButton我们可以覆写，设置title，image大小的方法。<br><figure class="highlight c++"><figcaption><span>UIButton.h</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (CGRect)titleRectForContentRect:(CGRect)contentRect;</span><br><span class="line">- (CGRect)imageRectForContentRect:(CGRect)contentRect;</span><br></pre></td></tr></table></figure></p>
+<p>重新设定他们所占的高度，使image和title上下分布<br><figure class="highlight c++"><figcaption><span>自定义button类,image和title上下分布</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">pragma</span> mark - 重写父类的方法</span></span><br><span class="line">- (CGRect)titleRectForContentRect:(CGRect)contentRect</span><br><span class="line">&#123;</span><br><span class="line">    CGFloat titleY = contentRect.size.height * kImageRatio - <span class="number">2</span>;</span><br><span class="line">    CGFloat titleHeight = contentRect.size.height - titleY;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> CGRectMake(<span class="number">4</span>, titleY, CGRectGetWidth(contentRect) - <span class="number">8</span>, titleHeight);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (CGRect)imageRectForContentRect:(CGRect)contentRect</span><br><span class="line">&#123;</span><br><span class="line">    CGRect rect = [super imageRectForContentRect:contentRect];</span><br><span class="line">    <span class="keyword">return</span> CGRectMake((contentRect.size.width - rect.size.width) / <span class="number">2</span>, <span class="number">4</span>, CGRectGetWidth(rect), contentRect.size.height * kImageRatio);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>重新设定他们所占的宽度，使image和title左右分布<br><figure class="highlight c++"><figcaption><span>自定义button类，image和title左右分布</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">pragma</span> mark - 重写父类的方法</span></span><br><span class="line">- (CGRect)titleRectForContentRect:(CGRect)contentRect</span><br><span class="line">&#123;</span><br><span class="line">    CGFloat titleX = contentRect.size.width * kImageRatio - <span class="number">2</span>;</span><br><span class="line">    CGFloat titleWidth = contentRect.size.width - titleX;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> CGRectMake(titleX, <span class="number">2</span>, titleWidth, CGRectGetHeight(contentRect) - <span class="number">4</span>);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (CGRect)imageRectForContentRect:(CGRect)contentRect</span><br><span class="line">&#123;</span><br><span class="line">    CGRect rect = [super imageRectForContentRect:contentRect];</span><br><span class="line">    <span class="keyword">return</span> CGRectMake(<span class="number">4</span>, (CGRectGetHeight(contentRect) - CGRectGetHeight(rect))/<span class="number">2</span>, contentRect.size.width * kImageRatio - <span class="number">8</span>, CGRectGetHeight(rect));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/IOS/">IOS</a>
 	</div>
 
 

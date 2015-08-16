@@ -118,65 +118,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/16/hello-world/" class="article-date">
-  	<time datetime="2015-08-16T01:33:05.000Z" itemprop="datePublished">2015-08-16</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/16/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-multiple-uiimage-merged" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -787,6 +728,62 @@ frame.origin.y = position.y - <span class="built_in">anchor</span>Point.y * boun
       
 	<div class="article-category tagcloud">
 	<a class="article-category-link" href="/categories/tools/">tools</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-view-rotation-animation" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/11/09/view-rotation-animation/" class="article-date">
+  	<time datetime="2014-11-08T18:17:37.000Z" itemprop="datePublished">2014-11-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/09/view-rotation-animation/">iOS View rotation animation</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>iOS中View的旋转，transform和rotation。<br>项目中经常遇到需要对view做rotation的动画，记录下来常用的方法。</p>
+<figure class="highlight"><figcaption><span>使用 transform</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)rotationAnimation&#10;&#123;&#10;    CGAffineTransform endAngle = CGAffineTransformMakeRotation(&#60;#angle#&#62; * (M_PI / 180.0f));&#10;    &#10;    [UIView animateWithDuration:0.01 delay:0 options:UIViewAnimationOptionCurveLinear animations:^&#123;&#10;        &#60;#view#&#62;.transform = endAngle;&#10;    &#125; completion:^(BOOL finished) &#123;&#10;        &#60;#angle#&#62; += 10;&#10;        [self rotationAnimation];&#10;    &#125;];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><figcaption><span>使用 transform.rotation.z</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;-(void)transformRotationZ&#123;&#10;    CABasicAnimation* rotationAnimation = [CABasicAnimation animationWithKeyPath:@&#34;transform.rotation.z&#34;];&#10;    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];&#10;    rotationAnimation.duration = &#60;#duration#&#62;;&#10;    rotationAnimation.cumulative = YES;&#10;    rotationAnimation.repeatCount = &#60;#repeat#&#62;;&#10;    &#10;    [&#60;#view#&#62;.layer addAnimation:rotationAnimation forKey:&#60;#key#&#62;];&#10;&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS/">iOS</a>
 	</div>
 
 
