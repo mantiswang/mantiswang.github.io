@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2015/8 | 白色键盘</title>
+  <title>白色键盘</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="写博客，记录重要知识，iOS学习">
 <meta property="og:type" content="website">
 <meta property="og:title" content="白色键盘">
-<meta property="og:url" content="http://yoursite.com/archives/2015/08/index.html">
+<meta property="og:url" content="http://yoursite.com/page/4/index.html">
 <meta property="og:site_name" content="白色键盘">
 <meta property="og:description" content="写博客，记录重要知识，iOS学习">
 <meta name="twitter:card" content="summary">
@@ -118,114 +118,75 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-ios-pcap" class="article article-type-post" itemscope itemprop="blogPost">
   
+    <div class="article-meta">
+      <a href="/2014/03/08/ios-pcap/" class="article-date">
+  	<time datetime="2014-03-07T17:24:52.000Z" itemprop="datePublished">2014-03-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/08/ios-pcap/">IOS设备抓包方法</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在IOS开发中有很多内容和网络通迅相关，这里出现的问题往往不太容易定位，很多时候需要我们还原终端发送或者接收的数据包来对问题进行分析，因此在开发这类App的时候抓包变的很重要。</p>
+<p>下面介绍一种在已越狱的ios设备抓包方法：</p>
+<ol>
+<li>安装OpenSSH<br><img src="/images/ios/ios-pcap-1.png"></li>
+<li>安装tcpdump<br><img src="/images/ios/ios-pcap-2.png"></li>
+<li>在pc机上通过SecureCRT（也可以使用其他工具），登录ios设备终端，默认root用户密码为alpine（建议修改密码，否则哪天出了个ipad的门，你就火了Y(^_^)Y）<br><img src="/images/ios/ios-pcap-3.png"></li>
+<li>此时在终端输入tcpdump -s 0 -w capture.pcap命令，把抓取到的包内容保存到capture.pcap文件中</li>
+<li>通过SecureCRT获取设备上的capture.pcap文件到本地，然后使用wireshark进行分析定位问题</li>
+</ol>
+<p>##如果是没有越狱的设备当然也是可以抓包的，<br><a href="http://www.cnblogs.com/ydhliphonedev/archive/2011/10/27/2226935.html" target="_blank" rel="external">这里有篇文章仅供参考</a>，<br>本人没有具体实践这篇文章的内容</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/08/17/iOS-runtime-basic/" class="archive-article-date">
-  	<time datetime="2015-08-17T15:24:59.000Z" itemprop="datePublished">Aug 17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/08/17/iOS-runtime-basic/">iOS~runtime 基础</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/08/16/EGOCache-check-cache-expired/" class="archive-article-date">
-  	<time datetime="2015-08-16T15:59:47.000Z" itemprop="datePublished">Aug 16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/08/16/EGOCache-check-cache-expired/">EGOCache如何检测缓存时间过期</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/08/12/multiple-uiimage-merged/" class="archive-article-date">
-  	<time datetime="2015-08-12T15:45:58.000Z" itemprop="datePublished">Aug 12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/08/12/multiple-uiimage-merged/">iOS多张图片合并</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
+      
 	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/iOS/">iOS</a>
+	<a class="article-category-link" href="/categories/IOS/">IOS</a>
 	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
+      
+      <div class="clearfix"></div>
+    </div>
     
+  </div>
+  
+</article>
 
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+    </nav>
+  
 </div>
       <footer id="footer">
   <div class="outer">
@@ -249,9 +210,9 @@
 		fancybox: true,
 		mathjax: true,
 		animate: true,
-		isHome: false,
+		isHome: true,
 		isPost: false,
-		isArchive: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false
