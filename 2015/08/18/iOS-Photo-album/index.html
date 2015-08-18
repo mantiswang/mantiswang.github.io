@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS 开发只保存照片到系统相册 | 白色键盘</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="保存照片到系统相册这个功能很多社交类的APP都有的，今天我们简单讲解一下，如何将图片保存到系统相册（Photo Album）。
+创建UIImageView创建UIImageView是为了将照片展示出来，我们是要把UIImage保存到系统相册（Photo Album）:123456#define SCREEN [UIScreen mainScreen].bounds.sizeself.image =">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 开发只保存照片到系统相册">
+<meta property="og:url" content="http://yoursite.com/2015/08/18/iOS-Photo-album/index.html">
+<meta property="og:site_name" content="白色键盘">
+<meta property="og:description" content="保存照片到系统相册这个功能很多社交类的APP都有的，今天我们简单讲解一下，如何将图片保存到系统相册（Photo Album）。
+创建UIImageView创建UIImageView是为了将照片展示出来，我们是要把UIImage保存到系统相册（Photo Album）:123456#define SCREEN [UIScreen mainScreen].bounds.sizeself.image =">
+<meta property="og:updated_time" content="2015-08-18T14:21:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS 开发只保存照片到系统相册">
+<meta name="twitter:description" content="保存照片到系统相册这个功能很多社交类的APP都有的，今天我们简单讲解一下，如何将图片保存到系统相册（Photo Album）。
+创建UIImageView创建UIImageView是为了将照片展示出来，我们是要把UIImage保存到系统相册（Photo Album）:123456#define SCREEN [UIScreen mainScreen].bounds.sizeself.image =">
+  
+    <link rel="alternative" href="/atom.xml" title="白色键盘" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/photo.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/images/photo.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">苹果</a></h1>
+		</hgroup>
+
+		
+
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">苹果</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/images/photo.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">苹果</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-iOS-Photo-album" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/18/iOS-Photo-album/" class="article-date">
+  	<time datetime="2015-08-18T14:15:53.000Z" itemprop="datePublished">2015-08-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS 开发只保存照片到系统相册
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>保存照片到系统相册这个功能很多社交类的APP都有的，今天我们简单讲解一下，如何将图片保存到系统相册（Photo Album）。</p>
+<h4 id="创建UIImageView">创建UIImageView</h4><p>创建<code>UIImageView</code>是为了将照片展示出来，我们是要把<code>UIImage</code>保存到系统相册（Photo Album）:<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#define SCREEN [UIScreen mainScreen].bounds.size</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">self</span><span class="variable">.image</span> = [<span class="built_in">UIImage</span> imageNamed:<span class="string">@"iOSDevTip"</span>];</span><br><span class="line"><span class="built_in">UIImageView</span> *imageView = [[<span class="built_in">UIImageView</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>((SCREEN<span class="variable">.width</span> - <span class="number">300</span>) / <span class="number">2</span>, <span class="number">70</span>, <span class="number">300</span>, <span class="number">150</span>)];</span><br><span class="line">imageView<span class="variable">.image</span> = <span class="keyword">self</span><span class="variable">.image</span>;</span><br><span class="line">[<span class="keyword">self</span><span class="variable">.view</span> addSubview:imageView];</span><br></pre></td></tr></table></figure></p>
+<h4 id="创建UIButton">创建UIButton</h4><p>创建<code>UIButton</code>并绑定<code>actionClick:</code>事件:<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">UIButton *button = [[UIButton alloc] init];</span><br><span class="line">button.frame = CGRectMake( <span class="number">100</span>, <span class="number">300</span>, SCREEN.width - <span class="number">200</span>, <span class="number">40</span>);</span><br><span class="line">[button <span class="string">addTarget:</span>self <span class="string">action:</span><span class="annotation">@selector</span>(<span class="string">actionClick:</span>) <span class="string">forControlEvents:</span>UIControlEventTouchUpInside];</span><br><span class="line">[button <span class="string">setTitleColor:</span>[UIColor blueColor] <span class="string">forState:</span>UIControlStateNormal];</span><br><span class="line">[button <span class="string">setBackgroundColor:</span>[UIColor orangeColor]];</span><br><span class="line">[button <span class="string">setTitle:</span>@<span class="string">"SavePhoto"</span> <span class="string">forState:</span>UIControlStateNormal];</span><br><span class="line">[self.view <span class="string">addSubview:</span>button];</span><br><span class="line"></span><br><span class="line">- (<span class="typename">void</span>)<span class="string">actionClick:</span>(UIButton *)button</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="保存照片到系统相册（Photo_Album）">保存照片到系统相册（Photo Album）</h4><p>在<code>actionClick:</code>方法里调用：<br><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UIImageWriteToSavedPhotosAlbum<span class="list">(<span class="keyword">self</span>.image, self, @selector<span class="list">(<span class="keyword">image</span><span class="keyword">:didFinishSavingWithError</span><span class="keyword">:contextInfo</span>:)</span>, NULL)</span><span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
+<p>这个时候，我们想知道保存是否成功，所以需要指定回掉方法<br><figure class="highlight openscad"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 指定回调方法</span></span><br><span class="line">- <span class="params">(void)</span>image:<span class="params">(UIImage *)</span>image didFinishSavingWithError:<span class="params">(NSError *)</span>error contextInfo:<span class="params">(void *)</span>contextInfo</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span><span class="params">(!error)</span>&#123;</span><br><span class="line">        NSLog<span class="params">(@<span class="string">"save success"</span>)</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        NSLog<span class="params">(@<span class="string">"save failed"</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在这个方法里，我们就知道照片是否保存成功。然后，根据需求来刷新UI线程。demo地址: <a href="https://github.com/worldligang/iOSStrongDemo" target="_blank" rel="external">https://github.com/worldligang/iOSStrongDemo</a> </p>
+<blockquote>
+<p>本文转自微信号<code>iOSDevTip</code></p>
+</blockquote>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/08/17/iOS-runtime-basic/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS~runtime 基础</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 苹果
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
