@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS 开发中常用的数学函数 | 白色键盘</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在iOS开发当中。。。我们往往会涉及到一些算法。。。为了节省一些时间。。。让APP很快地被开发出来。。。我们需要对各类函数有一定的了解。。。接下来。。。我把部分常用函数分享出来。。。希望能帮到大家。。。
+
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051rand">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 开发中常用的数学函数">
+<meta property="og:url" content="http://yoursite.com/2015/08/19/iOS-maths/index.html">
+<meta property="og:site_name" content="白色键盘">
+<meta property="og:description" content="在iOS开发当中。。。我们往往会涉及到一些算法。。。为了节省一些时间。。。让APP很快地被开发出来。。。我们需要对各类函数有一定的了解。。。接下来。。。我把部分常用函数分享出来。。。希望能帮到大家。。。
+
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051rand">
+<meta property="og:updated_time" content="2015-08-19T15:07:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS 开发中常用的数学函数">
+<meta name="twitter:description" content="在iOS开发当中。。。我们往往会涉及到一些算法。。。为了节省一些时间。。。让APP很快地被开发出来。。。我们需要对各类函数有一定的了解。。。接下来。。。我把部分常用函数分享出来。。。希望能帮到大家。。。
+
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051rand">
+  
+    <link rel="alternative" href="/atom.xml" title="白色键盘" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/photo.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/images/photo.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">苹果</a></h1>
+		</hgroup>
+
+		
+
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">苹果</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/images/photo.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">苹果</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-iOS-maths" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/19/iOS-maths/" class="article-date">
+  	<time datetime="2015-08-19T15:05:34.000Z" itemprop="datePublished">2015-08-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS 开发中常用的数学函数
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>在iOS开发当中。。。我们往往会涉及到一些算法。。。为了节省一些时间。。。让APP很快地被开发出来。。。我们需要对各类函数有一定的了解。。。接下来。。。我把部分常用函数分享出来。。。希望能帮到大家。。。</p>
+</blockquote>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">rand</span><span class="params">()</span></span> ----随机数</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">abs</span><span class="params">()</span></span> / <span class="function"><span class="title">labs</span><span class="params">()</span></span> ----整数绝对值</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">fabs</span><span class="params">()</span></span> / <span class="function"><span class="title">fabsf</span><span class="params">()</span></span> / <span class="function"><span class="title">fabsl</span><span class="params">()</span></span> ----浮点数绝对值</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">floor</span><span class="params">()</span></span> / <span class="function"><span class="title">floorf</span><span class="params">()</span></span> / <span class="function"><span class="title">floorl</span><span class="params">()</span></span> ----向下取整</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">ceil</span><span class="params">()</span></span> / <span class="function"><span class="title">ceilf</span><span class="params">()</span></span> / <span class="function"><span class="title">ceill</span><span class="params">()</span></span> ----向上取整</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">round</span><span class="params">()</span></span> / <span class="function"><span class="title">roundf</span><span class="params">()</span></span> / <span class="function"><span class="title">roundl</span><span class="params">()</span></span> ----四舍五入</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">sqrt</span><span class="params">()</span></span> / <span class="function"><span class="title">sqrtf</span><span class="params">()</span></span> / <span class="function"><span class="title">sqrtl</span><span class="params">()</span></span> ----求平方根</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">fmax</span><span class="params">()</span></span> / <span class="function"><span class="title">fmaxf</span><span class="params">()</span></span> / <span class="function"><span class="title">fmaxl</span><span class="params">()</span></span> ----求最大值</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">fmin</span><span class="params">()</span></span> / <span class="function"><span class="title">fminf</span><span class="params">()</span></span> / <span class="function"><span class="title">fminl</span><span class="params">()</span></span> ----求最小值</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">hypot</span><span class="params">()</span></span> / <span class="function"><span class="title">hypotf</span><span class="params">()</span></span> / <span class="function"><span class="title">hypotl</span><span class="params">()</span></span> ----求直角三角形斜边的长度</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">fmod</span><span class="params">()</span></span> / <span class="function"><span class="title">fmodf</span><span class="params">()</span></span> / <span class="function"><span class="title">fmodl</span><span class="params">()</span></span> ----求两数整除后的余数</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">modf</span><span class="params">()</span></span> / <span class="function"><span class="title">modff</span><span class="params">()</span></span> / <span class="function"><span class="title">modfl</span><span class="params">()</span></span> ----浮点数分解为整数和小数</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">frexp</span><span class="params">()</span></span> / <span class="function"><span class="title">frexpf</span><span class="params">()</span></span> / <span class="function"><span class="title">frexpl</span><span class="params">()</span></span> ----浮点数分解尾数和二为底的指数</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">sin</span><span class="params">()</span></span> / <span class="function"><span class="title">sinf</span><span class="params">()</span></span> / <span class="function"><span class="title">sinl</span><span class="params">()</span></span> ----求正弦值</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">sinh</span><span class="params">()</span></span> / <span class="function"><span class="title">sinhf</span><span class="params">()</span></span> / <span class="function"><span class="title">sinhl</span><span class="params">()</span></span> ----求双曲正弦值</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">cos</span><span class="params">()</span></span> / <span class="function"><span class="title">cosf</span><span class="params">()</span></span> / <span class="function"><span class="title">cosl</span><span class="params">()</span></span> ----求余弦值</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">cosh</span><span class="params">()</span></span> / <span class="function"><span class="title">coshf</span><span class="params">()</span></span> / <span class="function"><span class="title">coshl</span><span class="params">()</span></span> ----求双曲余弦值</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">tan</span><span class="params">()</span></span> / <span class="function"><span class="title">tanf</span><span class="params">()</span></span> / <span class="function"><span class="title">tanl</span><span class="params">()</span></span> ----求正切值</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">tanh</span><span class="params">()</span></span> / <span class="function"><span class="title">tanhf</span><span class="params">()</span></span> / <span class="function"><span class="title">tanhl</span><span class="params">()</span></span> ----求双曲正切值</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">asin</span><span class="params">()</span></span> / <span class="function"><span class="title">asinf</span><span class="params">()</span></span> / <span class="function"><span class="title">asinl</span><span class="params">()</span></span> ----求反正弦值</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">asinh</span><span class="params">()</span></span> / <span class="function"><span class="title">asinhf</span><span class="params">()</span></span> / <span class="function"><span class="title">asinhl</span><span class="params">()</span></span> ----求反双曲正弦值</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">acos</span><span class="params">()</span></span> / <span class="function"><span class="title">acosf</span><span class="params">()</span></span> / <span class="function"><span class="title">acosl</span><span class="params">()</span></span> ----求反余弦值</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">acosh</span><span class="params">()</span></span> / <span class="function"><span class="title">acoshf</span><span class="params">()</span></span> / <span class="function"><span class="title">acoshl</span><span class="params">()</span></span> ----求反双曲余弦值</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">atan</span><span class="params">()</span></span> / <span class="function"><span class="title">atanf</span><span class="params">()</span></span> / <span class="function"><span class="title">atanl</span><span class="params">()</span></span> ----求反正切值</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">atan2</span><span class="params">()</span></span> / <span class="function"><span class="title">atan2f</span><span class="params">()</span></span> / <span class="function"><span class="title">atan2l</span><span class="params">()</span></span> ----求坐标值的反正切值</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">atanh</span><span class="params">()</span></span> / <span class="function"><span class="title">atanhf</span><span class="params">()</span></span> / <span class="function"><span class="title">atanhl</span><span class="params">()</span></span> ----求反双曲正切值</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>转自 简书 <a href="http://www.jianshu.com/p/0ca725ecf7f7" target="_blank" rel="external">http://www.jianshu.com/p/0ca725ecf7f7</a></p>
+</blockquote>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/08/19/github-iOS-top-100/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">GitHub iOS Top 100 简介</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 苹果
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

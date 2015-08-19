@@ -118,6 +118,62 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-mac-octopress-cocoapods-ruby-version" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/09/17/mac-octopress-cocoapods-ruby-version/" class="article-date">
+  	<time datetime="2014-09-16T23:18:24.000Z" itemprop="datePublished">2014-09-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/17/mac-octopress-cocoapods-ruby-version/">Mac安装过Octopress，无法安装cocoapods解决方法</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Mac安装过Octopress，ruby使用1.9.3导致无法成功安装cocoapods。</p>
+<p>电脑安装了Octopress，后来想试试cocoapods发现怎么也额安装不成功，一直以来困扰的问题终于解决了：<br><img src="/images/ios/Mac-Octopress-cocoapods.png"></p>
+<figure class="highlight sh"><figcaption><span>推荐使用ruby.taobao.org的源</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ gem sources --remove https://rubygems.org/</span><br><span class="line">$ gem sources <span class="operator">-a</span> https://ruby.taobao.org/</span><br><span class="line">$ gem sources <span class="operator">-l</span></span><br><span class="line">*** CURRENT SOURCES ***</span><br><span class="line"></span><br><span class="line">https://ruby.taobao.org</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/Mac/">Mac</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-ios8-cllocationmanager" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -940,82 +996,6 @@ A4tBsIdpMMoT+w==
       
 	<div class="article-category tagcloud">
 	<a class="article-category-link" href="/categories/cocos2d-x/">cocos2d-x</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-cocos2d-x-shareSDK-issue" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/04/09/cocos2d-x-shareSDK-issue/" class="article-date">
-  	<time datetime="2014-04-09T13:31:48.000Z" itemprop="datePublished">2014-04-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/04/09/cocos2d-x-shareSDK-issue/">cocos2d-x ShareSDK</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>###Cocos2d-x集成ShareSDK出现的问题</p>
-<p><code>异常信息1：</code></p>
-<pre><code>分享完成，回到app过程中异常退出
-
-Fatal signal 11 (SIGSEGV) at xxxxxxxx (code=1), thread xxxx (xxxxxx)
-<span class="operator"><span class="keyword">call</span> <span class="keyword">to</span> OpenGL ES API <span class="keyword">with</span> <span class="keyword">no</span> <span class="keyword">current</span> <span class="keyword">context</span> (logged once per <span class="keyword">thread</span>)</span>
-</code></pre><p>Android在回到cocos2d-x时，应该使用OpenGL的Thread：</p>
-<pre><code><span class="type">Cocos2dxGLSurfaceView</span>.getInstance<span class="literal">()</span>.queueEvent(<span class="keyword">new</span> <span class="type">Runnable</span><span class="literal">()</span>{<span class="keyword">do</span> something});
-</code></pre><p><code>异常信息2：</code></p>
-<pre><code>java.lang.IllegalStateException: Target host must <span class="operator">not</span> be <span class="constant">null</span>, <span class="operator">or</span> <span class="built_in">set</span> <span class="operator">in</span> parameters.
-scheme=<span class="constant">null</span>, host=<span class="constant">null</span>, path=<span class="constant">null</span>
-版本ShareSDK Android <span class="number">2.3</span><span class="number">.7</span>
-</code></pre><p>所有的参数都为null，估计是我们哪里参数转换或传入出了问题，和在线客服的多次沟通下，终于找到问题所在。</p>
-<pre><code>在ShareSDKUtils.java文件中找到如下代码
-<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> onekeyShare(<span class="built_in">int</span> platformId, <span class="keyword">String</span> contentJson)
-{
-  ....
-  <span class="keyword">HashMap</span>&lt;<span class="keyword">String</span>, <span class="keyword">Object</span>&gt; content = hashon.fromJson(contentJson);
-  content = nativeMapToJavaMap(content);<span class="comment">//注释本行代码</span>
-  <span class="keyword">HashMap</span>&lt;<span class="keyword">String</span>, <span class="keyword">Object</span>&gt; <span class="built_in">map</span> = nativeMapToJavaMap(content);
-  ....
-}
-</code></pre>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/cocos2d-x-shareSDK/">cocos2d-x shareSDK</a>
 	</div>
 
 
