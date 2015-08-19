@@ -182,7 +182,9 @@
 <figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//isEqualToString方法比较</span><br><span class="line"><span class="type">NSString</span> *stingOne = @<span class="string">"This is an iOSDevTip!"</span>;</span><br><span class="line"><span class="type">NSString</span> *stringTwo = @<span class="string">"This is an iOSDevTip!"</span>;</span><br><span class="line"><span class="type">BOOL</span> <span class="literal">result</span> = [stingOne isEqualToString:stringTwo];</span><br><span class="line">//compare方法比较</span><br><span class="line"><span class="type">BOOL</span> <span class="literal">result</span> = [stingOne compare:stringTwo] == <span class="type">NSOrderedSame</span>;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>&gt;<br>typedef NS_ENUM(NSInteger, NSComparisonResult) {<br>    NSOrderedAscending = -1L,<br>    NSOrderedSame,<br>    NSOrderedDescending<br>};</p>
+<blockquote>
+<p>typedef NS_ENUM(NSInteger, NSComparisonResult) {<br>    NSOrderedAscending = -1L,<br>    NSOrderedSame,<br>    NSOrderedDescending<br>};</p>
+</blockquote>
 
       
     </div>
