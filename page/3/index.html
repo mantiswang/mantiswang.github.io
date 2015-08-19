@@ -118,6 +118,65 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-ios-dev-upload-ipa-to-appstore-slow" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/09/17/ios-dev-upload-ipa-to-appstore-slow/" class="article-date">
+  	<time datetime="2014-09-16T23:40:53.000Z" itemprop="datePublished">2014-09-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/17/ios-dev-upload-ipa-to-appstore-slow/">ios dev upload ipa to appStore slow</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前几天在使用Application Loader上传ipa的时候，等了半小时没反应，连’斑马线’都没出现。<br><br></p>
+<p>在<a href="http://stackoverflow.com" target="_blank" rel="external">stackoverflow</a>上面找到一个解决方案<br><a href="http://stackoverflow.com/questions/8395000/application-loader-apple-stuck-on-sending-api-usage-to-itunes-connect" target="_blank" rel="external">http://stackoverflow.com/questions/8395000/application-loader-apple-stuck-on-sending-api-usage-to-itunes-connect</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> Application Loader &gt; Contents &gt; MacOS &gt; itms &gt; java &gt; lib - Open net.properties &lt;br/&gt;</span><br><span class="line"> Change the line</span><br><span class="line">&lt;br/&gt;</span><br><span class="line"> <span class="preprocessor"># https.proxyPort=<span class="number">443</span> to https.proxyPort=<span class="number">80.</span> </span></span><br><span class="line">&lt;br/&gt;</span><br><span class="line"> This enables the application to use the HTTP port <span class="keyword">for</span> HTTPS.</span><br><span class="line"> Worked straight away after <span class="keyword">this</span>. Hope <span class="keyword">this</span> helps.</span><br></pre></td></tr></table></figure>
+<p>重启ApplicationLoader,重新上传,搞定</p>
+<p>如何打包生成ipa,见<a href="stackoverflow.com/questions/5937660/how-to-create-the-upload-file-for-application-loader">stackoverflow.com/questions/5937660/how-to-create-the-upload-file-for-application-loader </a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS-ApplicationLoader/">iOS ApplicationLoader</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-mac-octopress-cocoapods-ruby-version" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -938,64 +997,6 @@ A4tBsIdpMMoT+w==
       
 	<div class="article-category tagcloud">
 	<a class="article-category-link" href="/categories/IOS-android-cocos2d-x-java/">IOS android cocos2d-x java</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-cocos2d-x-screenshot" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/04/12/cocos2d-x-screenshot/" class="article-date">
-  	<time datetime="2014-04-12T15:02:27.000Z" itemprop="datePublished">2014-04-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/04/12/cocos2d-x-screenshot/">cocos2d-x-screenshot</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在做sharesdk分享的时候，iPhone设备上面原始尺寸屏幕截图保存下来，达到1M左右，实在太大了。</p>
-<p>虽说IOS用户都是高富帅，不care，但也不排除有屌丝在没有wifi的情况下小手一抖，1M没有了，回来论坛里骂我们开发人员傻X，为啥不把这个图片压小点，给他们节省的流量，让他们多玩两把 。</p>
-<p>好吧，那就让万能的代码来解决这个问题吧，<br>让在cocos2d-x截屏的时候把屏幕缩小一倍，这样保存下来的图的size变为原来的一半，但占用空间只有原图的1/4大小。</p>
-<figure class="highlight openscad"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">void ShareUtils::ScreenShoot<span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	CCSize size = CCDirector::sharedDirector<span class="params">()</span>-&gt;getVisibleSize<span class="params">()</span>;</span><br><span class="line">	<span class="comment">//定义一个屏幕大小的渲染纹理</span></span><br><span class="line">	CCRenderTexture<span class="built_in">*</span> pScreen = CCRenderTexture::create<span class="params">(size.width * .<span class="number">5</span> ,size.height * .<span class="number">5</span> , kCCTexture2DPixelFormat_RGBA8888)</span>;</span><br><span class="line">	<span class="comment">//获得当前的场景指针</span></span><br><span class="line">	CCScene<span class="built_in">*</span> pCurScene = CCDirector::sharedDirector<span class="params">()</span>-&gt;getRunningScene<span class="params">()</span>;</span><br><span class="line">	CCPoint ancPos = pCurScene-&gt;getAnchorPoint<span class="params">()</span>;</span><br><span class="line">	<span class="comment">//渲染纹理开始捕捉</span></span><br><span class="line">	pScreen-&gt;begin<span class="params">()</span>;</span><br><span class="line">	<span class="comment">//重点</span></span><br><span class="line">	<span class="comment">// 缩小屏幕截屏区域</span></span><br><span class="line">	pCurScene-&gt;setScale<span class="params">(.<span class="number">5</span>)</span>;</span><br><span class="line">	pCurScene-&gt;setAnchorPoint<span class="params">(ccp<span class="params">(<span class="number">0</span>, <span class="number">0</span>)</span>)</span>;</span><br><span class="line">	<span class="comment">//当前场景参与绘制</span></span><br><span class="line">	pCurScene-&gt;visit<span class="params">()</span>;</span><br><span class="line">	<span class="comment">//结束捕捉</span></span><br><span class="line">	pScreen-&gt;end<span class="params">()</span>;</span><br><span class="line">	<span class="comment">//保存为jpg</span></span><br><span class="line">	pScreen-&gt;saveToFile<span class="params">(filename, kCCImageFormatJPEG)</span>;</span><br><span class="line">	<span class="comment">//重点</span></span><br><span class="line">	<span class="comment">// 恢复屏幕尺寸</span></span><br><span class="line">	pCurScene-&gt;setScale<span class="params">(<span class="number">1</span>)</span>;</span><br><span class="line">	pCurScene-&gt;setAnchorPoint<span class="params">(ancPos)</span>;</span><br><span class="line">	CC_SAFE_DELETE<span class="params">(pScreen)</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/cocos2d-x/">cocos2d-x</a>
 	</div>
 
 
