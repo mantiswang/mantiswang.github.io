@@ -118,6 +118,142 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-redis-basic" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/04/05/redis-basic/" class="article-date">
+  	<time datetime="2015-04-05T10:58:30.000Z" itemprop="datePublished">2015-04-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/05/redis-basic/">redis 安装</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="redis_安装">redis 安装</h2><p>说句题外话，下载ZTMD慢。。。。。。。。</p>
+<p>###下载编译<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://download.redis.io/releases/redis-3.0.0.tar.gz&#10;$ tar xzf redis-3.0.0.tar.gz&#10;$ cd redis-3.0.0&#10;$ make</span><br></pre></td></tr></table></figure></p>
+<p>###启动<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd src&#10;&#10;$ src/redis-server</span><br></pre></td></tr></table></figure></p>
+<p>###测试<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ src/redis-cli&#10;redis&#62; set foo bar&#10;OK&#10;redis&#62; get foo&#10;&#34;bar&#34;</span><br></pre></td></tr></table></figure></p>
+<p>开启redis之旅吧～</p>
+<p><a href="http://redis.io/commands" target="_blank" rel="external">使用手册</a> </p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/redis/">redis</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-brew-uninstall-mysql" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/03/29/brew-uninstall-mysql/" class="article-date">
+  	<time datetime="2015-03-29T04:18:34.000Z" itemprop="datePublished">2015-03-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/29/brew-uninstall-mysql/">MacOS 安装、卸载mysql</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>如果你brew install mysql 之后出现问题要卸载：<br>brew remove mysql</p>
+<p>brew cleanup</p>
+<p>launchctl unload -w ~/Library/LaunchAgents/com.mysql.mysqld.plist  #这里不一定是这个文件</p>
+<p>rm ~/Library/LaunchAgents/com.mysql.mysqld.plist</p>
+<p>sudo rm -rf /usr/local/var/mysql</p>
+<p>然后重新开始</p>
+<pre><code>installed mysql with brew <span class="operator"><span class="keyword">install</span> mysql
+
+run the commands brew suggested:
+
+unset TMPDIR
+
+mysql_install_db <span class="comment">--verbose --user=`whoami` --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql --tmpdir=/tmp</span>
+
+<span class="keyword">Start</span> mysql <span class="keyword">with</span> mysql.<span class="keyword">server</span> command, <span class="keyword">to</span> be able <span class="keyword">to</span> <span class="keyword">log</span> <span class="keyword">on</span> it
+
+Used the alternate <span class="keyword">security</span> script:
+
+/usr/<span class="keyword">local</span>/Cellar/mysql/<span class="number">5.5</span><span class="number">.10</span>/<span class="keyword">bin</span>/mysql_secure_installation
+
+Followed the launchctl <span class="keyword">section</span> <span class="keyword">from</span> the brew <span class="keyword">package</span> script <span class="keyword">output</span>
+Boom.</span>
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/mac/">mac</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-register-new-ios-developer-account" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -629,119 +765,6 @@ frame.origin.y = position.y - <span class="built_in">anchor</span>Point.y * boun
 <p>UICollectionView 提供很多布局，一支持自定义布局。可以通过继承UICollectionViewLayout，或响应的子类来实现布局。<br><figure class="highlight"><figcaption><span>UICollectionViewLayout (UISubclassingHooks)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// UICollectionView calls these four methods to determine the layout information.&#10;// Implement -layoutAttributesForElementsInRect: to return layout attributes for for supplementary or decoration views, or to perform layout in an as-needed-on-screen fashion.&#10;// Additionally, all layout subclasses should implement -layoutAttributesForItemAtIndexPath: to return layout attributes instances on demand for specific index paths.&#10;// If the layout supports any supplementary or decoration view types, it should also implement the respective atIndexPath: methods for those types.&#10;- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect; // return an array layout attributes instances for all the views in the given rect</span><br></pre></td></tr></table></figure></p>
 <p>为了是布局紧凑，两两cell之间不会出现过大的间隙，自定义Layout<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect&#10;&#123;&#10;    NSArray *attributes = [[super layoutAttributesForElementsInRect:rect] mutableCopy];&#10;    NSMutableArray *array = [NSMutableArray arrayWithArray:attributes];&#10;    &#10;    for(int i = 1; i &#60; [array count]; ++i) &#123;&#10;        UICollectionViewLayoutAttributes *currentLayoutAttributes = array[i];&#10;        UICollectionViewLayoutAttributes *prevLayoutAttributes = array[i - 1];&#10;        NSInteger maximumSpacing = 10;&#10;        NSInteger origin = CGRectGetMaxX(prevLayoutAttributes.frame);&#10;        if(origin + maximumSpacing + currentLayoutAttributes.frame.size.width &#60; self.collectionViewContentSize.width) &#123;&#10;            CGRect frame = currentLayoutAttributes.frame;&#10;            frame.origin.x = origin + maximumSpacing;&#10;            currentLayoutAttributes.frame = frame;&#10;        &#125;&#10;        &#10;        [array replaceObjectAtIndex:i withObject:currentLayoutAttributes];&#10;    &#125;&#10;    &#10;    return array;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
 <p>网上很多关于UICollectionView的各种花样布局，接下来要去好好研究一番</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/iOS/">iOS</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-hmsegmentedcontrol-image-title-postion" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/11/02/hmsegmentedcontrol-image-title-postion/" class="article-date">
-  	<time datetime="2014-11-02T13:48:42.000Z" itemprop="datePublished">2014-11-02</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/11/02/hmsegmentedcontrol-image-title-postion/">HMSegmentedControl image title postion</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>项目中需要实现这种效果，HMSegmentedControl支持image和title一起，但image只能在title的左边，所以在HMSegmentedControl的基础上自己改了一下</p>
-<figure class="highlight"><figcaption><span>HMSegmentedControl.h</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;imageAtTitleRight &#29992;&#26469;&#34920;&#31034;image&#21644;title&#30340;&#24038;&#21491;&#30456;&#23545;&#20301;&#32622;&#65292;separatorColor&#29992;&#26469;&#34920;&#31034;&#22312;&#30456;&#37051;&#20004;&#20010;segment&#20043;&#38388;&#30340;&#20998;&#38548;&#32447;&#39068;&#33394;&#65288;&#22914;&#26524;&#35774;&#32622;&#30340;&#35805;&#65289;&#10;/*&#10; When HMSegmentedControlType == HMSegmentedControlTypeTextImages&#10; &#10; imageLeft set image left title&#10; &#10; Default is imageLeft (image title)&#10; */&#10;@property (nonatomic, getter = isImageAtTitleRight) BOOL imageAtTitleRight;&#10;&#10;/*&#10; Separator Color between two segment.&#10; &#10; Default no separator&#10; */&#10;@property (nonatomic, strong) UIColor *separatorColor;</span><br></pre></td></tr></table></figure>
-<figure class="highlight"><figcaption><span>HMSegmentedControl.m</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HMSegmentedControl.m&#30340;drawRect&#26041;&#27861;&#26367;&#25442;&#10;- (void)drawRect:(CGRect)rect &#123;&#10;    [self.backgroundColor setFill];&#10;    UIRectFill([self bounds]);&#10;    &#10;    self.selectionIndicatorArrowLayer.backgroundColor = self.selectionIndicatorColor.CGColor;&#10;    &#10;    self.selectionIndicatorStripLayer.backgroundColor = self.selectionIndicatorColor.CGColor;&#10;    &#10;    self.selectionIndicatorBoxLayer.backgroundColor = self.selectionIndicatorColor.CGColor;&#10;    self.selectionIndicatorBoxLayer.borderColor = self.selectionIndicatorColor.CGColor;&#10;    &#10;    // Remove all sublayers to avoid drawing images over existing ones&#10;    self.scrollView.layer.sublayers = nil;&#10;    &#10;    if (self.type == HMSegmentedControlTypeText) &#123;&#10;        [self.sectionTitles enumerateObjectsUsingBlock:^(id titleString, NSUInteger idx, BOOL *stop) &#123;&#10;            &#10;            CGFloat stringWidth = 0;&#10;            CGFloat stringHeight = 0;&#10;            if([titleString respondsToSelector:@selector(sizeWithAttributes:)]) &#123;&#10;                stringWidth = [titleString sizeWithAttributes:@&#123;NSFontAttributeName: self.font&#125;].width;&#10;                stringHeight = [titleString sizeWithAttributes:@&#123;NSFontAttributeName: self.font&#125;].height;&#10;            &#125;&#10;            else &#123;&#10;                stringWidth = roundf([titleString sizeWithFont:self.font].width);&#10;                stringHeight = roundf([titleString sizeWithFont:self.font].height);&#10;            &#125;&#10;            &#10;            // Text inside the CATextLayer will appear blurry unless the rect values are rounded&#10;            CGFloat y = roundf(CGRectGetHeight(self.frame) - self.selectionIndicatorHeight)/2 - stringHeight/2 + ((self.selectionIndicatorLocation == HMSegmentedControlSelectionIndicatorLocationUp) ? self.selectionIndicatorHeight : 0);&#10;            &#10;            CGRect rect;&#10;            if (self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleFixed) &#123;&#10;                rect = CGRectMake((self.segmentWidth * idx) + (self.segmentWidth - stringWidth)/2, y, stringWidth, stringHeight);&#10;            &#125; else if (self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleDynamic) &#123;&#10;                // When we are drawing dynamic widths, we need to loop the widths array to calculate the xOffset&#10;                CGFloat xOffset = 0;&#10;                NSInteger i = 0;&#10;                for (NSNumber *width in self.segmentWidthsArray) &#123;&#10;                    if (idx == i)&#10;                        break;&#10;                    xOffset = xOffset + [width floatValue];&#10;                    i++;&#10;                &#125;&#10;                &#10;                rect = CGRectMake(xOffset, y, [[self.segmentWidthsArray objectAtIndex:idx] floatValue], stringHeight);&#10;            &#125;&#10;            &#10;            CATextLayer *titleLayer = [CATextLayer layer];&#10;            titleLayer.frame = rect;&#10;            titleLayer.font = (__bridge CFTypeRef)(self.font.fontName);&#10;            titleLayer.fontSize = self.font.pointSize;&#10;            titleLayer.alignmentMode = kCAAlignmentCenter;&#10;            titleLayer.string = titleString;&#10;            titleLayer.truncationMode = kCATruncationEnd;&#10;            &#10;            if (self.selectedSegmentIndex == idx) &#123;&#10;                titleLayer.foregroundColor = self.selectedTextColor.CGColor;&#10;            &#125; else &#123;&#10;                titleLayer.foregroundColor = self.textColor.CGColor;&#10;            &#125;&#10;            &#10;            titleLayer.contentsScale = [[UIScreen mainScreen] scale];&#10;            [self.scrollView.layer addSublayer:titleLayer];&#10;            &#10;            //set separator&#10;            if(idx &#60; [self sectionCount] - 1)&#10;            &#123;&#10;                CGRect separatorRect;&#10;                if(self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleFixed)&#10;                &#123;&#10;                    separatorRect = CGRectMake(self.segmentWidth*(idx+1) - 0.5 , 10, 0.5, CGRectGetHeight(self.frame) - 2 * 10);&#10;                &#125;&#10;                else if (self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleDynamic)&#10;                &#123;&#10;                    separatorRect = CGRectMake([self.segmentWidthsArray[idx] floatValue] - 0.5 , 10, 0.5, CGRectGetHeight(self.frame) - 2 * 10);&#10;                &#125;&#10;                CALayer *separatorLayer = [CALayer layer];&#10;                separatorLayer.frame = separatorRect;&#10;                separatorLayer.backgroundColor = self.separatorColor.CGColor;&#10;                [self.scrollView.layer addSublayer:separatorLayer];&#10;            &#125;&#10;        &#125;];&#10;    &#125; else if (self.type == HMSegmentedControlTypeImages) &#123;&#10;        [self.sectionImages enumerateObjectsUsingBlock:^(id iconImage, NSUInteger idx, BOOL *stop) &#123;&#10;            UIImage *icon = iconImage;&#10;            CGFloat imageWidth = icon.size.width;&#10;            CGFloat imageHeight = icon.size.height;&#10;            CGFloat y = roundf(CGRectGetHeight(self.frame) - self.selectionIndicatorHeight) / 2 - imageHeight / 2 + ((self.selectionIndicatorLocation == HMSegmentedControlSelectionIndicatorLocationUp) ? self.selectionIndicatorHeight : 0);&#10;            CGFloat x = self.segmentWidth * idx + (self.segmentWidth - imageWidth)/2.0f;&#10;            CGRect rect = CGRectMake(x, y, imageWidth, imageHeight);&#10;            &#10;            CALayer *imageLayer = [CALayer layer];&#10;            imageLayer.frame = rect;&#10;            &#10;            if (self.selectedSegmentIndex == idx) &#123;&#10;                if (self.sectionSelectedImages) &#123;&#10;                    UIImage *highlightIcon = [self.sectionSelectedImages objectAtIndex:idx];&#10;                    imageLayer.contents = (id)highlightIcon.CGImage;&#10;                &#125; else &#123;&#10;                    imageLayer.contents = (id)icon.CGImage;&#10;                &#125;&#10;            &#125; else &#123;&#10;                imageLayer.contents = (id)icon.CGImage;&#10;            &#125;&#10;            &#10;            [self.scrollView.layer addSublayer:imageLayer];&#10;            &#10;            //set separator&#10;            if(idx &#60; [self sectionCount] - 1)&#10;            &#123;&#10;                CGRect separatorRect;&#10;                if(self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleFixed)&#10;                &#123;&#10;                    separatorRect = CGRectMake(self.segmentWidth*(idx+1) - 0.5 , 10, 0.5, CGRectGetHeight(self.frame) - 2 * 10);&#10;                &#125;&#10;                else if (self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleDynamic)&#10;                &#123;&#10;                    separatorRect = CGRectMake([self.segmentWidthsArray[idx] floatValue] - 0.5 , 10, 0.5, CGRectGetHeight(self.frame) - 2 * 10);&#10;                &#125;&#10;                CALayer *separatorLayer = [CALayer layer];&#10;                separatorLayer.frame = separatorRect;&#10;                separatorLayer.backgroundColor = self.separatorColor.CGColor;&#10;                [self.scrollView.layer addSublayer:separatorLayer];&#10;            &#125;&#10;        &#125;];&#10;    &#125; else if (self.type == HMSegmentedControlTypeTextImages)&#123;&#10;        [self.sectionImages enumerateObjectsUsingBlock:^(id iconImage, NSUInteger idx, BOOL *stop) &#123;&#10;            // When we have both an image and a title, we start with the image and use segmentImageTextPadding before drawing the text.&#10;            // So the image will be left to the text, centered in the middle&#10;            UIImage *icon = iconImage;&#10;            CGFloat imageWidth = icon.size.width;&#10;            CGFloat imageHeight = icon.size.height;&#10;            &#10;            CGFloat stringHeight = roundf([self.sectionTitles[idx] sizeWithFont:self.font].height);&#10;            CGFloat stringWidth = roundf([self.sectionTitles[idx] sizeWithFont:self.font].width);&#10;            &#10;            CGFloat stringYOffset = roundf(((CGRectGetHeight(self.frame) - self.selectionIndicatorHeight) / 2) - (stringHeight / 2));&#10;            CGFloat imageYOffset = roundf(((CGRectGetHeight(self.frame) - self.selectionIndicatorHeight) / 2) - (imageHeight / 2));&#10;            &#10;            CGFloat leftOffset = self.segmentEdgeInset.left; // Start with edge inset&#10;            CGFloat rightOffset;&#10;            CGRect imageRect, textRect;&#10;            &#10;            if (self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleFixed)&#10;                leftOffset = self.segmentWidth * idx + self.segmentWidth / 2 - (imageWidth + stringWidth + segmentImageTextPadding)/2;&#10;            else if (self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleDynamic) &#123;&#10;                // When we are drawing dynamic widths, we need to loop the widths array to calculate the xOffset&#10;                NSInteger i = 0;&#10;                for (NSNumber *width in self.segmentWidthsArray) &#123;&#10;                    if (idx == i)&#10;                        break;&#10;                    leftOffset = leftOffset + [width floatValue];&#10;                    i++;&#10;                &#125;&#10;            &#125;&#10;            &#10;            if(self.imageAtTitleRight)&#10;            &#123;&#10;                textRect = CGRectMake(leftOffset, stringYOffset, stringWidth, stringHeight);&#10;                rightOffset = leftOffset + stringWidth + segmentImageTextPadding;&#10;                imageRect = CGRectMake(rightOffset, imageYOffset, imageWidth, imageHeight);&#10;            &#125;&#10;            else&#10;            &#123;&#10;                imageRect = CGRectMake(leftOffset, imageYOffset, imageWidth, imageHeight);&#10;                rightOffset = leftOffset + imageWidth + segmentImageTextPadding;&#10;                textRect = CGRectMake(rightOffset, stringYOffset, stringWidth, stringHeight);&#10;            &#125;&#10;            &#10;            CATextLayer *titleLayer = [CATextLayer layer];&#10;            titleLayer.frame = textRect;&#10;            titleLayer.font = (__bridge CFTypeRef)(self.font.fontName);&#10;            titleLayer.fontSize = self.font.pointSize;&#10;            titleLayer.alignmentMode = kCAAlignmentCenter;&#10;            titleLayer.string = self.sectionTitles[idx];&#10;            titleLayer.truncationMode = kCATruncationEnd;&#10;            &#10;            CALayer *imageLayer = [CALayer layer];&#10;            imageLayer.frame = imageRect;&#10;            &#10;            if (self.selectedSegmentIndex == idx) &#123;&#10;                if (self.sectionSelectedImages) &#123;&#10;                    UIImage *highlightIcon = [self.sectionSelectedImages objectAtIndex:idx];&#10;                    imageLayer.contents = (id)highlightIcon.CGImage;&#10;                &#125; else &#123;&#10;                    imageLayer.contents = (id)icon.CGImage;&#10;                &#125;&#10;                titleLayer.foregroundColor = self.selectedTextColor.CGColor;&#10;            &#125; else &#123;&#10;                imageLayer.contents = (id)icon.CGImage;&#10;                titleLayer.foregroundColor = self.textColor.CGColor;&#10;            &#125;&#10;            &#10;            [self.scrollView.layer addSublayer:imageLayer];&#10;            titleLayer.contentsScale = [[UIScreen mainScreen] scale];&#10;            [self.scrollView.layer addSublayer:titleLayer];&#10;&#10;            //set separator&#10;            if(idx &#60; [self sectionCount] - 1)&#10;            &#123;&#10;                CGRect separatorRect;&#10;                if(self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleFixed)&#10;                &#123;&#10;                    separatorRect = CGRectMake(self.segmentWidth*(idx+1) - 0.5 , 10, 0.5, CGRectGetHeight(self.frame) - 2 * 10);&#10;                &#125;&#10;                else if (self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleDynamic)&#10;                &#123;&#10;                    separatorRect = CGRectMake([self.segmentWidthsArray[idx] floatValue] - 0.5 , 10, 0.5, CGRectGetHeight(self.frame) - 2 * 10);&#10;                &#125;&#10;                CALayer *separatorLayer = [CALayer layer];&#10;                separatorLayer.frame = separatorRect;&#10;                separatorLayer.backgroundColor = self.separatorColor.CGColor;&#10;                [self.scrollView.layer addSublayer:separatorLayer];&#10;            &#125;&#10;        &#125;];&#10;    &#125;&#10;&#10;    // Add the selection indicators&#10;    if (self.selectedSegmentIndex != HMSegmentedControlNoSegment) &#123;&#10;        if (self.selectionStyle == HMSegmentedControlSelectionStyleArrow) &#123;&#10;            if (!self.selectionIndicatorArrowLayer.superlayer) &#123;&#10;                [self setArrowFrame];&#10;                [self.scrollView.layer addSublayer:self.selectionIndicatorArrowLayer];&#10;            &#125;&#10;        &#125; else &#123;&#10;            if (!self.selectionIndicatorStripLayer.superlayer) &#123;&#10;                self.selectionIndicatorStripLayer.frame = [self frameForSelectionIndicator];&#10;                [self.scrollView.layer addSublayer:self.selectionIndicatorStripLayer];&#10;                &#10;                if (self.selectionStyle == HMSegmentedControlSelectionStyleBox &#38;&#38; !self.selectionIndicatorBoxLayer.superlayer) &#123;&#10;                    self.selectionIndicatorBoxLayer.frame = [self frameForFillerSelectionIndicator];&#10;                    [self.scrollView.layer insertSublayer:self.selectionIndicatorBoxLayer atIndex:0];&#10;                &#125;&#10;            &#125;&#10;        &#125;&#10;    &#125;&#10;    &#10;&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="https://github.com/mantiswang/HMSegmentedControl" target="_blank" rel="external">全部代码</a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/iOS/">iOS</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-iphone6-ui-adjust-quikly" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/09/23/iphone6-ui-adjust-quikly/" class="article-date">
-  	<time datetime="2014-09-22T16:37:28.000Z" itemprop="datePublished">2014-09-23</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/23/iphone6-ui-adjust-quikly/">快速适配iPhone6 iPhone6 plus </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p></p><p>图片转自网络</p><br><img src="/images/ios/iPhone6DesignResource.png"><p></p>
 
       
     </div>
