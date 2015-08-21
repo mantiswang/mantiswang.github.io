@@ -118,6 +118,82 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-GCD实现单一资源的多读写" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/21/GCD实现单一资源的多读写/" class="article-date">
+  	<time datetime="2015-08-21T13:17:58.000Z" itemprop="datePublished">2015-08-21</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/21/GCD实现单一资源的多读写/">GCD实现单一资源的多读写</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>在多线程编程中，最常见的场景是如何保证线程安全，比如你可能经常遇到多线程访问某个dic（又或者是array或其他）造成的crash。<br>这篇文章里，我们讨论下如何使用GCD实现多线程读者与写者问题，也即单一资源的线程安全问题。</p>
+</blockquote>
+<p>首先，还是先将示例代码放出来好了，后面会有一些我遇到过的问题及改进介绍。如果你只想得到一个解决方案，只需要看第一节就OK，当然，也许你也有兴趣看看后面的部分。</p>
+<h3 id="解决方案与原理">解决方案与原理</h3><h4 id="ARC版本">ARC版本</h4><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">_ioQueue = dispatch_queue_create(<span class="string">"ioQueue"</span>, <span class="type">DISPATCH_QUEUE_CONCURRENT</span>);</span><br><span class="line">- (<span class="type">void</span>)setSafeObject:(id)<span class="keyword">object</span> forKey:(<span class="type">NSString</span> *)key</span><br><span class="line">&#123;</span><br><span class="line">    key = [key copy];</span><br><span class="line">    dispatch_barrier_async(self.ioQueue, ^&#123;</span><br><span class="line">        <span class="keyword">if</span> (key &amp;&amp; <span class="keyword">object</span>) &#123;</span><br><span class="line">            [_dic setObject:<span class="keyword">object</span> forKey:key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line">- (id)getSafeObjectForKey:(<span class="type">NSString</span> *)key</span><br><span class="line">&#123;</span><br><span class="line">    __block id <span class="literal">result</span> = <span class="keyword">nil</span>;</span><br><span class="line">    dispatch_sync(self.ioQueue, ^&#123;</span><br><span class="line">        <span class="literal">result</span> = [_dic objectForKey:key];</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先，我们需要创建一个私有的队列来处理读写操作。在这里不推荐使用<code>globe_queue</code>, 因为我们通过<code>dispatch_barrier_async</code>来保证写操作的互斥，我们当然不希望写操作阻塞住<code>globe_queue</code>中的其他不相关任务，我们只希望在写的同时，不会有其他的写操作或者读操作。</p>
+<blockquote>
+<p>同时，也不推荐给队列设置优先级，多数情况下使用default就可以了。而改变优先级往往会造成一些无法预料的问题，比如优先级反转(具体的可以参看参考文献)。</p>
+</blockquote>
+<p><img src="dispatch_barrier.png"><br>图片来自参考文献<br><code>dispatch_barrier_async</code>的block运行时机是，在它之前所有的任务执行完毕，并且在它后面的任务开始之前，期间不会有其他的任务执行。注意在<code>barrier</code>执行的时候，队列本质上如同一个串行队列，其执行完以后才会恢复到并行队列。</p>
+<p>另外一个值得注意的问题是，在写操作的时候，我们使用<code>dispatch_async</code>，而在读操作的时候我们使用<code>dispatch_sync</code>。很明显，这2个操作一个是异步的，一个是同步的。我们不需要使每次程序执行的时候都等待写操作完成，所以写操作异步执行，但是我们需要同步的执行读操作来保证程序能够立刻得到它想要的值。</p>
+<p>使用sync的时候需要极其的小心，因为稍不注意，就有可能产生死锁，这可能造成灾难性的后果。你肯定也注意到了在写操作的时候对key进行了copy, 关于此处的解释，插入一段来自参考文献的引用:</p>
+<blockquote>
+<p>函数调用者可以自由传递一个NSMutableString的key，并且能够在函数返回后修改它。因此我们必须对传入的字符串使用copy操作以确保函数能够正确地工作。如果传入的字符串不是可变的（也就是正常的NSString类型），调用copy基本上是个空操作。</p>
+</blockquote>
+<p>到这里整个基本示例代码已经完成，一般情况下能够满足我们的需要。下面来看看在MRC过程中我遇到的一些问题。</p>
+<h4 id="关于死锁">关于死锁</h4><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queueA<span class="comment">; // 串行队列</span></span><br><span class="line">dispatch_sync<span class="list">(<span class="keyword">queueA</span>, ^<span class="list">()</span>&#123;    </span><br><span class="line">    dispatch_sync<span class="list">(<span class="keyword">queueA</span>, ^<span class="list">()</span>&#123;        </span><br><span class="line">        foo<span class="list">()</span><span class="comment">;    </span></span><br><span class="line">    &#125;)</span><span class="comment">;</span></span><br><span class="line">&#125;)</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>造成死锁比较常见的情况可以简化成上面这段代码。<br><code>dispatch_sync</code>会同步的提交工作并在返回前等待其完成。第一个<code>dispatch_sync</code>正在运行并等待它的block完成，但是block不能够完成，它调用了第二个dispatch_sync，而第二个<code>dispatch_sync</code>会等待串行队列中已经存在的第一个任务完成，很明显这个任务无法完成，造成死锁。</p>
+<blockquote>
+<p>值得注意的是main_queue就是一个串行队列。</p>
+<p>转自 <a href="http://luoyibu.com/" target="_blank" rel="external">http://luoyibu.com/</a> </p>
+</blockquote>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GCD/">GCD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Thread/">Thread</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-iOS-多线程-GCD" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -194,7 +270,7 @@
       
       
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-Thread/">iOS,Thread</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Thread/">Thread</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
 	</div>
 
       
@@ -1350,62 +1426,6 @@
 <p>合并方法</p>
 <p>有了UIImage和size接下来就是把两个<code>UIImage</code>合并，方法如下：<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> UIGraphicsBeginImageContext(<span class="built_in">size</span>);</span><br><span class="line">[image1 drawInRect:CGRectMake(<span class="number">0</span>, <span class="number">0</span>, image1.<span class="built_in">size</span>.<span class="variable">width</span>, <span class="built_in">size</span>.<span class="variable">height</span>)];</span><br><span class="line">[image2 drawInRect:CGRectMake(image1.<span class="built_in">size</span>.<span class="variable">width</span>, <span class="number">0</span>, image2.<span class="built_in">size</span>.<span class="variable">width</span>, <span class="built_in">size</span>.<span class="variable">height</span>)];</span><br><span class="line">UIImage *togetherImage = UIGraphicsGetImageFromCurrentImageContext();</span><br><span class="line">UIGraphicsEndImageContext();</span><br></pre></td></tr></table></figure></p>
 <p>通过上述的代码，就可以实现两个<code>UIImage</code>的合并。` 这个小功能还挺有用的。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/iOS/">iOS</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-baidumapsdk" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/04/09/baidumapsdk/" class="article-date">
-  	<time datetime="2015-04-08T23:58:30.000Z" itemprop="datePublished">2015-04-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/04/09/baidumapsdk/">集成百度地图sdk出现的问题记录</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="1-_Undefined_symbols_for_architecture_x86_64:_“_OBJCCLASS$_BMKMapManager”,_referenced_from:">1. Undefined symbols for architecture x86_64:   “_OBJC<em>CLASS</em>$_BMKMapManager”, referenced from:</h3><p>在<code>Other linker Flags</code> 加入 -ObjC -all_load -lbaidumapapi</p>
-<h3 id="2-_manager_start_failed">2. manager start failed</h3><p>Xcode 6上遇到manager start failed<br>原因:info.plipst中设置Bundle display name<br>*这个要跟申请key的时候保持一致！！！</p>
 
       
     </div>
