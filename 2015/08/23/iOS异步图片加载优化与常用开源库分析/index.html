@@ -30,7 +30,7 @@ CoreAnimation渲染解压缩过的位图
 CoreAnimation渲染解压缩过的位图
 以上4，5，6，7，8步是在UIImageView的setImage时进行的，所以默认在主">
 <meta property="og:image" content="http://yoursite.com/1.png">
-<meta property="og:updated_time" content="2015-08-23T01:34:37.000Z">
+<meta property="og:updated_time" content="2015-08-23T01:37:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS异步图片加载优化与常用开源库分析">
 <meta name="twitter:description" content="网络图片显示大体步骤:
@@ -216,7 +216,7 @@ CoreAnimation渲染解压缩过的位图
 <h5 id="SDWebImage提供的UIImageView扩展的解决方案：">SDWebImage提供的UIImageView扩展的解决方案：</h5><p>imageView对象会关联一个下载列表（列表是给AnimationImages用的，这个时候会下载多张图片），当tableview滑动，imageView重设数据源（url）时，会cancel掉下载列表中所有的任务，然后开启一个新的下载任务。这样子就保证了只有当前可见的cell对象的imageView对象关联的下载任务能够回调，不会发生image错乱。</p>
 <p>同时，SDWebImage管理了一个全局下载队列（在DownloadManager中）,并发量设置为6.也就是说如果可见cell的数目是大于6的，就会有部分下载队列处于等待状态。而且，在添加下载任务到全局的下载队列中去的时候，SDWebImage默认是采取<code>LIFO</code>策略的，具体是在添加下载任务的时候，将上次添加的下载任务添加依赖为新添加的下载任务。<br><figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="list">[<span class="keyword">wself.downloadQueue</span> addOperation:operation]<span class="comment">;</span></span><br><span class="line">if <span class="list">(<span class="keyword">wself.executionOrder</span> == SDWebImageDownloaderLIFOExecutionOrder)</span> &#123;</span><br><span class="line">    // Emulate LIFO execution order by systematically adding new operations as last operation<span class="variable">'s</span> dependency</span><br><span class="line">    <span class="list">[<span class="keyword">wself.lastAddedOperation</span> addDependency:operation]<span class="comment">;</span></span><br><span class="line">    wself.lastAddedOperation = operation<span class="comment">;</span></span><br><span class="line">&#125;</span></span></span><br></pre></td></tr></table></figure></p>
 <blockquote>
-<!--所以在运行SDWebImage的demo的时候，可以看到，如果快速滑下去，然后又滑回来的话，图片是过了一会才显示出来，这是因为快速滑动的时候，旧数据源的下载任务被取消掉了。 -->
+<p>所以在运行SDWebImage的demo的时候，可以看到，如果快速滑下去，然后又滑回来的话，图片是过了一会才显示出来，这是因为快速滑动的时候，旧数据源的下载任务被取消掉了。</p>
 </blockquote>
 <h5 id="另外一种解决方案是：">另外一种解决方案是：</h5><p>imageView对象和图片的url相关联，在滑动时，不取消旧的下载任务，而是在下载任务完成回调时，进行url匹配，只有匹配成功的image会刷新imageView对象，而其他的image则只做缓存操作，而不刷新UI。</p>
 <p>同时，仍然管理一个执行队列，为了避免占用太多的资源，通常会对执行队列设置一个最大的并发量。此外，为了保证LIFO的下载策略，可以自己维持一个等待队列，每次下载任务开始的时候，将后进入的下载任务插入到等待队列的前面。</p>
@@ -225,7 +225,7 @@ CoreAnimation渲染解压缩过的位图
 <li>NSOperationQueue</li>
 <li>GCD</li>
 <li>NSThread<br>这几种方式就不细说了，SDWebImage是通过自定义NSOperation来抽象下载任务的，并结合了GCD来做一些主线程与子线程的切换。具体异步下载的实现，AFNetworking与SDWebImage都是十分优秀的代码，有兴趣的可以深入看看源码。<h4 id="2-2_关于图片解压缩:">2.2 关于图片解压缩:</h4><blockquote>
-<!--### 图片来源 针对app自带的图片，xcode在编译的时候会对png图片进行[优化](http://outofmemory.cn/wr/?u=http%3A%2F%2Fartori.us%2Foptimized-png-in-xcode%2F)（据说是通过[pngcrush](http://pmt.sourceforge.net/pngcrush/)这个开源的工具来优化），这样在显示的时候就会有一些比较好的体验。 对于从internet上面下载的图片，多数情况下，是需要做解压缩后，才能渲染到屏幕上的。 -->
+<p>图片来源 针对app自带的图片，xcode在编译的时候会对png图片进行<a href="http://outofmemory.cn/wr/?u=http%3A%2F%2Fartori.us%2Foptimized-png-in-xcode%2F" target="_blank" rel="external">优化</a>（据说是通过<a href="http://pmt.sourceforge.net/pngcrush/" target="_blank" rel="external">pngcrush</a>这个开源的工具来优化），这样在显示的时候就会有一些比较好的体验。 对于从internet上面下载的图片，多数情况下，是需要做解压缩后，才能渲染到屏幕上的。</p>
 </blockquote>
 </li>
 </ul>
