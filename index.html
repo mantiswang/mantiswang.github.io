@@ -118,6 +118,205 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-iOS异步图片加载优化与常用开源库分析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/23/iOS异步图片加载优化与常用开源库分析/" class="article-date">
+  	<time datetime="2015-08-23T01:05:05.000Z" itemprop="datePublished">2015-08-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/23/iOS异步图片加载优化与常用开源库分析/">iOS异步图片加载优化与常用开源库分析</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><h4 id="网络图片显示大体步骤:">网络图片显示大体步骤:</h4><ol>
+<li>下载图片</li>
+<li>图片处理（裁剪，边框等)</li>
+<li>写入磁盘</li>
+<li>从磁盘读取数据到内核缓冲区</li>
+<li>从内核缓冲区复制到用户空间(内存级别拷贝)</li>
+<li>解压缩为位图（耗cpu较高）</li>
+<li>如果位图数据不是字节对齐的，CoreAnimation会copy一份位图数据并进行字节对齐</li>
+<li>CoreAnimation渲染解压缩过的位图<blockquote>
+<p>以上4，5，6，7，8步是在UIImageView的setImage时进行的，所以默认在主线程进行(iOS UI操作必须在主线程执行)。</p>
+</blockquote>
+</li>
+</ol>
+</li>
+<li><p>一些优化思路：</p>
+<ul>
+<li>异步下载图片</li>
+<li>image解压缩放到子线程</li>
+<li>使用缓存 (包括内存级别和磁盘级别)</li>
+<li>存储解压缩后的图片，避免下次从磁盘加载的时候再次解压缩</li>
+<li>减少内存级别的拷贝 （针对第5点和第7点）</li>
+<li>良好的接口（比如SDWebImage使用category）</li>
+<li>Core Data vs 文件存储</li>
+<li>图片预下载</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-1_关于异步图片下载:">2.1 关于异步图片下载:</h4><p><code>fastImageCache</code>主要针对于从磁盘文件读取并展示图片的极端优化，所以并没有集成异步图片下载的功能。这里主要来看看SDWebImage(AFNetWorking的基本类似)的实现方案：</p>
+<h5 id="tableView中，异步图片下载任务的管理:">tableView中，异步图片下载任务的管理:</h5><p>我们知道，tableViewCell是有重用机制的，也就是说，内存中只有当前可见的cell数目的实例，滑动的时候，新显示cell会重用被滑出的cell对象。这样就存在一个问题：</p>
+<p>一般情况下在我们会在cellForRow方法里面设置cell的图片数据源，也就是说如果一个cell的imageview对象开启了一个下载任务，这个时候该cell对象发生了重用，新的image数据源会开启另外的一个下载任务，由于他们关联的imageview对象实际上是同一个cell实例的imageview对象，就会发生2个下载任务回调给同一个imageview对象。这个时候就有必要做一些处理，避免回调发生时，错误的image数据源刷新了UI。</p>
+<h5 id="SDWebImage提供的UIImageView扩展的解决方案：">SDWebImage提供的UIImageView扩展的解决方案：</h5><p>imageView对象会关联一个下载列表（列表是给AnimationImages用的，这个时候会下载多张图片），当tableview滑动，imageView重设数据源（url）时，会cancel掉下载列表中所有的任务，然后开启一个新的下载任务。这样子就保证了只有当前可见的cell对象的imageView对象关联的下载任务能够回调，不会发生image错乱。</p>
+<p>同时，SDWebImage管理了一个全局下载队列（在DownloadManager中）,并发量设置为6.也就是说如果可见cell的数目是大于6的，就会有部分下载队列处于等待状态。而且，在添加下载任务到全局的下载队列中去的时候，SDWebImage默认是采取<code>LIFO</code>策略的，具体是在添加下载任务的时候，将上次添加的下载任务添加依赖为新添加的下载任务。<br><figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="list">[<span class="keyword">wself.downloadQueue</span> addOperation:operation]<span class="comment">;</span></span><br><span class="line">if <span class="list">(<span class="keyword">wself.executionOrder</span> == SDWebImageDownloaderLIFOExecutionOrder)</span> &#123;</span><br><span class="line">    // Emulate LIFO execution order by systematically adding new operations as last operation<span class="variable">'s</span> dependency</span><br><span class="line">    <span class="list">[<span class="keyword">wself.lastAddedOperation</span> addDependency:operation]<span class="comment">;</span></span><br><span class="line">    wself.lastAddedOperation = operation<span class="comment">;</span></span><br><span class="line">&#125;</span></span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<!--所以在运行SDWebImage的demo的时候，可以看到，如果快速滑下去，然后又滑回来的话，图片是过了一会才显示出来，这是因为快速滑动的时候，旧数据源的下载任务被取消掉了。 -->
+</blockquote>
+<h5 id="另外一种解决方案是：">另外一种解决方案是：</h5><p>imageView对象和图片的url相关联，在滑动时，不取消旧的下载任务，而是在下载任务完成回调时，进行url匹配，只有匹配成功的image会刷新imageView对象，而其他的image则只做缓存操作，而不刷新UI。</p>
+<p>同时，仍然管理一个执行队列，为了避免占用太多的资源，通常会对执行队列设置一个最大的并发量。此外，为了保证LIFO的下载策略，可以自己维持一个等待队列，每次下载任务开始的时候，将后进入的下载任务插入到等待队列的前面。</p>
+<p>iOS异步任务一般有3种实现方式:</p>
+<ul>
+<li>NSOperationQueue</li>
+<li>GCD</li>
+<li>NSThread<br>这几种方式就不细说了，SDWebImage是通过自定义NSOperation来抽象下载任务的，并结合了GCD来做一些主线程与子线程的切换。具体异步下载的实现，AFNetworking与SDWebImage都是十分优秀的代码，有兴趣的可以深入看看源码。<h4 id="2-2_关于图片解压缩:">2.2 关于图片解压缩:</h4><blockquote>
+<!--### 图片来源 针对app自带的图片，xcode在编译的时候会对png图片进行[优化](http://outofmemory.cn/wr/?u=http%3A%2F%2Fartori.us%2Foptimized-png-in-xcode%2F)（据说是通过[pngcrush](http://pmt.sourceforge.net/pngcrush/)这个开源的工具来优化），这样在显示的时候就会有一些比较好的体验。 对于从internet上面下载的图片，多数情况下，是需要做解压缩后，才能渲染到屏幕上的。 -->
+</blockquote>
+</li>
+</ul>
+<h5 id="通用的解压缩方案">通用的解压缩方案</h5><blockquote>
+<p>主体的思路是在子线程，将原始的图片渲染成一张的新的可以字节显示的图片，来获取一个解压缩过的图片</p>
+</blockquote>
+<p>基本上比较流行的一些开源库都先后支持了在异步线程完成图片的解压缩，并对解压缩过后的图片进行缓存。</p>
+<p>这么做的优点是在<code>setImage</code>的时候系统省去了上面的第6步，缺点就是图片占用的空间变大。<br>比如1张50<em>50像素的图片，在<code>retina</code>的屏幕下所占用的空间为100</em>100*4 ~ 40KB</p>
+<p>下面的代码是<code>SDWebImage</code>的解决方案:<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="built_in">UIImage</span> *)decodedImageWithImage:(<span class="built_in">UIImage</span> *)image &#123;</span><br><span class="line">    <span class="keyword">if</span> (image<span class="variable">.images</span>) &#123;</span><br><span class="line">        <span class="comment">// Do not decode animated images</span></span><br><span class="line">        <span class="keyword">return</span> image;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">CGImageRef</span> imageRef = image<span class="variable">.CGImage</span>;</span><br><span class="line">    <span class="built_in">CGSize</span> imageSize = <span class="built_in">CGSizeMake</span>(<span class="built_in">CGImageGetWidth</span>(imageRef), <span class="built_in">CGImageGetHeight</span>(imageRef));</span><br><span class="line">    <span class="built_in">CGRect</span> imageRect = (<span class="built_in">CGRect</span>)&#123;<span class="variable">.origin</span> = <span class="built_in">CGPointZero</span>, <span class="variable">.size</span> = imageSize&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">CGColorSpaceRef</span> colorSpace = <span class="built_in">CGColorSpaceCreateDeviceRGB</span>();</span><br><span class="line">    <span class="built_in">CGBitmapInfo</span> bitmapInfo = <span class="built_in">CGImageGetBitmapInfo</span>(imageRef);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> infoMask = (bitmapInfo &amp; k<span class="built_in">CGBitmapAlphaInfoMask</span>);</span><br><span class="line">    <span class="built_in">BOOL</span> anyNonAlpha = (infoMask == k<span class="built_in">CGImageAlphaNone</span> ||</span><br><span class="line">            infoMask == k<span class="built_in">CGImageAlphaNoneSkipFirst</span> ||</span><br><span class="line">            infoMask == k<span class="built_in">CGImageAlphaNoneSkipLast</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// CGBitmapContextCreate doesn't support kCGImageAlphaNone with RGB.</span></span><br><span class="line">    <span class="comment">// https://developer.apple.com/library/mac/#qa/qa1037/_index.html</span></span><br><span class="line">    <span class="keyword">if</span> (infoMask == k<span class="built_in">CGImageAlphaNone</span> &amp;&amp; <span class="built_in">CGColorSpaceGetNumberOfComponents</span>(colorSpace) &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// Unset the old alpha info.</span></span><br><span class="line">        bitmapInfo &amp;= ~k<span class="built_in">CGBitmapAlphaInfoMask</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Set noneSkipFirst.</span></span><br><span class="line">        bitmapInfo |= k<span class="built_in">CGImageAlphaNoneSkipFirst</span>;</span><br><span class="line">    &#125;</span><br><span class="line">            <span class="comment">// Some PNGs tell us they have alpha but only 3 components. Odd.</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (!anyNonAlpha &amp;&amp; <span class="built_in">CGColorSpaceGetNumberOfComponents</span>(colorSpace) == <span class="number">3</span>) &#123;</span><br><span class="line">        <span class="comment">// Unset the old alpha info.</span></span><br><span class="line">        bitmapInfo &amp;= ~k<span class="built_in">CGBitmapAlphaInfoMask</span>;</span><br><span class="line">        bitmapInfo |= k<span class="built_in">CGImageAlphaPremultipliedFirst</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// It calculates the bytes-per-row based on the bitsPerComponent and width arguments.</span></span><br><span class="line">    <span class="built_in">CGContextRef</span> context = <span class="built_in">CGBitmapContextCreate</span>(<span class="literal">NULL</span>,</span><br><span class="line">            imageSize<span class="variable">.width</span>,</span><br><span class="line">            imageSize<span class="variable">.height</span>,</span><br><span class="line">            <span class="built_in">CGImageGetBitsPerComponent</span>(imageRef),</span><br><span class="line">            <span class="number">0</span>,</span><br><span class="line">            colorSpace,</span><br><span class="line">            bitmapInfo);</span><br><span class="line">    <span class="built_in">CGColorSpaceRelease</span>(colorSpace);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// If failed, return undecompressed image</span></span><br><span class="line">    <span class="keyword">if</span> (!context) <span class="keyword">return</span> image;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">CGContextDrawImage</span>(context, imageRect, imageRef);</span><br><span class="line">    <span class="built_in">CGImageRef</span> decompressedImageRef = <span class="built_in">CGBitmapContextCreateImage</span>(context);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">CGContextRelease</span>(context);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UIImage</span> *decompressedImage = [<span class="built_in">UIImage</span> imageWith<span class="built_in">CGImage</span>:decompressedImageRef scale:image<span class="variable">.scale</span> orientation:image<span class="variable">.imageOrientation</span>];</span><br><span class="line">    <span class="built_in">CGImageRelease</span>(decompressedImageRef);</span><br><span class="line">    <span class="keyword">return</span> decompressedImage;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="2-3_关于字节对齐">2.3 关于字节对齐</h5><p>SDWebImage与AFNetworking都没有对第7点做优化，FastImageCache相对与其他的开源库，则对第5点与第7点做了优化。这里我们谈谈第七点，关于图片数据的字节对齐。</p>
+<blockquote>
+<p>Core Animation在某些情况下渲染前会先拷贝一份图像数据，通常是在图像数据非字节对齐的情况下会进行拷贝处理，官方文档没有对这次拷贝行为作说明，模拟器和Instrument里有高亮显示“copied images”的功能，但似乎它有bug，即使某张图片没有被高亮显示出渲染时被copy，从调用堆栈上也还是能看到调用了CA::Render::copy_image方法：</p>
+<p>那什么是字节对齐呢，按我的理解，为了性能，底层渲染图像时不是一个像素一个像素渲染，而是一块一块渲染，数据是一块块地取，就可能遇到这一块连续的内存数据里结尾的数据不是图像的内容，是内存里其他的数据，可能越界读取导致一些奇怪的东西混入，所以在渲染之前CoreAnimation要把数据拷贝一份进行处理，确保每一块都是图像数据，对于不足一块的数据置空。大致图示：(pixel是图像像素数据，data是内存里其他数据)</p>
+<p>块的大小应该是跟CPU cache line有关，ARMv7是32byte，A9是64byte，在A9下CoreAnimation应该是按64byte作为一块数据去读取和渲染，让图像数据对齐64byte就可以避免CoreAnimation再拷贝一份数据进行修补。FastImageCache做的字节对齐就是这个事情。</p>
+</blockquote>
+<p><img src="1.png"></p>
+<p>从代码上来看，主要是在创建上图解码的过程中，<code>CGBitmapContextCreate</code>函数的<code>bytesPerRow</code>参数必须传64的倍数。</p>
+<p>比较各个开源框架的代码，可以看到SDWebImage与AFNetworking的该参数都传的是0，即让系统自动来计算该值（那为何系统自动计算的时候不让图片数据字节就字节对齐呢？）。</p>
+<h5 id="2-4_关于第3，4点，内存级别拷贝">2.4 关于第3，4点，内存级别拷贝</h5><p>以上3个开源库中，FastImageCache对这一点做了很大的优化，其他的2个开源库则未关注这一点。这一块木有深入研究，就引用一下FastImageCache团队对该点的一些说明。有能力的可以去看看原文章(英文): <a href="https://github.com/path/FastImageCache" target="_blank" rel="external">here</a></p>
+<blockquote>
+<p>内存映射<br>平常我们读取磁盘上的一个文件，上层API调用到最后会使用系统方法read()读取数据，内核把磁盘数据读入内核缓冲区，用户再从内核缓冲区读取数据复制到用户内存空间，这里有一次内存拷贝的时间消耗，并且读取后整个文件数据就已经存在于用户内存中，占用了进程的内存空间。</p>
+<p>FastImageCache采用了另一种读写文件的方法，就是用mmap把文件映射到用户空间里的虚拟内存，文件中的位置在虚拟内存中有了对应的地址，可以像操作内存一样操作这个文件，相当于已经把整个文件放入内存，但在真正使用到这些数据前却不会消耗物理内存，也不会有读写磁盘的操作，只有真正使用这些数据时，也就是图像准备渲染在屏幕上时，虚拟内存管理系统VMS才根据缺页加载的机制从磁盘加载对应的数据块到物理内存，再进行渲染。这样的文件读写文件方式少了数据从内核缓存到用户空间的拷贝，效率很高</p>
+</blockquote>
+<h5 id="2-5_关于第二步图片处理（裁剪，边框等）">2.5 关于第二步图片处理（裁剪，边框等）</h5><p>一般情况下，对于下载下来的图片我们可能想要做一些处理，比如说做一些缩放，裁剪，或者添加圆角等等。</p>
+<p>对于比较通用的缩放，或者圆角等功能，可以集成到控件本身。不过，提供一个接口出来，让使用者能够有机会对下载下来的图片做一些其他的特殊处理是有必要的。</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/** SDWebImage</span><br><span class="line"> * Allows <span class="keyword">to</span> transform <span class="keyword">the</span> image immediately <span class="keyword">after</span> <span class="keyword">it</span> has been downloaded <span class="keyword">and</span> just <span class="keyword">before</span> <span class="keyword">to</span> cache <span class="keyword">it</span> <span class="function_start"><span class="keyword">on</span></span> disk <span class="keyword">and</span> memory.</span><br><span class="line"> * NOTE: This method <span class="keyword">is</span> called <span class="keyword">from</span> a <span class="keyword">global</span> queue <span class="keyword">in</span> order <span class="keyword">to</span> <span class="keyword">not</span> <span class="keyword">to</span> block <span class="keyword">the</span> main thread.</span><br><span class="line"> *</span><br><span class="line"> * @param imageManager The current `SDWebImageManager`</span><br><span class="line"> * @param image        The image <span class="keyword">to</span> transform</span><br><span class="line"> * @param imageURL     The url <span class="keyword">of</span> <span class="keyword">the</span> image <span class="keyword">to</span> transform</span><br><span class="line"> *</span><br><span class="line"> * @<span class="constant">return</span> The transformed image object.</span><br><span class="line"> */</span><br><span class="line">- (UIImage *)imageManager:(SDWebImageManager *)imageManager transformDownloadedImage:(UIImage *)image withURL:(NSURL *)imageURL;</span><br></pre></td></tr></table></figure>
+<h5 id="2-6_其他（诸如图片预下载，gif支持等等,下载进度条）">2.6 其他（诸如图片预下载，gif支持等等,下载进度条）</h5><p>待补充</p>
+<ol>
+<li>常用的开源库对比</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>tip</th>
+<th style="text-align:center">SDWebImage</th>
+<th style="text-align:center">AFNetworking</th>
+<th style="text-align:right">FastImageCache</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>异步下载图片</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:right">NO</td>
+</tr>
+<tr>
+<td>子线程解压缩</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:right">YES</td>
+</tr>
+<tr>
+<td>子线程图片处理(缩放，圆角等)</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:right">YES</td>
+</tr>
+<tr>
+<td>存储解压缩后的位图</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:right">YES</td>
+</tr>
+<tr>
+<td>内存级别缓存</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:right">YES</td>
+</tr>
+<tr>
+<td>磁盘级别缓存</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:right">YES</td>
+</tr>
+<tr>
+<td>UIImageView</td>
+<td style="text-align:center">category</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:right">NO</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>减少内存级别的拷贝</td>
+<td style="text-align:center">NO</td>
+<td style="text-align:center">NO</td>
+<td style="text-align:right">YES</td>
+</tr>
+<tr>
+<td>接口易用性</td>
+<td style="text-align:center">*</td>
+<td style="text-align:center">*</td>
+<td style="text-align:right">*</td>
+</tr>
+</tbody>
+</table>
+<p>参考资料<br><a href="https://github.com/path/FastImageCache" target="_blank" rel="external">FastImageCache-github</a><br><a href="https://github.com/rs/SDWebImage" target="_blank" rel="external">SDWebImage-github</a><br><a href="https://github.com/AFNetworking/AFNetworking" target="_blank" rel="external">AFNetworking-github</a><br><a href="http://biasedbit.com/filesystem-vs-coredata-image-cache/" target="_blank" rel="external">File System vs Core Data: the image cache test</a><br><a href="https://bpoplauschi.wordpress.com/2014/03/21/ios-image-caching-sdwebimage-vs-fastimage/" target="_blank" rel="external">iOS image caching. Libraries benchmark (SDWebImage vs FastImageCache)</a><br><a href="http://www.cocoanetics.com/2011/10/avoiding-image-decompression-sickness/" target="_blank" rel="external">Avoiding Image Decompression Sickness</a><br><a href="http://blog.cnbang.net/tech/2578/?utm_source=tuicool" target="_blank" rel="external">iOS图片加载速度极限优化—FastImageCache解析</a></p>
+<blockquote>
+<p>转自 <a href="http://luoyibu.com/" target="_blank" rel="external">http://luoyibu.com/</a> </p>
+</blockquote>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/优化/">优化</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-iOS-Cell-图片异步加载优化，缓存机制" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1345,103 +1544,6 @@
 <li>一定要保证只交换一次，否则就会很乱。</li>
 <li>最后，据说这个技术很危险，谨慎使用。</li>
 </ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-EGOCache-check-cache-expired" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/16/EGOCache-check-cache-expired/" class="article-date">
-  	<time datetime="2015-08-16T15:59:47.000Z" itemprop="datePublished">2015-08-16</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/16/EGOCache-check-cache-expired/">EGOCache如何检测缓存时间过期</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>子曰:学而不思则罔,思而不学则殆。</p>
-</blockquote>
-<p>在上一篇文章中：EGOCache缓存框架详细讲解 提到EGOCache可以设定缓存过期时间，默认是1天。查看了一下EGOCache源码，设置默认时间：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr_selector">[self setDefaultTimeoutInterval:86400]</span>;</span><br><span class="line"><span class="comment">//86400 = 24 * 60 * 60 刚好是一天时间。</span></span><br></pre></td></tr></table></figure></p>
-<p>EGOCache为什么要提供设定缓存过期时间呢？或者说设定缓存过期时间有什么好处呢？我觉得最大的好处就是可以定时清除缓存。可以设置某一项的缓存时间，很方便管理缓存。</p>
-<p>那么问题来了：</p>
-<ol>
-<li>EGOCache是怎么检测缓存过期时间的呢？</li>
-<li>检测到时间过期之后，什么时候触发删除缓存项的？</li>
-</ol>
-<p>带着这两个问题，我们来继续分析。</p>
-<h4 id="你会怎么实现">你会怎么实现</h4><p>记得在公司里，老板经常会举这样的例子：<br><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">某某同志，刚来我们公司的时候，遇到问题就知道抱怨。从来不知道去思考怎么解决，只知道把问题抛给领导。工作半年下来，成长了很多。现在碰到问题，不仅把问题抛出来，而且还提供了自己的解决方案...</span><br></pre></td></tr></table></figure></p>
-<p>类似的例子，相信大家都听过。同样，既然前面我们提出这两个问题，我们也先来思考一下，如果我们来做该怎么解决？</p>
-<p>如果让我来写的话，我脑海里初步实现方法有几个：</p>
-<ol>
-<li>通过定时器来轮询，每隔一段时间检测一次。</li>
-<li>写一个while循环来检测。</li>
-<li>每次去读取缓存项的时候，判断缓存时间有没有过期。没过期，就返回读取的缓存项；否则，返回nil。</li>
-</ol>
-<p>当然，还有一些方法，不一一例举了。仔细想想，这些方法弊端很容易显露出来。</p>
-<ol>
-<li>为了小小的缓存时间，就用定时器轮询，显然是资源浪费</li>
-<li>跟方法1差不多。</li>
-<li>每次读取的时候判断是否过期，如果一直不读取，app的缓存会越来越大，也不可取。</li>
-</ol>
-<p>这些方法都被排除了，还有好的方法吗？继续往下看：</p>
-<h4 id="EGOCache是怎么实现的？">EGOCache是怎么实现的？</h4><p>仔细查看EGOCache源码，发现在initWithCacheDirectory:方法里，每次初始化EGOCache实例对象的时，会遍历一遍plist文件中所有已存在的缓存项，拿每个缓存项的时间和当前时间作比较，缓存项过期时间早于当前时间，则删除对应缓存文件，并删除 plist 文件中对应 key 的记录。</p>
-<p>具体实现代码如下：</p>
-<h4 id="读取缓存项信息">读取缓存项信息</h4><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="name">_cacheInfo</span> = [[<span class="name">NSDictionary</span> <span class="atom">dictionaryWithContentsOfFile</span>:<span class="atom">cachePathForKey</span>(<span class="name">_directory</span>, @<span class="string">"EGOCache.plist"</span>)] <span class="atom">mutableCopy</span>];</span><br><span class="line"></span><br><span class="line"><span class="atom">if</span>(!<span class="name">_cacheInfo</span>) &#123;</span><br><span class="line">    <span class="name">_cacheInfo</span> = [[<span class="name">NSMutableDictionary</span> <span class="atom">alloc</span>] <span class="atom">init</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="获取当前时间的NSTimeInterval">获取当前时间的NSTimeInterval</h4><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSTimeInterval now = <span class="comment">[<span class="comment">[NSDate date]</span> timeIntervalSinceReferenceDate]</span>;</span><br></pre></td></tr></table></figure>
-<h4 id="声明removedKeys保存过期的缓存项对应的key">声明removedKeys保存过期的缓存项对应的key</h4><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSMutableArray* removedKeys = <span class="comment">[<span class="comment">[NSMutableArray alloc]</span> init]</span>;</span><br></pre></td></tr></table></figure>
-<h4 id="遍历缓存项信息并判断缓存时间">遍历缓存项信息并判断缓存时间</h4><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">for</span>(NSString* key in _cacheInfo) &#123;</span><br><span class="line">    <span class="comment">//判断缓存项过期时间是否早于当前时间</span></span><br><span class="line">    <span class="tag">if</span>([_cacheInfo[key] timeIntervalSinceReferenceDate] &lt;= now) &#123;</span><br><span class="line">        <span class="comment">//如果缓存项过期时间早于当前时间，移除缓存项</span></span><br><span class="line">        <span class="attr_selector">[[NSFileManager defaultManager]</span> <span class="tag">removeItemAtPath</span><span class="pseudo">:cachePathForKey</span>(_directory, key) <span class="tag">error</span><span class="pseudo">:NULL</span>];</span><br><span class="line">        <span class="comment">//把过期的缓存项对于的key保存到removedKeys里面</span></span><br><span class="line">        <span class="attr_selector">[removedKeys addObject:key]</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="删除过期缓存项对于的key">删除过期缓存项对于的key</h4><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">[_cacheInfo removeObjectsForKeys:removedKeys]</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
-<p>看到这些，是不是觉得人家思路特牛叉，反正，我是觉得这个作者不简单。到这一步就解决了吗？</p>
-<h4 id="EGOCache还做了什么？">EGOCache还做了什么？</h4><p>细心的童鞋会发现：EGOCache是个单列类，也就是说整个程序应用周期只初始化一次。<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">+<span class="function"> (</span>instancetype<span class="function">)</span>globalCache &#123;</span><br><span class="line">   <span class="keyword"> static</span> id instance;</span><br><span class="line"></span><br><span class="line">   <span class="keyword"> static</span> dispatch_once_t onceToken;</span><br><span class="line">   <span class="function"> dispatch_once(</span>&amp;onceToken, ^&#123;</span><br><span class="line">       <span class="instruction"> instance </span>= <span class="keyword">[</span><span class="keyword">[</span><span class="keyword">[</span>self class] alloc] init];</span><br><span class="line">    &#125;<span class="function">)</span>;</span><br><span class="line"></span><br><span class="line">   <span class="instruction"> return </span>instance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>每次初始化的时候去判断了缓存项是否过期，这样做非常正确。思考一个场景：</p>
-<ol>
-<li>用户打开app，EGOCache被初始化，并判断了缓存项是否过期。</li>
-<li>如果刚好有一些缓存项在EGOCache被初始化之后过期。这个时候我们依然可以读到这个缓存项。这就不对了。</li>
-</ol>
-<p>继续分析EGOCache源码发现，EGOCache在读取一个缓存项的时候，先判断缓存项是否存在，然后读取缓存项（注意：是读取EGOCache初始化的时候没有过期的缓存项，并没有说现在没有过期），最后去判断读取到的缓存项跟当前时间相比是否过期.</p>
-<p>具体实现如下：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)hasCacheForKey:(<span class="built_in">NSString</span>*)key &#123;</span><br><span class="line">    <span class="comment">//读取EGOCache初始化的时候没有过期的缓存项</span></span><br><span class="line">    <span class="built_in">NSDate</span>* date = [<span class="keyword">self</span> dateForKey:key];</span><br><span class="line">    <span class="keyword">if</span>(date == <span class="literal">nil</span>) <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">    <span class="comment">//判断读取到的缓存项当前是否过期</span></span><br><span class="line">    <span class="keyword">if</span>([date timeIntervalSinceReferenceDate] &lt; <span class="built_in">CFAbsoluteTimeGetCurrent</span>()) <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> [[<span class="built_in">NSFileManager</span> defaultManager] fileExistsAtPath:cachePathForKey(_directory, key)];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSDate</span>*)dateForKey:(<span class="built_in">NSString</span>*)key &#123;</span><br><span class="line">    __block <span class="built_in">NSDate</span>* date = <span class="literal">nil</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">dispatch_sync</span>(_frozenCacheInfoQueue, ^&#123;</span><br><span class="line">        date = (<span class="keyword">self</span><span class="variable">.frozenCacheInfo</span>)[key];</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> date;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>EGOCache检测缓存时间过期的思路值得学习，以后遇到类似场景，完全可以借鉴。</p>
 
       
     </div>
