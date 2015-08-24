@@ -118,6 +118,78 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-svn-trunk-merge" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/11/12/svn-trunk-merge/" class="article-date">
+  	<time datetime="2014-11-12T13:30:56.000Z" itemprop="datePublished">2014-11-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/12/svn-trunk-merge/">SVN分支和合并的简单例子</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>SVN分支和合并的简单例子<br>尽管svn没有作强制要求，但是一般svn版本库目录建议创建trunk、branches和tags三个目录。 在实际操作时，trunk主干版本要时刻保持干净，即随时可以基于这个版本进行修改并将应用部署上线。branches是分支目录，存放并行开发的项目代码，因为分支是主干的廉价拷贝（相当只是提交了一次主干版本，增加了一个版本号，并没有取出版本库作镜像拷贝），所以你可以放心建立很多分支版本。不过Subversion不支持跨版本库的拷贝，当使用svn copy时你只能在同一个版本库内操作。tags目录存放trunk某个的快照，比如说release-1.0即trunk处于1.0版本时的快照。</p>
+<p>使用svn来作团队的代码管理，那么分支和合并将是非常常用的操作。下面是一个简单的示例。</p>
+<ol>
+<li>创建分支。这里假设你要负责一个叫theme的项目，分支号1.7.2。</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#这里的localhost是svn服务器地址</span></span><br><span class="line">svn copy -m <span class="string">"1.7.2 - theme"</span> svn://localhost/www/trunk svn://localhost/www/branches/branch1.<span class="number">7.2</span>-theme</span><br><span class="line">svn co svn://localhost/www/branches/branch1.<span class="number">7.2</span>-theme</span><br></pre></td></tr></table></figure>
+<ol>
+<li>从trunk中merge到分支。忙了一个星期终于开发完了，但是开发期间trunk版本有过改动，部署上线前你需要合并trunk的代码。</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#branch1.7.2-theme是分支目录，注意不可以进到分支子目录</span></span><br><span class="line"><span class="built_in">cd</span> branch1.<span class="number">7.2</span>-theme</span><br><span class="line"><span class="comment">#前面的12972是开分支之前trunk的版本号，后面的12991是merge时trunk的版本号</span></span><br><span class="line">svn merge -r <span class="number">12972</span>:<span class="number">12991</span> svn://localhost/www/trunk</span><br></pre></td></tr></table></figure>
+<p>如果有冲突选择p(postpone)，merge完了之后使用svn st|grep ^C查看冲突文件，然后比对修改冲突文件。解决冲突后再check in ，信息写上执行的merge操作。<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn ci -m <span class="string">'svn merge -r 12972:12991 svn://localhost/www/trunk'</span></span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>从分支merge到trunk。上线测试完毕，你很幸运，一切都如预期正常，这时就要将分支回归trunk，将trunk更新到最新。</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#先从trunk checkout一份新鲜的代码，然后cd到该版本目录下</span></span><br><span class="line">svn co svn://localhost/www/trunk</span><br><span class="line"><span class="built_in">cd</span> trunk</span><br><span class="line"><span class="comment">#12973是分支开始的版本号，13006是分支结束的版本号</span></span><br><span class="line">svn merge -r <span class="number">12973</span>:<span class="number">13006</span> svn://localhost/www/branches/branch1.<span class="number">7.2</span>-theme</span><br></pre></td></tr></table></figure>
+<p>如步骤2一样解决冲突，解决冲突后再check in，信息写上执行的merge操作。<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn ci -m <span class="string">"svn merge -r 12973:13006 svn://localhost/www/branches/branch1.7.2-theme"</span></span><br></pre></td></tr></table></figure></p>
+<p>相关的手册可以参阅svn文档。</p>
+<p><a href="http://www.panweizeng.com/svn-branching-merging.html" target="_blank" rel="external">转</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/tools/">tools</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-view-rotation-animation" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -630,63 +702,9 @@
 
 
   
-    <article id="post-ios-request-record-permission" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/09/12/ios-request-record-permission/" class="article-date">
-  	<time datetime="2014-09-11T23:21:43.000Z" itemprop="datePublished">2014-09-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/12/ios-request-record-permission/">IOS录音</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">AVAudioSession *audioSession = [AVAudioSession sharedInstance];</span><br><span class="line"><span class="keyword">if</span> ([audioSession respondsToSelector:@selector(requestRecordPermission:)]) &#123;</span><br><span class="line">    [audioSession performSelector:@selector(requestRecordPermission:)</span><br><span class="line">     withObject:^(BOOL granted) &#123;</span><br><span class="line">        <span class="keyword">if</span> (granted) &#123;</span><br><span class="line">            <span class="comment">//开始录音相关事宜</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//不允许APP录音，请设置。。。。</span></span><br><span class="line">            dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">                [[[UIAlertView alloc] initWithTitle:nil</span><br><span class="line">                    message:@<span class="string">"APP需要访问您的麦克风。\n请启用麦克风-设置/隐私/麦克风"</span></span><br><span class="line">                    delegate:nil</span><br><span class="line">                    cancelButtonTitle:@<span class="string">"关闭"</span></span><br><span class="line">                    otherButtonTitles:nil] show];</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/IOS-codeSnippet/">IOS codeSnippet</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 </div>

@@ -118,6 +118,60 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-ios-request-record-permission" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/09/12/ios-request-record-permission/" class="article-date">
+  	<time datetime="2014-09-11T23:21:43.000Z" itemprop="datePublished">2014-09-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/12/ios-request-record-permission/">IOS录音</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">AVAudioSession *audioSession = [AVAudioSession sharedInstance];</span><br><span class="line"><span class="keyword">if</span> ([audioSession respondsToSelector:@selector(requestRecordPermission:)]) &#123;</span><br><span class="line">    [audioSession performSelector:@selector(requestRecordPermission:)</span><br><span class="line">     withObject:^(BOOL granted) &#123;</span><br><span class="line">        <span class="keyword">if</span> (granted) &#123;</span><br><span class="line">            <span class="comment">//开始录音相关事宜</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//不允许APP录音，请设置。。。。</span></span><br><span class="line">            dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">                [[[UIAlertView alloc] initWithTitle:nil</span><br><span class="line">                    message:@<span class="string">"APP需要访问您的麦克风。\n请启用麦克风-设置/隐私/麦克风"</span></span><br><span class="line">                    delegate:nil</span><br><span class="line">                    cancelButtonTitle:@<span class="string">"关闭"</span></span><br><span class="line">                    otherButtonTitles:nil] show];</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/IOS-codeSnippet/">IOS codeSnippet</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-custom-button-title-and-icon" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1026,73 +1080,9 @@ scheme=<span class="constant">null</span>, host=<span class="constant">null</spa
 
 
   
-    <article id="post-ios-pcap" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/03/08/ios-pcap/" class="article-date">
-  	<time datetime="2014-03-07T17:24:52.000Z" itemprop="datePublished">2014-03-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/08/ios-pcap/">IOS设备抓包方法</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在IOS开发中有很多内容和网络通迅相关，这里出现的问题往往不太容易定位，很多时候需要我们还原终端发送或者接收的数据包来对问题进行分析，因此在开发这类App的时候抓包变的很重要。</p>
-<p>下面介绍一种在已越狱的ios设备抓包方法：</p>
-<ol>
-<li>安装OpenSSH<br><img src="/images/ios/ios-pcap-1.png"></li>
-<li>安装tcpdump<br><img src="/images/ios/ios-pcap-2.png"></li>
-<li>在pc机上通过SecureCRT（也可以使用其他工具），登录ios设备终端，默认root用户密码为alpine（建议修改密码，否则哪天出了个ipad的门，你就火了Y(^_^)Y）<br><img src="/images/ios/ios-pcap-3.png"></li>
-<li>此时在终端输入tcpdump -s 0 -w capture.pcap命令，把抓取到的包内容保存到capture.pcap文件中</li>
-<li>通过SecureCRT获取设备上的capture.pcap文件到本地，然后使用wireshark进行分析定位问题</li>
-</ol>
-<p>##如果是没有越狱的设备当然也是可以抓包的，<br><a href="http://www.cnblogs.com/ydhliphonedev/archive/2011/10/27/2226935.html" target="_blank" rel="external">这里有篇文章仅供参考</a>，<br>本人没有具体实践这篇文章的内容</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/IOS/">IOS</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
     </nav>
   
 </div>

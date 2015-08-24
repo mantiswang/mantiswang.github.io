@@ -118,6 +118,128 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-iOS-runtime-basic" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/17/iOS-runtime-basic/" class="article-date">
+  	<time datetime="2015-08-17T15:24:59.000Z" itemprop="datePublished">2015-08-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/17/iOS-runtime-basic/">iOS~runtime 基础</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="什么是Runtime">什么是Runtime</h4><ul>
+<li>我们写的代码在程序运行过程中都会被转化成runtime的C代码执行，例如<code>[target doSomething];</code>会被转化<code>成objc_msgSend(target, @selector(doSomething));</code></li>
+<li>OC中一切都被设计成了对象，我们都知道一个类被初始化成一个实例，这个实例是一个对象。实际上一个类本质上也是一个对象，在runtime中用结构体表示。</li>
+<li><p>相关的定义：</p>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 描述类中的一个方法</span></span><br><span class="line">typedef struct objc_method *<span class="function"><span class="keyword">Method</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 实例变量</span></span><br><span class="line">typedef struct objc_ivar *Ivar;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// 类别Category</span></span><br><span class="line">typedef struct objc_category *Category;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// 类中声明的属性</span></span><br><span class="line">typedef struct objc_property *objc_property_t;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>类在runtime中的表示</p>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//类在runtime中的表示</span></span><br><span class="line"><span class="keyword">struct</span> objc_class &#123;</span><br><span class="line">    Class isa;<span class="comment">//指针，顾名思义，表示是一个什么，</span></span><br><span class="line">    <span class="comment">//实例的isa指向类对象，类对象的isa指向元类</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">if</span> !__OBJC2__</span></span><br><span class="line">    Class super_class;  <span class="comment">//指向父类</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *name;  <span class="comment">//类名</span></span><br><span class="line">    <span class="keyword">long</span> version;</span><br><span class="line">    <span class="keyword">long</span> info;</span><br><span class="line">    <span class="keyword">long</span> instance_size</span><br><span class="line">    <span class="keyword">struct</span> objc_ivar_list *ivars <span class="comment">//成员变量列表</span></span><br><span class="line">    <span class="keyword">struct</span> objc_method_list **methodLists; <span class="comment">//方法列表</span></span><br><span class="line">    <span class="keyword">struct</span> objc_cache *cache;<span class="comment">//缓存</span></span><br><span class="line">    <span class="comment">//一种优化，调用过的方法存入缓存列表，下次调用先找缓存</span></span><br><span class="line">    <span class="keyword">struct</span> objc_protocol_list *protocols <span class="comment">//协议列表</span></span><br><span class="line">    <span class="preprocessor">#<span class="keyword">endif</span></span></span><br><span class="line">&#125; OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="comment">/* Use `Class` instead of `struct objc_class *` */</span></span><br></pre></td></tr></table></figure>
+<h4 id="获取列表">获取列表</h4><p>有时候会有这样的需求，我们需要知道当前类中每个属性的名字（比如字典转模型，字典的Key和模型对象的属性名字不匹配）。<br>我们可以通过runtime的一系列方法获取类的一些信息（包括属性列表，方法列表，成员变量列表，和遵循的协议列表）。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> count;</span><br><span class="line">    <span class="comment">//获取属性列表</span></span><br><span class="line">    objc_property_t *propertyList = class_copyPropertyList([<span class="keyword">self</span> class], &amp;count);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> i=<span class="number">0</span>; i&lt;count; i++) &#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">char</span> *propertyName = property_getName(propertyList[i]);</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"property----&gt;%@"</span>, [<span class="built_in">NSString</span> stringWithUTF8String:propertyName]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取方法列表</span></span><br><span class="line">    Method *methodList = class_copyMethodList([<span class="keyword">self</span> class], &amp;count);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> i; i&lt;count; i++) &#123;</span><br><span class="line">        Method method = methodList[i];</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"method----&gt;%@"</span>, <span class="built_in">NSStringFromSelector</span>(method_getName(method)));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取成员变量列表</span></span><br><span class="line">    Ivar *ivarList = class_copyIvarList([<span class="keyword">self</span> class], &amp;count);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> i; i&lt;count; i++) &#123;</span><br><span class="line">        Ivar myIvar = ivarList[i];</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">char</span> *ivarName = ivar_getName(myIvar);</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"Ivar----&gt;%@"</span>, [<span class="built_in">NSString</span> stringWithUTF8String:ivarName]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取协议列表</span></span><br><span class="line">    __unsafe_unretained Protocol **protocolList = class_copyProtocolList([<span class="keyword">self</span> class], &amp;count);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> i; i&lt;count; i++) &#123;</span><br><span class="line">        Protocol *myProtocal = protocolList[i];</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">char</span> *protocolName = protocol_getName(myProtocal);</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"protocol----&gt;%@"</span>, [<span class="built_in">NSString</span> stringWithUTF8String:protocolName]);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>在Xcode上跑一下看看输出吧，需要给你当前的类写几个属性，成员变量，方法和协议，不然获取的列表是没有东西的。<br>注意，调用这些获取列表的方法别忘记导入头文件<code>#import &lt;objc/runtime.h&gt;</code></p>
+<h4 id="方法调用">方法调用</h4><p>让我们看一下方法调用在运行时的过程（参照前文类在runtime中的表示）</p>
+<h5 id="如果用实例对象调用实例方法，会到实例的isa指针指向的对象（也就是类对象）操作。">如果用实例对象调用实例方法，会到实例的isa指针指向的对象（也就是类对象）操作。</h5><h5 id="如果调用的是类方法，就会到类对象的isa指针指向的对象（也就是元类对象）中操作。">如果调用的是类方法，就会到类对象的isa指针指向的对象（也就是元类对象）中操作。</h5><ol>
+<li>首先，在相应操作的对象中的缓存方法列表中找调用的方法，如果找到，转向相应实现并执行。</li>
+<li>如果没找到，在相应操作的对象中的方法列表中找调用的方法，如果找到，转向相应实现执行</li>
+<li>如果没找到，去父类指针所指向的对象中执行1，2.</li>
+<li>以此类推，如果一直到根类还没找到，转向拦截调用。</li>
+<li>如果没有重写拦截调用的方法，程序报错。</li>
+</ol>
+<h5 id="以上的过程给我带来的启发：">以上的过程给我带来的启发：</h5><ul>
+<li>重写父类的方法，并没有覆盖掉父类的方法，只是在当前类对象中找到了这个方法后就不会再去父类中找了。</li>
+<li>如果想调用已经重写过的方法的父类的实现，只需使用<code>super</code>这个编译器标识，它会在运行时跳过在当前的类对象中寻找方法的过程。</li>
+</ul>
+<h4 id="拦截调用">拦截调用</h4><p>在方法调用中说到了，如果没有找到方法就会转向拦截调用。<br>那么什么是拦截调用呢。<br>拦截调用就是，在找不到调用的方法程序崩溃之前，你有机会通过重写<code>NSObject</code>的四个方法来处理。<br><figure class="highlight openscad"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+ <span class="params">(BOOL)</span>resolveClassMethod:<span class="params">(SEL)</span>sel;</span><br><span class="line">+ <span class="params">(BOOL)</span>resolveInstanceMethod:<span class="params">(SEL)</span>sel;</span><br><span class="line"><span class="comment">//后两个方法需要转发到其他的类处理</span></span><br><span class="line">- <span class="params">(id)</span>forwardingTargetForSelector:<span class="params">(SEL)</span>aSelector;</span><br><span class="line">- <span class="params">(void)</span>forwardInvocation:<span class="params">(NSInvocation *)</span>anInvocation;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>第一个方法是当你调用一个不存在的类方法的时候，会调用这个方法，默认返回NO，你可以加上自己的处理然后返回YES。</li>
+<li>第二个方法和第一个方法相似，只不过处理的是实例方法。</li>
+<li>第三个方法是将你调用的不存在的方法重定向到一个其他声明了这个方法的类，只需要你返回一个有这个方法的target。</li>
+<li>第四个方法是将你调用的不存在的方法打包成<code>NSInvocation</code>传给你。做完你自己的处理后，调用<code>invokeWithTarget:</code>方法让某个target触发这个方法。</li>
+</ul>
+<h4 id="动态添加方法">动态添加方法</h4><p>重写了拦截调用的方法并且返回了YES，我们要怎么处理呢？<br>有一个办法是根据传进来的<code>SEL</code>类型的<code>selector</code>动态添加一个方法。<br>首先从外部隐式调用一个不存在的方法：<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//隐式调用方法</span></span><br><span class="line">[target <span class="string">performSelector:</span><span class="annotation">@selector</span>(<span class="string">resolveAdd:</span>) <span class="string">withObject:</span>@<span class="string">"test"</span>];</span><br></pre></td></tr></table></figure></p>
+<p> 然后，在target对象内部重写拦截调用的方法，动态添加方法。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> runAddMethod(<span class="keyword">id</span> <span class="keyword">self</span>, SEL _cmd, <span class="built_in">NSString</span> *string)&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"add C IMP "</span>, string);</span><br><span class="line">&#125;</span><br><span class="line">+ (<span class="built_in">BOOL</span>)resolveInstanceMethod:(SEL)sel&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//给本类动态添加一个方法</span></span><br><span class="line">    <span class="keyword">if</span> ([<span class="built_in">NSStringFromSelector</span>(sel) isEqualToString:<span class="string">@"resolveAdd:"</span>]) &#123;</span><br><span class="line">        class_addMethod(<span class="keyword">self</span>, sel, (IMP)runAddMethod, <span class="string">"v@:*"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 其中<code>class_addMethod</code>的四个参数分别是：</p>
+<ol>
+<li><code>Class cls</code>给哪个类添加方法，本例中是self</li>
+<li><code>SEL name</code>添加的方法，本例中是重写的拦截调用传进来的selector。</li>
+<li><code>IMP imp</code>方法的实现，C方法的方法实现可以直接获得。如果是OC方法，可以用<code>+ (IMP)instanceMethodForSelector:(SEL)aSelector;</code>获得方法的实现。</li>
+<li><code>&quot;v@:*&quot;</code>方法的签名，代表有一个参数的方法。</li>
+</ol>
+<h4 id="关联对象">关联对象</h4><p>现在你准备用一个系统的类，但是系统的类并不能满足你的需求，你需要额外添加一个属性。<br>这种情况的一般解决办法就是继承。<br>但是，只增加一个属性，就去继承一个类，总是觉得太麻烦类。<br>这个时候，runtime的关联属性就发挥它的作用了。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//首先定义一个全局变量，用它的地址作为关联对象的key</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">char</span> associatedObjectKey;</span><br><span class="line"><span class="comment">//设置关联对象</span></span><br><span class="line">objc_setAssociatedObject(target, &amp;associatedObjectKey, <span class="string">@"添加的字符串属性"</span>, OBJC_ASSO<span class="built_in">CIATION_RETAIN_NONATOMIC</span>); <span class="comment">//获取关联对象</span></span><br><span class="line"><span class="built_in">NSString</span> *string = objc_getAssociatedObject(target, &amp;associatedObjectKey);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"AssociatedObject = %@"</span>, string);</span><br></pre></td></tr></table></figure></p>
+<p><code>objc_setAssociatedObject</code>的四个参数：</p>
+<ol>
+<li><code>id object</code>给谁设置关联对象。</li>
+<li>·const void *key·关联对象唯一的key，获取时会用到。</li>
+<li><code>id value</code>关联对象。</li>
+<li><code>objc_AssociationPolicy</code>关联策略，有以下几种策略：<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> &#123;</span></span><br><span class="line"><span class="constant">    OBJC_ASSOCIATION_ASSIGN</span> = <span class="number">0</span>,</span><br><span class="line"><span class="constant">    OBJC_ASSOCIATION_RETAIN_NONATOMIC</span> = <span class="number">1</span>, </span><br><span class="line"><span class="constant">    OBJC_ASSOCIATION_COPY_NONATOMIC</span> = <span class="number">3</span>,</span><br><span class="line"><span class="constant">    OBJC_ASSOCIATION_RETAIN</span> = <span class="number">01401</span>,</span><br><span class="line"><span class="constant">    OBJC_ASSOCIATION_COPY</span> = <span class="number">01403</span> </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>如果你熟悉OC，看名字应该知道这几种策略的意思了吧。<br><code>objc_getAssociatedObject</code>的两个参数。</p>
+<ol>
+<li><code>id object</code>获取谁的关联对象。</li>
+<li><code>const void *key</code>根据这个唯一的key获取关联对象。</li>
+</ol>
+<p>其实，你还可以把添加和获取关联对象的方法写在你需要用到这个功能的类的类别中，方便使用。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//添加关联对象</span></span><br><span class="line">- (<span class="keyword">void</span>)addAssociatedObject:(<span class="keyword">id</span>)object&#123;</span><br><span class="line">    objc_setAssociatedObject(<span class="keyword">self</span>, <span class="keyword">@selector</span>(getAssociatedObject), object, OBJC_ASSO<span class="built_in">CIATION_RETAIN_NONATOMIC</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//获取关联对象</span></span><br><span class="line">- (<span class="keyword">id</span>)getAssociatedObject&#123;</span><br><span class="line">    <span class="keyword">return</span> objc_getAssociatedObject(<span class="keyword">self</span>, _cmd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>注意：</strong>这里面我们把<code>getAssociatedObject</code>方法的地址作为唯一的<code>key</code>，<code>_cmd</code>代表当前调用方法的地址。</p>
+<h4 id="方法交换">方法交换</h4><p>方法交换，顾名思义，就是将两个方法的实现交换。例如，将A方法和B方法交换，调用A方法的时候，就会执行B方法中的代码，反之亦然。<br>话不多说，这是参考Mattt大神在NSHipster上的文章自己写的代码。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">"UIViewController+swizzling.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">&lt;objc/runtime.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UIViewController</span> (<span class="title">swizzling</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//load方法会在类第一次加载的时候被调用</span></span><br><span class="line"><span class="comment">//调用的时间比较靠前，适合在这个方法里做方法交换</span></span><br><span class="line">+ (<span class="keyword">void</span>)load&#123;</span><br><span class="line">    <span class="comment">//方法交换应该被保证，在程序中只会执行一次</span></span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</span><br><span class="line">    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//获得viewController的生命周期方法的selector</span></span><br><span class="line">        SEL systemSel = <span class="keyword">@selector</span>(viewWillAppear:);</span><br><span class="line">        <span class="comment">//自己实现的将要被交换的方法的selector</span></span><br><span class="line">        SEL swizzSel = <span class="keyword">@selector</span>(swiz_viewWillAppear:);</span><br><span class="line">        <span class="comment">//两个方法的Method</span></span><br><span class="line">        Method systemMethod = class_getInstanceMethod([<span class="keyword">self</span> class], systemSel);</span><br><span class="line">        Method swizzMethod = class_getInstanceMethod([<span class="keyword">self</span> class], swizzSel);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//首先动态添加方法，实现是被交换的方法，返回值表示添加成功还是失败</span></span><br><span class="line">        <span class="built_in">BOOL</span> isAdd = class_addMethod(<span class="keyword">self</span>, systemSel, method_getImplementation(swizzMethod), method_getTypeEncoding(swizzMethod));</span><br><span class="line">        <span class="keyword">if</span> (isAdd) &#123;</span><br><span class="line">            <span class="comment">//如果成功，说明类中不存在这个方法的实现</span></span><br><span class="line">            <span class="comment">//将被交换方法的实现替换到这个并不存在的实现</span></span><br><span class="line">            class_replaceMethod(<span class="keyword">self</span>, swizzSel, method_getImplementation(systemMethod), method_getTypeEncoding(systemMethod));</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="comment">//否则，交换两个方法的实现</span></span><br><span class="line">            method_exchangeImplementations(systemMethod, swizzMethod);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)swiz_viewWillAppear:(<span class="built_in">BOOL</span>)animated&#123;</span><br><span class="line">    <span class="comment">//这时候调用自己，看起来像是死循环</span></span><br><span class="line">    <span class="comment">//但是其实自己的实现已经被替换了</span></span><br><span class="line">    [<span class="keyword">self</span> swiz_viewWillAppear:animated];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"swizzle"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure></p>
+<p>在一个自己定义的viewController中重写viewWillAppear<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="typename">void</span>)<span class="string">viewWillAppear:</span>(BOOL)animated&#123;</span><br><span class="line">    [<span class="keyword">super</span> <span class="string">viewWillAppear:</span>animated];</span><br><span class="line">    NSLog(@<span class="string">"viewWillAppear"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Run起来看看输出吧！</p>
+<p><strong>我的理解:</strong></p>
+<ul>
+<li>方法交换对于我来说更像是实现一种思想的最佳技术：AOP面向切面编程。</li>
+<li>既然是切面，就一定不要忘记，交换完再调回自己。</li>
+<li>一定要保证只交换一次，否则就会很乱。</li>
+<li>最后，据说这个技术很危险，谨慎使用。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-EGOCache-check-cache-expired" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -771,81 +893,9 @@ frame.origin.y = position.y - <span class="built_in">anchor</span>Point.y * boun
 
 
   
-    <article id="post-svn-trunk-merge" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/11/12/svn-trunk-merge/" class="article-date">
-  	<time datetime="2014-11-12T13:30:56.000Z" itemprop="datePublished">2014-11-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/11/12/svn-trunk-merge/">SVN分支和合并的简单例子</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>SVN分支和合并的简单例子<br>尽管svn没有作强制要求，但是一般svn版本库目录建议创建trunk、branches和tags三个目录。 在实际操作时，trunk主干版本要时刻保持干净，即随时可以基于这个版本进行修改并将应用部署上线。branches是分支目录，存放并行开发的项目代码，因为分支是主干的廉价拷贝（相当只是提交了一次主干版本，增加了一个版本号，并没有取出版本库作镜像拷贝），所以你可以放心建立很多分支版本。不过Subversion不支持跨版本库的拷贝，当使用svn copy时你只能在同一个版本库内操作。tags目录存放trunk某个的快照，比如说release-1.0即trunk处于1.0版本时的快照。</p>
-<p>使用svn来作团队的代码管理，那么分支和合并将是非常常用的操作。下面是一个简单的示例。</p>
-<ol>
-<li>创建分支。这里假设你要负责一个叫theme的项目，分支号1.7.2。</li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#这里的localhost是svn服务器地址</span></span><br><span class="line">svn copy -m <span class="string">"1.7.2 - theme"</span> svn://localhost/www/trunk svn://localhost/www/branches/branch1.<span class="number">7.2</span>-theme</span><br><span class="line">svn co svn://localhost/www/branches/branch1.<span class="number">7.2</span>-theme</span><br></pre></td></tr></table></figure>
-<ol>
-<li>从trunk中merge到分支。忙了一个星期终于开发完了，但是开发期间trunk版本有过改动，部署上线前你需要合并trunk的代码。</li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#branch1.7.2-theme是分支目录，注意不可以进到分支子目录</span></span><br><span class="line"><span class="built_in">cd</span> branch1.<span class="number">7.2</span>-theme</span><br><span class="line"><span class="comment">#前面的12972是开分支之前trunk的版本号，后面的12991是merge时trunk的版本号</span></span><br><span class="line">svn merge -r <span class="number">12972</span>:<span class="number">12991</span> svn://localhost/www/trunk</span><br></pre></td></tr></table></figure>
-<p>如果有冲突选择p(postpone)，merge完了之后使用svn st|grep ^C查看冲突文件，然后比对修改冲突文件。解决冲突后再check in ，信息写上执行的merge操作。<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn ci -m <span class="string">'svn merge -r 12972:12991 svn://localhost/www/trunk'</span></span><br></pre></td></tr></table></figure></p>
-<ol>
-<li>从分支merge到trunk。上线测试完毕，你很幸运，一切都如预期正常，这时就要将分支回归trunk，将trunk更新到最新。</li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#先从trunk checkout一份新鲜的代码，然后cd到该版本目录下</span></span><br><span class="line">svn co svn://localhost/www/trunk</span><br><span class="line"><span class="built_in">cd</span> trunk</span><br><span class="line"><span class="comment">#12973是分支开始的版本号，13006是分支结束的版本号</span></span><br><span class="line">svn merge -r <span class="number">12973</span>:<span class="number">13006</span> svn://localhost/www/branches/branch1.<span class="number">7.2</span>-theme</span><br></pre></td></tr></table></figure>
-<p>如步骤2一样解决冲突，解决冲突后再check in，信息写上执行的merge操作。<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn ci -m <span class="string">"svn merge -r 12973:13006 svn://localhost/www/branches/branch1.7.2-theme"</span></span><br></pre></td></tr></table></figure></p>
-<p>相关的手册可以参阅svn文档。</p>
-<p><a href="http://www.panweizeng.com/svn-branching-merging.html" target="_blank" rel="external">转</a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/tools/">tools</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 </div>
