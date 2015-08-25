@@ -118,6 +118,63 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-ios8-cllocationmanager" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/09/16/ios8-cllocationmanager/" class="article-date">
+  	<time datetime="2014-09-15T16:22:16.000Z" itemprop="datePublished">2014-09-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/16/ios8-cllocationmanager/">IOS8 CLLocationManager 定位服务不能用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>IOS8修改了位置设置里的内容，增加了一套状态（<code>使用中可用／通常可用</code>），所以以前的CLLcationManage的注册后，delegate接口不响应了。</p>
+<p>There also needs to be <code>NSLocationAlwaysUsageDescription</code> or <code>NSLocationWhenInUseUsageDescription</code> key in <code>Info.plist</code> with a message to be displayed in the prompt. </p>
+<p><a href="http://stackoverflow.com/questions/24062509/ios-8-location-services-not-working" target="_blank" rel="external">http://stackoverflow.com/questions/24062509/ios-8-location-services-not-working</a><br><a href="http://matthewfecher.com/app-developement/getting-gps-location-using-core-location-in-ios-8-vs-ios-7/" target="_blank" rel="external">http://matthewfecher.com/app-developement/getting-gps-location-using-core-location-in-ios-8-vs-ios-7/</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/IOS/">IOS</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-ipa-wireless-sender" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -919,82 +976,6 @@ A4tBsIdpMMoT+w==
   
     <h1 itemprop="name">
       <a class="article-title" href="/2014/04/09/cocos2d-x-shareSDK-issue/">cocos2d-x ShareSDK</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>###Cocos2d-x集成ShareSDK出现的问题</p>
-<p><code>异常信息1：</code></p>
-<pre><code>分享完成，回到app过程中异常退出
-
-Fatal signal 11 (SIGSEGV) at xxxxxxxx (code=1), thread xxxx (xxxxxx)
-<span class="operator"><span class="keyword">call</span> <span class="keyword">to</span> OpenGL ES API <span class="keyword">with</span> <span class="keyword">no</span> <span class="keyword">current</span> <span class="keyword">context</span> (logged once per <span class="keyword">thread</span>)</span>
-</code></pre><p>Android在回到cocos2d-x时，应该使用OpenGL的Thread：</p>
-<pre><code><span class="type">Cocos2dxGLSurfaceView</span>.getInstance<span class="literal">()</span>.queueEvent(<span class="keyword">new</span> <span class="type">Runnable</span><span class="literal">()</span>{<span class="keyword">do</span> something});
-</code></pre><p><code>异常信息2：</code></p>
-<pre><code>java.lang.IllegalStateException: Target host must <span class="operator">not</span> be <span class="constant">null</span>, <span class="operator">or</span> <span class="built_in">set</span> <span class="operator">in</span> parameters.
-scheme=<span class="constant">null</span>, host=<span class="constant">null</span>, path=<span class="constant">null</span>
-版本ShareSDK Android <span class="number">2.3</span><span class="number">.7</span>
-</code></pre><p>所有的参数都为null，估计是我们哪里参数转换或传入出了问题，和在线客服的多次沟通下，终于找到问题所在。</p>
-<pre><code>在ShareSDKUtils.java文件中找到如下代码
-<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> onekeyShare(<span class="built_in">int</span> platformId, <span class="keyword">String</span> contentJson)
-{
-  ....
-  <span class="keyword">HashMap</span>&lt;<span class="keyword">String</span>, <span class="keyword">Object</span>&gt; content = hashon.fromJson(contentJson);
-  content = nativeMapToJavaMap(content);<span class="comment">//注释本行代码</span>
-  <span class="keyword">HashMap</span>&lt;<span class="keyword">String</span>, <span class="keyword">Object</span>&gt; <span class="built_in">map</span> = nativeMapToJavaMap(content);
-  ....
-}
-</code></pre>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/cocos2d-x-shareSDK/">cocos2d-x shareSDK</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-cocos2d-x-debug" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/04/08/cocos2d-x-debug/" class="article-date">
-  	<time datetime="2014-04-08T13:31:48.000Z" itemprop="datePublished">2014-04-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/04/08/cocos2d-x-debug/">android NDK debug</a>
     </h1>
   
 

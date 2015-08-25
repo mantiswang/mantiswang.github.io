@@ -118,6 +118,74 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-uitableview-optimal" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/03/10/uitableview-optimal/" class="article-date">
+  	<time datetime="2015-03-09T16:07:49.000Z" itemprop="datePublished">2015-03-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/10/uitableview-optimal/">UITableView性能优化和改进</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>记一下 UITableView 性能优化需要注意和改进的地方。</p>
+<ol>
+<li>网络图片异步加载，SDWebImage。</li>
+<li>文字直接 drawInRect/drawAtPoint 绘制，参考 ABTableViewCell，AdvancedTableViewCells。</li>
+<li>本地图片也可以直接绘制，或者用 CALayer 来添加显示。</li>
+<li>cell 重用机制。</li>
+<li>cell 内容尽量避免透明效果。</li>
+<li>如非必要，减少 reloadData 全部 cell，只 reloadRowsAtIndexPaths。</li>
+<li>如果 cell 是动态行高，计算出高度后缓存。tableView 会在加载的时候把全部 cell 的高度通过 heightForRowAtIndexPath: 都计算出来，即使 cell 还没有展示。</li>
+<li>如果 cell content 的展示位置也不固定，第一次计算后也要缓存。</li>
+<li>cell 高度固定的话直接用 cell.rowHeight 设置高度，不要再实现 tableView:heightForRowAtIndexPath: delegate.</li>
+<li>cell content 的解析操作（尤其是复杂的解析）异步进行＋预执行，解析结果要缓存。</li>
+<li>可以预先加载需要的网络资源（图片等），SDWebImagePrefetcher.</li>
+</ol>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS/">iOS</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-gcd-basic" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -630,63 +698,6 @@
       
 	<div class="article-category tagcloud">
 	<a class="article-category-link" href="/categories/Mac/">Mac</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-ios8-cllocationmanager" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/09/16/ios8-cllocationmanager/" class="article-date">
-  	<time datetime="2014-09-15T16:22:16.000Z" itemprop="datePublished">2014-09-16</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/16/ios8-cllocationmanager/">IOS8 CLLocationManager 定位服务不能用</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>IOS8修改了位置设置里的内容，增加了一套状态（<code>使用中可用／通常可用</code>），所以以前的CLLcationManage的注册后，delegate接口不响应了。</p>
-<p>There also needs to be <code>NSLocationAlwaysUsageDescription</code> or <code>NSLocationWhenInUseUsageDescription</code> key in <code>Info.plist</code> with a message to be displayed in the prompt. </p>
-<p><a href="http://stackoverflow.com/questions/24062509/ios-8-location-services-not-working" target="_blank" rel="external">http://stackoverflow.com/questions/24062509/ios-8-location-services-not-working</a><br><a href="http://matthewfecher.com/app-developement/getting-gps-location-using-core-location-in-ios-8-vs-ios-7/" target="_blank" rel="external">http://matthewfecher.com/app-developement/getting-gps-location-using-core-location-in-ios-8-vs-ios-7/</a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/IOS/">IOS</a>
 	</div>
 
 
