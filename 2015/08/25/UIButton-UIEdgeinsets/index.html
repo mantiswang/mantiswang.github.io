@@ -15,7 +15,7 @@ UIEdgeInsets是什么？我们点进去看一下：
 <meta property="og:description" content="UIEdgeInsets是什么
 UIEdgeInsets是什么？我们点进去看一下：
 1234typedef struct UIEdgeInsets &amp;#123;    CGFloat top, left, bottom, right;  // specify amount to inset (positive) for each of the edges. values can be negati">
-<meta property="og:updated_time" content="2015-08-25T15:54:19.000Z">
+<meta property="og:updated_time" content="2015-08-25T15:55:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UIButton中的三个UIEdgeInsets属性">
 <meta name="twitter:description" content="UIEdgeInsets是什么
@@ -170,7 +170,7 @@ UIEdgeInsets是什么？我们点进去看一下：
 <p>提示：UI_APPEARANCE_SELECTOR标记的属性都支持通过外观代理来定制。<br>举例，设置UIButton的contentEdgeInsets属性，可以直接调用：<br><code>[[UIButton appearance] setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];</code></p>
 </blockquote>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>)          <span class="built_in">UIEdgeInsets</span> titleEdgeInsets;                <span class="comment">// default is UIEdgeInsetsZero</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>)          <span class="built_in">UIEdgeInsets</span> imageEdgeInsets;                <span class="comment">// </span></span><br><span class="line"><span class="keyword">default</span> is <span class="built_in">UIEdgeInsetsZero</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>)          <span class="built_in">UIEdgeInsets</span> imageEdgeInsets;                <span class="comment">//default is UIEdgeInsetsZero</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -179,6 +179,15 @@ UIEdgeInsets是什么？我们点进去看一下：
   
     
 <nav id="article-nav">
+  
+    <a href="/2015/08/26/AVFoundation和-GPUImage初探/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          AVFoundation和 GPUImage初探
+        
+      </div>
+    </a>
   
   
     <a href="/2015/08/25/谁让APP工程师产生了泡沫？/" id="article-nav-older" class="article-nav-link-wrap">
