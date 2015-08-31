@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS开发之UITableView性能优化 | 白色键盘</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前面已经说过UITableView中的单元格cell是在显示到用户可视区域后创建的，那么如果用户往下滚动就会继续创建显示在屏幕上的单元格，如果用户向上滚动返回到查看过的内容时同样会重新创建之前已经创建过的单元格。如此一来即使UITableView的内容不是太多，如果用户反复的上下滚动，内存也会瞬间飙升，更何况很多时候UITableView的内容是很多的（例如微博展示列表，基本向下滚动是没有底限的）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发之UITableView性能优化">
+<meta property="og:url" content="http://yoursite.com/2015/08/31/iOS开发之UITableView性能优化/index.html">
+<meta property="og:site_name" content="白色键盘">
+<meta property="og:description" content="前面已经说过UITableView中的单元格cell是在显示到用户可视区域后创建的，那么如果用户往下滚动就会继续创建显示在屏幕上的单元格，如果用户向上滚动返回到查看过的内容时同样会重新创建之前已经创建过的单元格。如此一来即使UITableView的内容不是太多，如果用户反复的上下滚动，内存也会瞬间飙升，更何况很多时候UITableView的内容是很多的（例如微博展示列表，基本向下滚动是没有底限的）">
+<meta property="og:updated_time" content="2015-08-31T15:31:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS开发之UITableView性能优化">
+<meta name="twitter:description" content="前面已经说过UITableView中的单元格cell是在显示到用户可视区域后创建的，那么如果用户往下滚动就会继续创建显示在屏幕上的单元格，如果用户向上滚动返回到查看过的内容时同样会重新创建之前已经创建过的单元格。如此一来即使UITableView的内容不是太多，如果用户反复的上下滚动，内存也会瞬间飙升，更何况很多时候UITableView的内容是很多的（例如微博展示列表，基本向下滚动是没有底限的）">
+  
+    <link rel="alternative" href="/atom.xml" title="白色键盘" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/photo.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/images/photo.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">苹果</a></h1>
+		</hgroup>
+
+		
+
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">苹果</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/images/photo.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">苹果</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-iOS开发之UITableView性能优化" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/31/iOS开发之UITableView性能优化/" class="article-date">
+  	<time datetime="2015-08-31T15:28:25.000Z" itemprop="datePublished">2015-08-31</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS开发之UITableView性能优化
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tableview优化/">tableview优化</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前面已经说过UITableView中的单元格cell是在显示到用户可视区域后创建的，那么如果用户往下滚动就会继续创建显示在屏幕上的单元格，如果用户向上滚动返回到查看过的内容时同样会重新创建之前已经创建过的单元格。如此一来即使UITableView的内容不是太多，如果用户反复的上下滚动，内存也会瞬间飙升，更何况很多时候UITableView的内容是很多的（例如微博展示列表，基本向下滚动是没有底限的）。</p>
+<p>前面一节中我们曾经提到过如何优化UIScrollView，当时就是利用有限的UIImageView动态切换其内容来尽可能减少资源占用。同样的，在UITableView中也可以采用类似的方式，只是这时我们不是在滚动到指定位置后更改滚动的位置而是要将当前没有显示的Cell重新显示在将要显示的Cell的位置然后更新其内容。原因就是UITableView中的Cell结构布局可能是不同的，通过重新定位是不可取的，而是需要重用已经不再界面显示的已创建过的Cell。</p>
+<p>当然，听起来这么做比较复杂，其实实现起来很简单，因为UITableView已经为我们实现了这种机制。在UITableView内部有一个缓存池，初始化时使用initWithStyle:(UITableViewCellStyle) reuseIdentifier:(NSString *)方法指定一个可重用标识，就可以将这个cell放到缓存池。然后在使用时使用指定的标识去缓存池中取得对应的cell然后修改cell内容即可。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#pragma mark返回每行的单元格</span></span><br><span class="line">-(<span class="built_in">UITableViewCell</span> *)tableView:(<span class="built_in">UITableView</span> *)tableView cellForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath&#123;</span><br><span class="line">    <span class="comment">//NSIndexPath是一个对象，记录了组和行信息</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"生成单元格(组：%i,行%i)"</span>,indexPath<span class="variable">.section</span>,indexPath<span class="variable">.row</span>);</span><br><span class="line">    KCContactGroup *group=_contacts[indexPath<span class="variable">.section</span>];</span><br><span class="line">    KCContact *contact=group<span class="variable">.contacts</span>[indexPath<span class="variable">.row</span>];</span><br><span class="line"></span><br><span class="line">    <span class="comment">//由于此方法调用十分频繁，cell的标示声明成静态变量有利于性能优化</span></span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">NSString</span> *cellIdentifier=<span class="string">@"UITableViewCellIdentifierKey1"</span>;</span><br><span class="line">    <span class="comment">//首先根据标识去缓存池取</span></span><br><span class="line">    <span class="built_in">UITableViewCell</span> *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];</span><br><span class="line">    <span class="comment">//如果缓存池没有到则重新创建并放到缓存池中</span></span><br><span class="line">    <span class="keyword">if</span>(!cell)&#123;</span><br><span class="line">        cell=[[<span class="built_in">UITableViewCell</span> alloc]initWithStyle:<span class="built_in">UITableViewCellStyleValue1</span> reuseIdentifier:cellIdentifier];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cell<span class="variable">.textLabel</span><span class="variable">.text</span>=[contact getName];</span><br><span class="line">    cell<span class="variable">.detailTextLabel</span><span class="variable">.text</span>=contact<span class="variable">.phoneNumber</span>;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"cell:%@"</span>,cell);</span><br><span class="line">    <span class="keyword">return</span> cell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的代码中已经打印了cell的地址，如果大家运行测试上下滚动UITableView会发现滚动时创建的cell地址是初始化时已经创建的。</p>
+<p>这里再次给大家强调两点：</p>
+<ul>
+<li>-(UITableViewCell )tableView:(UITableView )tableView cellForRowAtIndexPath:(NSIndexPath *)方法调用很频繁，无论是初始化、上下滚动、刷新都会调用此方法，所有在这里执行的操作一定要注意性能；</li>
+<li>可重用标识可以有多个，如果在UITableView中有多类结构不同的Cell，可以通过这个标识进行缓存和重新；</li>
+</ul>
+<blockquote>
+<p>转 Kenshin Cui’s Blog</p>
+</blockquote>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/08/30/html5-audio-使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">html5 audio 使用</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 苹果
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

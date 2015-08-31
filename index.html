@@ -118,6 +118,72 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-iOS开发之UITableView性能优化" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/31/iOS开发之UITableView性能优化/" class="article-date">
+  	<time datetime="2015-08-31T15:28:25.000Z" itemprop="datePublished">2015-08-31</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/31/iOS开发之UITableView性能优化/">iOS开发之UITableView性能优化</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前面已经说过UITableView中的单元格cell是在显示到用户可视区域后创建的，那么如果用户往下滚动就会继续创建显示在屏幕上的单元格，如果用户向上滚动返回到查看过的内容时同样会重新创建之前已经创建过的单元格。如此一来即使UITableView的内容不是太多，如果用户反复的上下滚动，内存也会瞬间飙升，更何况很多时候UITableView的内容是很多的（例如微博展示列表，基本向下滚动是没有底限的）。</p>
+<p>前面一节中我们曾经提到过如何优化UIScrollView，当时就是利用有限的UIImageView动态切换其内容来尽可能减少资源占用。同样的，在UITableView中也可以采用类似的方式，只是这时我们不是在滚动到指定位置后更改滚动的位置而是要将当前没有显示的Cell重新显示在将要显示的Cell的位置然后更新其内容。原因就是UITableView中的Cell结构布局可能是不同的，通过重新定位是不可取的，而是需要重用已经不再界面显示的已创建过的Cell。</p>
+<p>当然，听起来这么做比较复杂，其实实现起来很简单，因为UITableView已经为我们实现了这种机制。在UITableView内部有一个缓存池，初始化时使用initWithStyle:(UITableViewCellStyle) reuseIdentifier:(NSString *)方法指定一个可重用标识，就可以将这个cell放到缓存池。然后在使用时使用指定的标识去缓存池中取得对应的cell然后修改cell内容即可。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#pragma mark返回每行的单元格</span></span><br><span class="line">-(<span class="built_in">UITableViewCell</span> *)tableView:(<span class="built_in">UITableView</span> *)tableView cellForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath&#123;</span><br><span class="line">    <span class="comment">//NSIndexPath是一个对象，记录了组和行信息</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"生成单元格(组：%i,行%i)"</span>,indexPath<span class="variable">.section</span>,indexPath<span class="variable">.row</span>);</span><br><span class="line">    KCContactGroup *group=_contacts[indexPath<span class="variable">.section</span>];</span><br><span class="line">    KCContact *contact=group<span class="variable">.contacts</span>[indexPath<span class="variable">.row</span>];</span><br><span class="line"></span><br><span class="line">    <span class="comment">//由于此方法调用十分频繁，cell的标示声明成静态变量有利于性能优化</span></span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">NSString</span> *cellIdentifier=<span class="string">@"UITableViewCellIdentifierKey1"</span>;</span><br><span class="line">    <span class="comment">//首先根据标识去缓存池取</span></span><br><span class="line">    <span class="built_in">UITableViewCell</span> *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];</span><br><span class="line">    <span class="comment">//如果缓存池没有到则重新创建并放到缓存池中</span></span><br><span class="line">    <span class="keyword">if</span>(!cell)&#123;</span><br><span class="line">        cell=[[<span class="built_in">UITableViewCell</span> alloc]initWithStyle:<span class="built_in">UITableViewCellStyleValue1</span> reuseIdentifier:cellIdentifier];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cell<span class="variable">.textLabel</span><span class="variable">.text</span>=[contact getName];</span><br><span class="line">    cell<span class="variable">.detailTextLabel</span><span class="variable">.text</span>=contact<span class="variable">.phoneNumber</span>;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"cell:%@"</span>,cell);</span><br><span class="line">    <span class="keyword">return</span> cell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的代码中已经打印了cell的地址，如果大家运行测试上下滚动UITableView会发现滚动时创建的cell地址是初始化时已经创建的。</p>
+<p>这里再次给大家强调两点：</p>
+<ul>
+<li>-(UITableViewCell )tableView:(UITableView )tableView cellForRowAtIndexPath:(NSIndexPath *)方法调用很频繁，无论是初始化、上下滚动、刷新都会调用此方法，所有在这里执行的操作一定要注意性能；</li>
+<li>可重用标识可以有多个，如果在UITableView中有多类结构不同的Cell，可以通过这个标识进行缓存和重新；</li>
+</ul>
+<blockquote>
+<p>转 Kenshin Cui’s Blog</p>
+</blockquote>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tableview优化/">tableview优化</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-html5-audio-使用" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -938,102 +1004,6 @@
       
 	<div class="article-tag tagcloud">
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GCD/">GCD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Thread/">Thread</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-iOS-多线程-GCD" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/20/iOS-多线程-GCD/" class="article-date">
-  	<time datetime="2015-08-20T14:59:25.000Z" itemprop="datePublished">2015-08-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/20/iOS-多线程-GCD/">iOS 多线程-GCD</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="GCD">GCD</h3><blockquote>
-<ul>
-<li>全称是Grand Central Dispatch，“伟大的中枢调度器”</li>
-<li>GCD是苹果公司为多核的并行运算提出的解决方案</li>
-<li>纯C语言，提供了非常多强大的函数</li>
-</ul>
-</blockquote>
-<h4 id="优势">优势</h4><ol>
-<li>GCD会自动利用更多的CPU内核（比如双核、四核）</li>
-<li>GCD会自动管理线程的生命周期（创建线程、调度任务、销毁线程）</li>
-<li>只需要告诉GCD想要执行什么任务，不需要编写任何线程管理代码</li>
-</ol>
-<h4 id="基本概念">基本概念</h4><h5 id="任务和队列">任务和队列</h5><p><code>GCD中有2个核心概念</code></p>
-<ol>
-<li>任务：执行什么操作</li>
-<li>队列：用来存放任务<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.定制任务:确定想做的事情</span></span><br><span class="line"><span class="comment">// 2.将任务添加到队列中:GCD会自动将队列中的任务取出，放到对应的线程中执行。</span></span><br><span class="line">Tips：任务的取出遵循队列的FIFO原则：先进先出，后进后出</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h4 id="任务">任务</h4><h5 id="一、执行任务">一、执行任务</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> - <span class="built_in">queue</span>：队列</span><br><span class="line"> - block：任务</span><br><span class="line"><span class="comment">// 1.用同步的方式执行任务</span></span><br><span class="line">dispatch_sync(<span class="keyword">dispatch_queue_t</span> <span class="built_in">queue</span>, <span class="keyword">dispatch_block_t</span> block);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.用异步的方式执行任务</span></span><br><span class="line">dispatch_async(<span class="keyword">dispatch_queue_t</span> <span class="built_in">queue</span>, <span class="keyword">dispatch_block_t</span> block);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3.GCD中还有个用来执行任务的函数</span></span><br><span class="line"><span class="comment">// 在前面的任务执行结束后它才执行，而且它后面的任务等它执行完成之后才会执行</span></span><br><span class="line">dispatch_barrier_async(<span class="keyword">dispatch_queue_t</span> <span class="built_in">queue</span>, <span class="keyword">dispatch_block_t</span> block);</span><br></pre></td></tr></table></figure>
-<p>注意:<br><code>同步</code>：只能在当前线程中执行任务，不具备开启新线程的能力<br><code>异步</code>：可以在新的线程中执行任务，具备开启新线程的能力</p>
-<h4 id="队列">队列</h4><h5 id="一、并发队列（Concurrent_Dispatch_Queue）">一、并发队列（Concurrent Dispatch Queue）</h5><ul>
-<li>可以让多个任务并发（同时）执行（自动开启多个线程同时执行任务）</li>
-<li>并发功能只有在异步（dispatch_async）函数下才有效<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.使用dispatch_queue_create函数创建队列</span></span><br><span class="line"><span class="keyword">dispatch_queue_t</span></span><br><span class="line">dispatch_queue_create(<span class="keyword">const</span> <span class="keyword">char</span> *label, <span class="comment">// 队列名称 </span></span><br><span class="line"><span class="keyword">dispatch_queue_attr_t</span> attr); <span class="comment">// 队列的类型</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.创建并发队列</span></span><br><span class="line"><span class="keyword">dispatch_queue_t</span> <span class="built_in">queue</span> = dispatch_queue_create(<span class="string">"queue"</span>, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3.使用dispatch_get_global_queue函数获得全局的并发队列</span></span><br><span class="line"><span class="keyword">dispatch_queue_t</span> dispatch_get_global_queue(<span class="keyword">dispatch_queue_priority_t</span> priority, <span class="keyword">unsigned</span> <span class="keyword">long</span> flags);</span><br><span class="line"><span class="comment">// dispatch_queue_priority_t priority(队列的优先级 )</span></span><br><span class="line"><span class="comment">// unsigned long flags( 此参数暂时无用，用0即可 )</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 4.获得全局并发队列</span></span><br><span class="line"><span class="keyword">dispatch_queue_t</span> <span class="built_in">queue</span> = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 5.全局并发队列的优先级</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> DISPATCH_QUEUE_PRIORITY_HIGH <span class="number">2</span> <span class="comment">// 高</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> DISPATCH_QUEUE_PRIORITY_DEFAULT <span class="number">0</span> <span class="comment">// 默认（中）</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> DISPATCH_QUEUE_PRIORITY_LOW (-<span class="number">2</span>) <span class="comment">// 低</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> DISPATCH_QUEUE_PRIORITY_BACKGROUND INT16_MIN <span class="comment">// 后台</span></span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h5 id="二、串行队列（Serial_Dispatch_Queue）">二、串行队列（Serial Dispatch Queue）</h5><ul>
-<li>让任务一个接着一个地执行（一个任务执行完毕后，再执行下一个任务）<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.使用dispatch_queue_create函数创建串行队列</span></span><br><span class="line"><span class="comment">// 创建串行队列（队列类型传递NULL或者DISPATCH_QUEUE_SERIAL）</span></span><br><span class="line"><span class="keyword">dispatch_queue_t</span> <span class="built_in">queue</span> = dispatch_queue_create(<span class="string">"queue"</span>, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.使用dispatch_get_main_queue()获得主队列</span></span><br><span class="line"><span class="keyword">dispatch_queue_t</span> <span class="built_in">queue</span> = dispatch_get_main_queue();</span><br><span class="line">注意：主队列是GCD自带的一种特殊的串行队列，放在主队列中的任务，都会放到主线程中执行。</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h5 id="三、各种队列的执行效果">三、各种队列的执行效果</h5><p><img src="123.png"><br><code>特别注意</code>：使用sync函数往当前串行队列中添加任务，会卡住当前的串行队列 (线程卡死)</p>
-<h4 id="新手易混淆">新手易混淆</h4><blockquote>
-<p>有4个术语比较容易混淆：<code>同步</code>、<code>异步</code>、<code>并发</code>、<code>串行</code></p>
-<ol>
-<li>同步和异步主要影响：能不能开启新的线程<br><code>同步</code>：只是在当前线程中执行任务，不具备开启新线程的能力<br><code>异步</code>：可以在新的线程中执行任务，具备开启新线程的能力</li>
-<li>并发和串行主要影响：任务的执行方式<br><code>并发</code>：多个任务并发（同时）执行<br><code>串行</code>：一个任务执行完毕后，再执行下一个任务</li>
-</ol>
-</blockquote>
-<h4 id="GCD运用">GCD运用</h4><h5 id="一、线程间通信">一、线程间通信</h5><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">从子线程回到主线程</span><br><span class="line"><span class="tag">dispatch_async</span>(</span><br><span class="line"><span class="function">dispatch_get_global_queue</span>(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</span><br><span class="line">    <span class="comment">// 执行耗时的异步操作...</span></span><br><span class="line">      <span class="tag">dispatch_async</span>(<span class="function">dispatch_get_main_queue</span>(), ^&#123;</span><br><span class="line">        <span class="comment">// 回到主线程，执行UI刷新操作</span></span><br><span class="line">        &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h5 id="二、延时执行">二、延时执行</h5><figure class="highlight openscad"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dispatch_after<span class="params">(dispatch_time<span class="params">(DISPATCH_TIME_NOW, <span class="params">(int64_t)</span><span class="params">(<span class="number">2.0</span> * NSEC_PER_SEC)</span>)</span>, dispatch_get_main_queue<span class="params">()</span>, ^&#123;</span><br><span class="line">    // <span class="number">2</span>秒后异步执行这里的代码...</span><br><span class="line">&#125;)</span>;</span><br></pre></td></tr></table></figure>
-<h5 id="三、一次性代码">三、一次性代码</h5><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用dispatch_once函数能保证某段代码在程序运行过程中只被执行1次</span></span><br><span class="line"><span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</span><br><span class="line"><span class="built_in">dispatch_once</span>(&amp;onceToken, ^&#123;</span><br><span class="line">    <span class="comment">// 只执行1次的代码(这里面默认是线程安全的)</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h5 id="四、快速迭代">四、快速迭代</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用dispatch_apply函数能进行快速迭代遍历</span></span><br><span class="line">dispatch_apply(<span class="number">10</span>, dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^(<span class="keyword">size_t</span> index)&#123;</span><br><span class="line">    <span class="comment">// 执行10次代码，index顺序不确定</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h5 id="五、队列组">五、队列组</h5><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 分别异步执行2个耗时的操作、2个异步操作都执行完毕后，再回到主线程执行操作</span></span><br><span class="line">dispatch_group_t <span class="keyword">group</span> =  dispatch_group_create();</span><br><span class="line">dispatch_group_async(<span class="keyword">group</span>, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</span><br><span class="line">    <span class="comment">// 执行1个耗时的异步操作</span></span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_async(<span class="keyword">group</span>, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</span><br><span class="line">    <span class="comment">// 执行1个耗时的异步操作</span></span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_notify(<span class="keyword">group</span>, dispatch_get_main_queue(), ^&#123;</span><br><span class="line">    <span class="comment">// 等前面的异步操作都执行完毕后，回到主线程...</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Thread/">Thread</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
 	</div>
 
       
