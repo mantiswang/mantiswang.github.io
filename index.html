@@ -118,6 +118,1242 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-详解CALayer-和-UIView的区别和联系" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/09/03/详解CALayer-和-UIView的区别和联系/" class="article-date">
+  	<time datetime="2015-09-03T12:57:33.000Z" itemprop="datePublished">2015-09-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="date" content="2015-09-03 20:45:12">
+<meta name="tags" content="iOS"><style>body {
+  width: 45em;
+  border: 1px solid #ddd;
+  outline: 1300px solid #fff;
+  margin: 16px auto;
+}
+
+body .markdown-body
+{
+  padding: 30px;
+}
+
+@font-face {
+  font-family: fontawesome-mini;
+  src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+
+@font-face {
+  font-family: octicons-anchor;
+  src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+
+.markdown-body {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  color: #333333;
+  overflow: hidden;
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+.markdown-body a {
+  background: transparent;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline: 0;
+}
+
+.markdown-body b,
+.markdown-body strong {
+  font-weight: bold;
+}
+
+.markdown-body mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body sub,
+.markdown-body sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+.markdown-body sup {
+  top: -0.5em;
+}
+.markdown-body sub {
+  bottom: -0.25em;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+.markdown-body img {
+  border: 0;
+}
+
+.markdown-body hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+.markdown-body pre {
+  overflow: auto;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+.markdown-body input {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+.markdown-body html input[disabled] {
+  cursor: default;
+}
+
+.markdown-body input {
+  line-height: normal;
+}
+
+.markdown-body input[type="checkbox"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body .codehilitetable {
+  border: 0;
+  border-spacing: 0;
+}
+
+.markdown-body .codehilitetable tr {
+  border: 0;
+}
+
+.markdown-body .codehilitetable pre,
+.markdown-body .codehilitetable div.codehilite {
+  margin: 0;
+}
+
+.markdown-body .linenos,
+.markdown-body .code,
+.markdown-body .codehilitetable td {
+  border: 0;
+  padding: 0;
+}
+
+.markdown-body td:not(.linenos) .linenodiv {
+  padding: 0 !important;
+}
+
+.markdown-body .code {
+  width: 100%;
+}
+
+.markdown-body .linenos div pre,
+.markdown-body .linenodiv pre,
+.markdown-body .linenodiv {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.markdown-body .code div pre,
+.markdown-body .code div {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-topright: 3px;
+  -moz-border-radius-bottomright: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.markdown-body * {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body input {
+  font: 13px Helvetica, arial, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.4;
+}
+
+.markdown-body a {
+  color: #4183c4;
+  text-decoration: none;
+}
+
+.markdown-body a:hover,
+.markdown-body a:focus,
+.markdown-body a:active {
+  text-decoration: underline;
+}
+
+.markdown-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.markdown-body hr:before,
+.markdown-body hr:after {
+  display: table;
+  content: " ";
+}
+
+.markdown-body hr:after {
+  clear: both;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  line-height: 1.1;
+}
+
+.markdown-body h1 {
+  font-size: 30px;
+}
+
+.markdown-body h2 {
+  font-size: 21px;
+}
+
+.markdown-body h3 {
+  font-size: 16px;
+}
+
+.markdown-body h4 {
+  font-size: 14px;
+}
+
+.markdown-body h5 {
+  font-size: 12px;
+}
+
+.markdown-body h6 {
+  font-size: 11px;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ul ul ol,
+.markdown-body ul ol ol,
+.markdown-body ol ul ol,
+.markdown-body ol ol ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body code,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body kbd {
+  background-color: #e7e7e7;
+  background-image: -moz-linear-gradient(#fefefe, #e7e7e7);
+  background-image: -webkit-linear-gradient(#fefefe, #e7e7e7);
+  background-image: linear-gradient(#fefefe, #e7e7e7);
+  background-repeat: repeat-x;
+  border-radius: 2px;
+  border: 1px solid #cfcfcf;
+  color: #000;
+  padding: 3px 5px;
+  line-height: 10px;
+  font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  display: inline-block;
+}
+
+.markdown-body>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+.markdown-body .headeranchor-link {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  padding-right: 6px;
+  padding-left: 30px;
+  margin-left: -30px;
+}
+
+.markdown-body .headeranchor-link:focus {
+  outline: none;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 16px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.markdown-body h1 .headeranchor,
+.markdown-body h2 .headeranchor,
+.markdown-body h3 .headeranchor,
+.markdown-body h4 .headeranchor,
+.markdown-body h5 .headeranchor,
+.markdown-body h6 .headeranchor {
+  display: none;
+  color: #000;
+  vertical-align: middle;
+}
+
+.markdown-body h1:hover .headeranchor-link,
+.markdown-body h2:hover .headeranchor-link,
+.markdown-body h3:hover .headeranchor-link,
+.markdown-body h4:hover .headeranchor-link,
+.markdown-body h5:hover .headeranchor-link,
+.markdown-body h6:hover .headeranchor-link {
+  height: 1em;
+  padding-left: 8px;
+  margin-left: -30px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.markdown-body h1:hover .headeranchor-link .headeranchor,
+.markdown-body h2:hover .headeranchor-link .headeranchor,
+.markdown-body h3:hover .headeranchor-link .headeranchor,
+.markdown-body h4:hover .headeranchor-link .headeranchor,
+.markdown-body h5:hover .headeranchor-link .headeranchor,
+.markdown-body h6:hover .headeranchor-link .headeranchor {
+  display: inline-block;
+}
+
+.markdown-body h1 {
+  padding-bottom: 0.3em;
+  font-size: 2.25em;
+  line-height: 1.2;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h2 {
+  padding-bottom: 0.3em;
+  font-size: 1.75em;
+  line-height: 1.225;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h3 {
+  font-size: 1.5em;
+  line-height: 1.43;
+}
+
+.markdown-body h4 {
+  font-size: 1.25em;
+}
+
+.markdown-body h5 {
+  font-size: 1em;
+}
+
+.markdown-body h6 {
+  font-size: 1em;
+  color: #777;
+}
+
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body dl,
+.markdown-body table,
+.markdown-body pre,
+.markdown-body .admonition {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body hr {
+  height: 4px;
+  padding: 0;
+  margin: 16px 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 2em;
+}
+
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li>p {
+  margin-top: 16px;
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.markdown-body blockquote {
+  padding: 0 15px;
+  color: #777;
+  border-left: 4px solid #ddd;
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all;
+}
+
+.markdown-body table th {
+  font-weight: bold;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body code,
+.markdown-body samp {
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(0,0,0,0.04);
+  border-radius: 3px;
+}
+
+.markdown-body code:before,
+.markdown-body code:after {
+  letter-spacing: -0.2em;
+  content: "\00a0";
+}
+
+.markdown-body pre>code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.markdown-body .codehilite {
+  margin-bottom: 16px;
+}
+
+.markdown-body .codehilite pre,
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f7f7f7;
+  border-radius: 3px;
+}
+
+.markdown-body .codehilite pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.markdown-body pre {
+  word-wrap: normal;
+}
+
+.markdown-body pre code {
+  display: inline;
+  max-width: initial;
+  padding: 0;
+  margin: 0;
+  overflow: initial;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+
+.markdown-body pre code:before,
+.markdown-body pre code:after {
+  content: normal;
+}
+
+/* Admonition */
+.markdown-body .admonition {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  position: relative;
+  border-radius: 3px;
+  border: 1px solid #e0e0e0;
+  border-left: 6px solid #333;
+  padding: 10px 10px 10px 30px;
+}
+
+.markdown-body .admonition table {
+  color: #333;
+}
+
+.markdown-body .admonition p {
+  padding: 0;
+}
+
+.markdown-body .admonition-title {
+  font-weight: bold;
+  margin: 0;
+}
+
+.markdown-body .admonition>.admonition-title {
+  color: #333;
+}
+
+.markdown-body .attention>.admonition-title {
+  color: #a6d796;
+}
+
+.markdown-body .caution>.admonition-title {
+  color: #d7a796;
+}
+
+.markdown-body .hint>.admonition-title {
+  color: #96c6d7;
+}
+
+.markdown-body .danger>.admonition-title {
+  color: #c25f77;
+}
+
+.markdown-body .question>.admonition-title {
+  color: #96a6d7;
+}
+
+.markdown-body .note>.admonition-title {
+  color: #d7c896;
+}
+
+.markdown-body .admonition:before,
+.markdown-body .attention:before,
+.markdown-body .caution:before,
+.markdown-body .hint:before,
+.markdown-body .danger:before,
+.markdown-body .question:before,
+.markdown-body .note:before {
+  font: normal normal 16px fontawesome-mini;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  line-height: 1.5;
+  color: #333;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.markdown-body .admonition:before {
+  content: "\f056\00a0";
+  color: 333;
+}
+
+.markdown-body .attention:before {
+  content: "\f058\00a0";
+  color: #a6d796;
+}
+
+.markdown-body .caution:before {
+  content: "\f06a\00a0";
+  color: #d7a796;
+}
+
+.markdown-body .hint:before {
+  content: "\f05a\00a0";
+  color: #96c6d7;
+}
+
+.markdown-body .danger:before {
+  content: "\f057\00a0";
+  color: #c25f77;
+}
+
+.markdown-body .question:before {
+  content: "\f059\00a0";
+  color: #96a6d7;
+}
+
+.markdown-body .note:before {
+  content: "\f040\00a0";
+  color: #d7c896;
+}
+
+.markdown-body .admonition::after {
+  content: normal;
+}
+
+.markdown-body .attention {
+  border-left: 6px solid #a6d796;
+}
+
+.markdown-body .caution {
+  border-left: 6px solid #d7a796;
+}
+
+.markdown-body .hint {
+  border-left: 6px solid #96c6d7;
+}
+
+.markdown-body .danger {
+  border-left: 6px solid #c25f77;
+}
+
+.markdown-body .question {
+  border-left: 6px solid #96a6d7;
+}
+
+.markdown-body .note {
+  border-left: 6px solid #d7c896;
+}
+
+.markdown-body .admonition>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body .admonition>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* progress bar*/
+.markdown-body .progress {
+  display: block;
+  width: 300px;
+  margin: 10px 0;
+  height: 24px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #ededed;
+  position: relative;
+  box-shadow: inset -1px 1px 3px rgba(0, 0, 0, .1);
+}
+
+.markdown-body .progress-label {
+  position: absolute;
+  text-align: center;
+  font-weight: bold;
+  width: 100%; margin: 0;
+  line-height: 24px;
+  color: #333;
+  text-shadow: 1px 1px 0 #fefefe, -1px -1px 0 #fefefe, -1px 1px 0 #fefefe, 1px -1px 0 #fefefe, 0 1px 0 #fefefe, 0 -1px 0 #fefefe, 1px 0 0 #fefefe, -1px 0 0 #fefefe, 1px 1px 2px #000;
+  -webkit-font-smoothing: antialiased !important;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.markdown-body .progress-bar {
+  height: 24px;
+  float: left;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #96c6d7;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), inset 0 -1px 0 rgba(0, 0, 0, .1);
+  background-size: 30px 30px;
+  background-image: -webkit-linear-gradient(
+    135deg, rgba(255, 255, 255, .4) 27%,
+    transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%,
+    transparent 77%, transparent
+  );
+  background-image: -moz-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -ms-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -o-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+}
+
+.markdown-body .progress-100plus .progress-bar {
+  background-color: #a6d796;
+}
+
+.markdown-body .progress-80plus .progress-bar {
+  background-color: #c6d796;
+}
+
+.markdown-body .progress-60plus .progress-bar {
+  background-color: #d7c896;
+}
+
+.markdown-body .progress-40plus .progress-bar {
+  background-color: #d7a796;
+}
+
+.markdown-body .progress-20plus .progress-bar {
+  background-color: #d796a6;
+}
+
+.markdown-body .progress-0plus .progress-bar {
+  background-color: #c25f77;
+}
+
+.markdown-body .candystripe-animate .progress-bar{
+  -webkit-animation: animate-stripes 3s linear infinite;
+  -moz-animation: animate-stripes 3s linear infinite;
+  animation: animate-stripes 3s linear infinite;
+}
+
+@-webkit-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@-moz-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+.markdown-body .gloss .progress-bar {
+  box-shadow:
+    inset 0 4px 12px rgba(255, 255, 255, .7),
+    inset 0 -12px 0 rgba(0, 0, 0, .05);
+}
+
+/* Multimarkdown Critic Blocks */
+.markdown-body .critic_mark {
+  background: #ff0;
+}
+
+.markdown-body .critic_delete {
+  color: #c82829;
+  text-decoration: line-through;
+}
+
+.markdown-body .critic_insert {
+  color: #718c00 ;
+  text-decoration: underline;
+}
+
+.markdown-body .critic_comment {
+  color: #8e908c;
+  font-style: italic;
+}
+
+.markdown-body .headeranchor {
+  font: normal normal 16px octicons-anchor;
+  line-height: 1;
+  display: inline-block;
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.headeranchor:before {
+  content: '\f05c';
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+  margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+  margin: 0 4px 0.25em -20px;
+  vertical-align: middle;
+}
+
+/* Media */
+@media only screen and (min-width: 480px) {
+  .markdown-body {
+    font-size:14px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .markdown-body {
+    font-size:16px;
+  }
+}
+
+@media print {
+  .markdown-body * {
+    background: transparent !important;
+    color: black !important;
+    filter:none !important;
+    -ms-filter: none !important;
+  }
+
+  .markdown-body {
+    font-size:12pt;
+    max-width:100%;
+    outline:none;
+    border: 0;
+  }
+
+  .markdown-body a,
+  .markdown-body a:visited {
+    text-decoration: underline;
+  }
+
+  .markdown-body .headeranchor-link {
+    display: none;
+  }
+
+  .markdown-body a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  .markdown-body abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .markdown-body .ir a:after,
+  .markdown-body a[href^="javascript:"]:after,
+  .markdown-body a[href^="#"]:after {
+    content: "";
+  }
+
+  .markdown-body pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .markdown-body pre,
+  .markdown-body blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  .markdown-body .progress,
+  .markdown-body .progress-bar {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .markdown-body .progress {
+    border: 1px solid #ddd;
+  }
+
+  .markdown-body .progress-bar {
+    height: 22px;
+    border-right: 1px solid #ddd;
+  }
+
+  .markdown-body tr,
+  .markdown-body img {
+    page-break-inside: avoid;
+  }
+
+  .markdown-body img {
+    max-width: 100% !important;
+  }
+
+  .markdown-body p,
+  .markdown-body h2,
+  .markdown-body h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  .markdown-body h2,
+  .markdown-body h3 {
+    page-break-after: avoid;
+  }
+}
+</style><title>详解CALayer 和 UIView的区别和联系</title></head><body><article class="markdown-body"><hr>
+<blockquote>
+<p>转自 <a href="http://www.jianshu.com/p/079e5cf0f014" target="_blank" rel="external">http://www.jianshu.com/p/079e5cf0f014</a></p>
+</blockquote>
+<h3 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>前言</h3>
+<p>前面发了一篇iOS 面试的文章，在说到 UIView 和 CALayer 的区别和联系的时候，被喵神指出没有切中要点，所以这里就 CALayer 和 UIView 这个问题重新整理了下。这里会先分条解释，最后会在文章的结尾给出概括性总结。</p>
+<h4 id="1uiviewlayer"><a name="user-content-1uiviewlayer" href="#1uiviewlayer" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>1.首先UIView可以响应事件，Layer不可以.</h4>
+<p>UIKit使用UIResponder作为响应对象，来响应系统传递过来的事件并进行处理。UIApplication、UIViewController、UIView、和所有从UIView派生出来的UIKit类（包括UIWindow）都直接或间接地继承自UIResponder类。</p>
+<p>在 UIResponder中定义了处理各种事件和事件传递的接口, 而 CALayer直接继承 NSObject，并没有相应的处理事件的接口。</p>
+<p>下面列举一些处理触摸事件的接口</p>
+<ul>
+<li>– touchesBegan:withEvent:</li>
+<li>– touchesMoved:withEvent:</li>
+<li>– touchesEnded:withEvent:</li>
+<li>– touchesCancelled:withEvent:<br>
+其实还有一些运动和远程控制事件等等，这里就不一一列举了。</li>
+</ul>
+<p>下面的两篇文章详细介绍了 iOS 事件的处理和传递</p>
+<p>参考链接：</p>
+<ol>
+<li><a href="http://blog.csdn.net/chun799/article/details/8223612" target="_blank" rel="external">http://blog.csdn.net/chun799/article/details/8223612</a></li>
+<li><a href="http://yishuiliunian.gitbooks.io/implementate-tableview-to-understand-ios/content/uikit/1-1-2.html" target="_blank" rel="external">http://yishuiliunian.gitbooks.io/implementate-tableview-to-understand-ios/content/uikit/1-1-2.html</a></li>
+</ol>
+<h4 id="2viewcalayerframeviewcalayer"><a name="user-content-2viewcalayerframeviewcalayer" href="#2viewcalayerframeviewcalayer" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>2.View和CALayer的Frame映射及View如何创建CALayer.</h4>
+<p>一个 Layer 的 frame 是由它的 anchorPoint,position,bounds,和 transform 共同决定的，而一个 View 的 frame 只是简单的返回 Layer的 frame，同样 View 的 center和 bounds 也是返回 Layer 的一些属性。（PS:center有些特列）为了证明这些，我做了如下的测试。</p>
+<p>首先我自定义了两个类CustomView,CustomLayer分别继承 UIView 和 CALayer</p>
+<p>在 CustomView 中重写了<br>
+<pre><code>+ (Class)layerClass
+{
+    return [CustomLayer class];
+}
+
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+}
+
+- (void)setCenter:(CGPoint)center
+{
+    [super setCenter:center];
+}
+
+- (void)setBounds:(CGRect)bounds
+{
+    [super setBounds:bounds];
+}
+</code></pre></p>
+<p>同样在 CustomLayer中同样重写这些方法。只是 <code>setCenter</code>方法改成<code>setPosition</code>方法</p>
+<p>我在两个类的初始化方法中都打下了断点<img alt="image" src="/images/Snip20150820_12.png"></p>
+<p>首先我们会发现，我们在 [view initWithFrame] 的时候调用私有方法【UIView _createLayerWithFrame】去创建 CALayer。</p>
+<p>然后我在创建 View 的时候，在 Layer 和 View 中Frame 相关的所有方法中都加上断点，可以看到大致如下的调用顺序如下<br>
+<pre><code>[UIView _createLayerWithFrame]
+[Layer setBounds:bounds]
+[UIView setFrame：Frame]
+[Layer setFrame:frame]
+[Layer setPosition:position]
+[Layer setBounds:bounds]
+</code></pre></p>
+<p>我发现在创建的过程只有调用了 Layer 的设置尺寸和位置的然而并没有调用View 的 <code>SetCenter</code> 和 <code>SetBounds</code> 方法。<br>
+然后我发现当我修改了 view的 <code>bounds.size</code> 或者 <code>bounds.origin</code> 的时候也只会调用上边 Layer的一些方法。所以我大胆的猜一下，View 的 Center 和 Bounds 只是直接返回layer 对应的 Position 和 Bounds.</p>
+<p>View中frame getter方法，bounds和center，UIView并没有做什么工作；它只是简单的各自调用它底层的CALayer的frame，bounds和position方法。</p>
+<p>关于 Frame 的理解参考：<a href="http://www.cocoachina.com/industry/20131209/7498.html" target="_blank" rel="external">http://www.cocoachina.com/industry/20131209/7498.html</a></p>
+<h4 id="3uiview-calayer"><a name="user-content-3uiview-calayer" href="#3uiview-calayer" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>3.UIView主要是对显示内容的管理而 CALayer 主要侧重显示内容的绘制。</h4>
+<p>我在 UIView 和 CALayer 分别重写了父类的方法。<br>
+<pre><code>[UIView drawRect:rect]//UIView    
+
+[CALayer display]//CALayer
+</code></pre></p>
+<p>然后我在上面两个方法加了断点，可以看到如下的执行。<br>
+<img alt="image" src="/images/Snip20150820_11.png"></p>
+<p>可以看到 UIView 是 CALayer 的CALayerDelegate，我猜测是在代理方法内部[UIView(CALayerDelegate) drawLayer:inContext]调用 UIView 的 DrawRect方法，从而绘制出了 UIView 的内容.</p>
+<h4 id="4-ios-rootlayeruiview"><a name="user-content-4-ios-rootlayeruiview" href="#4-ios-rootlayeruiview" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>4.在做 iOS 动画的时候，修改非 RootLayer的属性（譬如位置、背景色等）会默认产生隐式动画，而修改UIView则不会。</h4>
+<p>对于每一个 UIView 都有一个 layer,把这个 layer 且称作RootLayer,而不是 View 的根 Layer的叫做 非 RootLayer。我们对UIView的属性修改时时不会产生默认动画，而对单独 layer属性直接修改会，这个默认动画的时间缺省值是0.25s.<br>
+在 Core Animation 编程指南的 “How to Animate Layer-Backed Views” 中，对为什么会这样做出了一个解释：</p></article></body></html>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-详解CALayer-和-UIView的区别和联系" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/09/03/详解CALayer-和-UIView的区别和联系/" class="article-date">
+  	<time datetime="2015-09-03T12:45:12.000Z" itemprop="datePublished">2015-09-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/03/详解CALayer-和-UIView的区别和联系/">详解CALayer 和 UIView的区别和联系</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>转自 <a href="http://www.jianshu.com/p/079e5cf0f014" target="_blank" rel="external">http://www.jianshu.com/p/079e5cf0f014</a></p>
+</blockquote>
+<h3 id="前言">前言</h3><p>前面发了一篇iOS 面试的文章，在说到 UIView 和 CALayer 的区别和联系的时候，被喵神指出没有切中要点，所以这里就 CALayer 和 UIView 这个问题重新整理了下。这里会先分条解释，最后会在文章的结尾给出概括性总结。</p>
+<h4 id="1-首先UIView可以响应事件，Layer不可以-">1.首先UIView可以响应事件，Layer不可以.</h4><p>UIKit使用UIResponder作为响应对象，来响应系统传递过来的事件并进行处理。UIApplication、UIViewController、UIView、和所有从UIView派生出来的UIKit类（包括UIWindow）都直接或间接地继承自UIResponder类。</p>
+<p>在 UIResponder中定义了处理各种事件和事件传递的接口, 而 CALayer直接继承 NSObject，并没有相应的处理事件的接口。</p>
+<p>下面列举一些处理触摸事件的接口</p>
+<ul>
+<li>– touchesBegan:withEvent:</li>
+<li>– touchesMoved:withEvent:</li>
+<li>– touchesEnded:withEvent:</li>
+<li>– touchesCancelled:withEvent:<br>其实还有一些运动和远程控制事件等等，这里就不一一列举了。</li>
+</ul>
+<p>下面的两篇文章详细介绍了 iOS 事件的处理和传递</p>
+<p>参考链接：</p>
+<ol>
+<li><a href="http://blog.csdn.net/chun799/article/details/8223612" target="_blank" rel="external">http://blog.csdn.net/chun799/article/details/8223612</a></li>
+<li><a href="http://yishuiliunian.gitbooks.io/implementate-tableview-to-understand-ios/content/uikit/1-1-2.html" target="_blank" rel="external">http://yishuiliunian.gitbooks.io/implementate-tableview-to-understand-ios/content/uikit/1-1-2.html</a></li>
+</ol>
+<h4 id="2-View和CALayer的Frame映射及View如何创建CALayer-">2.View和CALayer的Frame映射及View如何创建CALayer.</h4><p>一个 Layer 的 frame 是由它的 anchorPoint,position,bounds,和 transform 共同决定的，而一个 View 的 frame 只是简单的返回 Layer的 frame，同样 View 的 center和 bounds 也是返回 Layer 的一些属性。（PS:center有些特列）为了证明这些，我做了如下的测试。</p>
+<p>首先我自定义了两个类CustomView,CustomLayer分别继承 UIView 和 CALayer</p>
+<p>在 CustomView 中重写了<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">+ (Class)layerClass</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> [CustomLayer class];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)setFrame:(<span class="built_in">CGRect</span>)frame</span><br><span class="line">&#123;</span><br><span class="line">    [<span class="keyword">super</span> setFrame:frame];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)setCenter:(<span class="built_in">CGPoint</span>)center</span><br><span class="line">&#123;</span><br><span class="line">    [<span class="keyword">super</span> setCenter:center];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)setBounds:(<span class="built_in">CGRect</span>)bounds</span><br><span class="line">&#123;</span><br><span class="line">    [<span class="keyword">super</span> setBounds:bounds];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>同样在 CustomLayer中同样重写这些方法。只是 <code>setCenter</code>方法改成<code>setPosition</code>方法</p>
+<p>我在两个类的初始化方法中都打下了断点<img src="/images/Snip20150820_12.png" alt="image"></p>
+<p>首先我们会发现，我们在 [view initWithFrame] 的时候调用私有方法【UIView _createLayerWithFrame】去创建 CALayer。</p>
+<p>然后我在创建 View 的时候，在 Layer 和 View 中Frame 相关的所有方法中都加上断点，可以看到大致如下的调用顺序如下<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[UIView _createLayerWithFrame]</span><br><span class="line">[Layer setBounds:bounds]</span><br><span class="line">[UIView setFrame：Frame]</span><br><span class="line">[Layer setFrame:frame]</span><br><span class="line">[Layer setPosition:position]</span><br><span class="line">[Layer setBounds:bounds]</span><br></pre></td></tr></table></figure></p>
+<p>我发现在创建的过程只有调用了 Layer 的设置尺寸和位置的然而并没有调用View 的 <code>SetCenter</code> 和 <code>SetBounds</code> 方法。<br>然后我发现当我修改了 view的 <code>bounds.size</code> 或者 <code>bounds.origin</code> 的时候也只会调用上边 Layer的一些方法。所以我大胆的猜一下，View 的 Center 和 Bounds 只是直接返回layer 对应的 Position 和 Bounds.</p>
+<p>View中frame getter方法，bounds和center，UIView并没有做什么工作；它只是简单的各自调用它底层的CALayer的frame，bounds和position方法。</p>
+<p>关于 Frame 的理解参考：<a href="http://www.cocoachina.com/industry/20131209/7498.html" target="_blank" rel="external">http://www.cocoachina.com/industry/20131209/7498.html</a></p>
+<h4 id="3-UIView主要是对显示内容的管理而_CALayer_主要侧重显示内容的绘制。">3.UIView主要是对显示内容的管理而 CALayer 主要侧重显示内容的绘制。</h4><p>我在 UIView 和 CALayer 分别重写了父类的方法。<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr_selector">[UIView drawRect:rect]</span><span class="comment">//UIView    </span></span><br><span class="line"></span><br><span class="line"><span class="attr_selector">[CALayer display]</span><span class="comment">//CALayer</span></span><br></pre></td></tr></table></figure></p>
+<p>然后我在上面两个方法加了断点，可以看到如下的执行。<br><img src="/images/Snip20150820_11.png" alt="image"></p>
+<p>可以看到 UIView 是 CALayer 的CALayerDelegate，我猜测是在代理方法内部[UIView(CALayerDelegate) drawLayer:inContext]调用 UIView 的 DrawRect方法，从而绘制出了 UIView 的内容.</p>
+<h4 id="4-在做_iOS_动画的时候，修改非_RootLayer的属性（譬如位置、背景色等）会默认产生隐式动画，而修改UIView则不会。">4.在做 iOS 动画的时候，修改非 RootLayer的属性（譬如位置、背景色等）会默认产生隐式动画，而修改UIView则不会。</h4><p>对于每一个 UIView 都有一个 layer,把这个 layer 且称作RootLayer,而不是 View 的根 Layer的叫做 非 RootLayer。我们对UIView的属性修改时时不会产生默认动画，而对单独 layer属性直接修改会，这个默认动画的时间缺省值是0.25s.<br>在 Core Animation 编程指南的 “How to Animate Layer-Backed Views” 中，对为什么会这样做出了一个解释：</p>
+<blockquote>
+<p>UIView 默认情况下禁止了 layer 动画，但是在 animation block 中又重新启用了它们</p>
+</blockquote>
+<p>是因为任何可动画的 layer 属性改变时，layer 都会寻找并运行合适的 ‘action’ 来实行这个改变。在 Core Animation 的专业术语中就把这样的动画统称为动作 (action，或者 CAAction)。</p>
+<p>layer 通过向它的 delegate 发送 actionForLayer:forKey: 消息来询问提供一个对应属性变化的 action。delegate 可以通过返回以下三者之一来进行响应：</p>
+<ol>
+<li>它可以返回一个动作对象，这种情况下 layer 将使用这个动作。</li>
+<li>它可以返回一个 nil， 这样 layer 就会到其他地方继续寻找。</li>
+<li>它可以返回一个 NSNull 对象，告诉 layer 这里不需要执行一个动作，搜索也会就此停止。<br>当 layer 在背后支持一个 view 的时候，view 就是它的 delegate；</li>
+</ol>
+<p>这部分的具体内容参考：<a href="http://objccn.io/issue-12-4/" target="_blank" rel="external">http://objccn.io/issue-12-4/</a></p>
+<h3 id="总结">总结</h3><p>总接来说就是如下几点：</p>
+<ul>
+<li>每个 UIView 内部都有一个 CALayer 在背后提供内容的绘制和显示，并且 UIView 的尺寸样式都由内部的 Layer 所提供。两者都有树状层级结构，layer 内部有 SubLayers，View 内部有 SubViews.但是 Layer 比 View 多了个AnchorPoint</li>
+<li>在 View显示的时候，UIView 做为 Layer 的 CALayerDelegate,View 的显示内容由内部的 CALayer 的 display</li>
+<li>CALayer 是默认修改属性支持隐式动画的，在给 UIView 的 Layer 做动画的时候，View 作为 Layer 的代理，Layer 通过 actionForLayer:forKey:向 View请求相应的 action(动画行为)</li>
+<li>layer 内部维护着三分 layer tree,分别是 presentLayer Tree(动画树),modeLayer Tree(模型树), Render Tree (渲染树),在做 iOS动画的时候，我们修改动画的属性，在动画的其实是 Layer 的 presentLayer的属性值,而最终展示在界面上的其实是提供 View的modelLayer</li>
+<li>两者最明显的区别是 View可以接受并处理事件，而 Layer 不可以</li>
+</ul>
+<h4 id="参考链接">参考链接</h4><p><a href="http://blog.csdn.net/weiwangchao_/article/details/7771538" target="_blank" rel="external">http://blog.csdn.net/weiwangchao_/article/details/7771538</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-iOS开发之UITableView性能优化" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -846,164 +2082,6 @@
       
 	<div class="article-tag tagcloud">
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/优化/">优化</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-iOS-Cell-图片异步加载优化，缓存机制" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/22/iOS-Cell-图片异步加载优化，缓存机制/" class="article-date">
-  	<time datetime="2015-08-22T13:45:29.000Z" itemprop="datePublished">2015-08-22</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/22/iOS-Cell-图片异步加载优化，缓存机制/">iOS Cell 图片异步加载优化，缓存机制</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>为了防止图片多次下载，我们需要对图片做缓存，缓存分为<code>内存缓存</code> <code>沙盒缓存</code>，我们当然两种都要实现。<br>由于<code>tableViewCell</code>是有重用机制的，也就是说，内存中只有当前可见的<code>cell</code>数目的实例，滑动的时候，新显示<code>cell</code>会重用被滑出的<code>cell</code>对象。这样就存在一个问题：</p>
-<p>一般情况下在我们会在cellForRow方法里面设置cell的图片数据源，也就是说如果一个cell的imageview对象开启了一个下载任务，这个时候该cell对象发生了重用，新的image数据源会开启另外的一个下载任务，由于他们关联的imageview对象实际上是同一个cell实例的imageview对象，就会发生2个下载任务回调给同一个imageview对象。这个时候就有必要做一些处理，避免回调发生时，错误的image数据源刷新了UI。</p>
-<p><code>所以在我们向下滑动tableview的时候我们需要手动去取消掉下载操作，当用户停止滑动，再去执行下载操作</code>。</p>
-<blockquote>
-<p>SDWebImage采用的也是这种策略。</p>
-</blockquote>
-<p>很简单我们只需要监听ScrollView的代理方法(tableview继承自Scrollview)。<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> *  当用户开始拖拽表格时调用</span><br><span class="line"> */</span></span><br><span class="line"><span class="tag">-</span> (void)<span class="tag">scrollViewWillBeginDragging</span>:(UIScrollView *)<span class="tag">scrollView</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 暂停下载</span></span><br><span class="line">    <span class="attr_selector">[self.queue setSuspended:YES]</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *  当用户停止拖拽表格时调用</span><br><span class="line"> */</span></span><br><span class="line"><span class="tag">-</span> (void)<span class="tag">scrollViewDidEndDragging</span>:(UIScrollView *)<span class="tag">scrollView</span> <span class="tag">willDecelerate</span>:(BOOL)<span class="tag">decelerate</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 恢复下载</span></span><br><span class="line">    <span class="attr_selector">[self.queue setSuspended:NO]</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>而SDWebImage采用的就是这种方式,所以在运行SDWebImage的demo的时候，可以看到，如果快速滑下去，然后又滑回来的话，图片是过了一会才显示出来，这是因为快速滑动的时候，旧数据源的下载任务被取消掉了。</p>
-<p>下面介绍一下具体的思路。<br>异步下载图片我们用的是NSOperation，并且创建一个全局的queue来管理下载图片的操作。<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span>  存放所有下载操作的队列</span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line"><span class="comment">@property (nonatomic,strong) NSOperationQueue* queue;</span></span><br></pre></td></tr></table></figure></p>
-<p>另外需要两个字典operations、images<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span>  存放所有的下载操作（url是key，operation对象是value）</span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line"><span class="comment">@property (nonatomic,strong) NSMutableDictionary* operations;</span></span><br><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span>  存放所有下载完成的图片，用于内存缓存，同样用Url为key</span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line"><span class="comment">@property (nonatomic,strong) NSMutableDictionary* images;</span></span><br></pre></td></tr></table></figure></p>
-<p>在把图片显示到Cell上之前<br>先判断内存中(images字典中)有没有图片，<br>如果有，则取出url对应的图片来显示，<br>如果没有，再去沙盒缓存中查看，当然存到沙盒中都是NSData。<br>如果沙盒缓存中有，我们取出对应的数据给Cell去显示<br>如果沙盒中也没有图片，我们先显示占位图片。再创建operation去执行下载操作了。<br>当然在创建operation之前，我们要判断这个operation操作是否存在<br>这个时候就用到我们operations这个字典了<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//取出当前URL对应的下载操作</span></span><br><span class="line"><span class="built_in">NSBlockOperation</span>* operation = <span class="keyword">self</span><span class="variable">.operations</span>[app<span class="variable">.icon</span>];</span><br></pre></td></tr></table></figure></p>
-<p>如果没有下载操作，我们才需要真正的去创建operation执行下载。<br>创建好下载操作之后应该把该操作存放到全局队列中去异步执行，同时吧操作放入operations字典中记录下来。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//添加操作到队列中</span></span><br><span class="line">  [<span class="keyword">self</span><span class="variable">.queue</span> addOperation:operation];</span><br><span class="line"><span class="comment">//添加到字典中</span></span><br><span class="line">   <span class="keyword">self</span><span class="variable">.operations</span>[app<span class="variable">.icon</span>] = operation;</span><br></pre></td></tr></table></figure></p>
-<p>下载完成之后：<br>把下载好的图片放到内存中、同时存到沙盒缓存中<br>下面存放到沙盒中的代码可以定义成宏，具体可以下载后面的demo</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (image) &#123; <span class="comment">//防止下载失败为空赋值造成崩溃</span></span><br><span class="line">  vc<span class="variable">.images</span>[app<span class="variable">.icon</span>] = image;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//下载完成的图片存入沙盒中                    </span></span><br><span class="line">  <span class="comment">// UIImage --&gt; NSData --&gt; File（文件）</span></span><br><span class="line">     <span class="built_in">NSData</span>* ImageData = <span class="built_in">UIImagePNGRepresentation</span>(image);</span><br><span class="line"></span><br><span class="line">     <span class="built_in">NSString</span>* CachesPath = [<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];</span><br><span class="line">     <span class="built_in">NSString</span>* filePath = [CachesPath stringByAppendingPathComponent:[app<span class="variable">.icon</span> lastPathComponent]];</span><br><span class="line"></span><br><span class="line">     [ImageData writeToFile:filePath atomically:<span class="literal">YES</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>执行完上面的操作之后回到主线程刷新表格，<br>从operations字典中移除下载操作(防止operations越来越大，同时保证下载失败后，能重新下载)<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//刷新当前行的图片数据</span></span><br><span class="line">  self.tableView <span class="string">reloadRowsAtIndexPaths:</span>@[indexPath] <span class="string">withRowAnimation:</span>UITableViewRowAnimationNone];</span><br></pre></td></tr></table></figure></p>
-<p>这里我们不用[self.tableView reloadata]，因为会刷新整个cell，浪费性能。</p>
-<p>当然如果你的下载操作里面需要做的事情很多的时候，可以考虑自定义operation。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/优化/">优化</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-GCD实现单一资源的多读写" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/21/GCD实现单一资源的多读写/" class="article-date">
-  	<time datetime="2015-08-21T13:17:58.000Z" itemprop="datePublished">2015-08-21</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/21/GCD实现单一资源的多读写/">GCD实现单一资源的多读写</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>在多线程编程中，最常见的场景是如何保证线程安全，比如你可能经常遇到多线程访问某个dic（又或者是array或其他）造成的crash。<br>这篇文章里，我们讨论下如何使用GCD实现多线程读者与写者问题，也即单一资源的线程安全问题。</p>
-</blockquote>
-<p>首先，还是先将示例代码放出来好了，后面会有一些我遇到过的问题及改进介绍。如果你只想得到一个解决方案，只需要看第一节就OK，当然，也许你也有兴趣看看后面的部分。</p>
-<h3 id="解决方案与原理">解决方案与原理</h3><h4 id="ARC版本">ARC版本</h4><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">_ioQueue = dispatch_queue_create(<span class="string">"ioQueue"</span>, <span class="type">DISPATCH_QUEUE_CONCURRENT</span>);</span><br><span class="line">- (<span class="type">void</span>)setSafeObject:(id)<span class="keyword">object</span> forKey:(<span class="type">NSString</span> *)key</span><br><span class="line">&#123;</span><br><span class="line">    key = [key copy];</span><br><span class="line">    dispatch_barrier_async(self.ioQueue, ^&#123;</span><br><span class="line">        <span class="keyword">if</span> (key &amp;&amp; <span class="keyword">object</span>) &#123;</span><br><span class="line">            [_dic setObject:<span class="keyword">object</span> forKey:key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line">- (id)getSafeObjectForKey:(<span class="type">NSString</span> *)key</span><br><span class="line">&#123;</span><br><span class="line">    __block id <span class="literal">result</span> = <span class="keyword">nil</span>;</span><br><span class="line">    dispatch_sync(self.ioQueue, ^&#123;</span><br><span class="line">        <span class="literal">result</span> = [_dic objectForKey:key];</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>首先，我们需要创建一个私有的队列来处理读写操作。在这里不推荐使用<code>globe_queue</code>, 因为我们通过<code>dispatch_barrier_async</code>来保证写操作的互斥，我们当然不希望写操作阻塞住<code>globe_queue</code>中的其他不相关任务，我们只希望在写的同时，不会有其他的写操作或者读操作。</p>
-<blockquote>
-<p>同时，也不推荐给队列设置优先级，多数情况下使用default就可以了。而改变优先级往往会造成一些无法预料的问题，比如优先级反转(具体的可以参看参考文献)。</p>
-</blockquote>
-<p><img src="dispatch_barrier.png"><br>图片来自参考文献<br><code>dispatch_barrier_async</code>的block运行时机是，在它之前所有的任务执行完毕，并且在它后面的任务开始之前，期间不会有其他的任务执行。注意在<code>barrier</code>执行的时候，队列本质上如同一个串行队列，其执行完以后才会恢复到并行队列。</p>
-<p>另外一个值得注意的问题是，在写操作的时候，我们使用<code>dispatch_async</code>，而在读操作的时候我们使用<code>dispatch_sync</code>。很明显，这2个操作一个是异步的，一个是同步的。我们不需要使每次程序执行的时候都等待写操作完成，所以写操作异步执行，但是我们需要同步的执行读操作来保证程序能够立刻得到它想要的值。</p>
-<p>使用sync的时候需要极其的小心，因为稍不注意，就有可能产生死锁，这可能造成灾难性的后果。你肯定也注意到了在写操作的时候对key进行了copy, 关于此处的解释，插入一段来自参考文献的引用:</p>
-<blockquote>
-<p>函数调用者可以自由传递一个NSMutableString的key，并且能够在函数返回后修改它。因此我们必须对传入的字符串使用copy操作以确保函数能够正确地工作。如果传入的字符串不是可变的（也就是正常的NSString类型），调用copy基本上是个空操作。</p>
-</blockquote>
-<p>到这里整个基本示例代码已经完成，一般情况下能够满足我们的需要。下面来看看在MRC过程中我遇到的一些问题。</p>
-<h4 id="关于死锁">关于死锁</h4><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queueA<span class="comment">; // 串行队列</span></span><br><span class="line">dispatch_sync<span class="list">(<span class="keyword">queueA</span>, ^<span class="list">()</span>&#123;    </span><br><span class="line">    dispatch_sync<span class="list">(<span class="keyword">queueA</span>, ^<span class="list">()</span>&#123;        </span><br><span class="line">        foo<span class="list">()</span><span class="comment">;    </span></span><br><span class="line">    &#125;)</span><span class="comment">;</span></span><br><span class="line">&#125;)</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
-<p>造成死锁比较常见的情况可以简化成上面这段代码。<br><code>dispatch_sync</code>会同步的提交工作并在返回前等待其完成。第一个<code>dispatch_sync</code>正在运行并等待它的block完成，但是block不能够完成，它调用了第二个dispatch_sync，而第二个<code>dispatch_sync</code>会等待串行队列中已经存在的第一个任务完成，很明显这个任务无法完成，造成死锁。</p>
-<blockquote>
-<p>值得注意的是main_queue就是一个串行队列。</p>
-</blockquote>
-<h3 id="MRC下容易遇到的问题与解决方案">MRC下容易遇到的问题与解决方案</h3><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)setSafeObject:(id)<span class="keyword">object</span> forKey:(<span class="type">NSString</span> *)key</span><br><span class="line">&#123;</span><br><span class="line">    key = [key copy];</span><br><span class="line">    dispatch_barrier_async(self.ioQueue, ^&#123;</span><br><span class="line">        <span class="keyword">if</span> (key &amp;&amp; <span class="keyword">object</span>) &#123;</span><br><span class="line">            [_dic setObject:<span class="keyword">object</span> forKey:key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    [key release];</span><br><span class="line">&#125;</span><br><span class="line">- (id)getSafeObjectForKey:(<span class="type">NSString</span> *)key</span><br><span class="line">&#123;</span><br><span class="line">    __block id <span class="literal">result</span> = <span class="keyword">nil</span>;</span><br><span class="line">    dispatch_sync(self.ioQueue, ^&#123;</span><br><span class="line">        <span class="literal">result</span> = [_dic objectForKey:key];</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>首先我们看看上面这段代码，基本就是ARC版本转换过来的，看起来没问题。那么究竟是不是真的没问题，我们跑段代码试试看：<br><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//版本一</span><br><span class="line">- (<span class="type">void</span>)test</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000000</span>; i++) &#123;             </span><br><span class="line">        dispatch_async(dispatch_get_global_queue(<span class="type">DISPATCH_QUEUE_PRIORITY_DEFAULT</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">            [self setSafeObject:[<span class="type">NSString</span> stringWithFormat:@<span class="string">"86+131633829%i"</span>, i] forKey:<span class="type">KEY</span>];</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="type">NSString</span> *<span class="literal">result</span> = [self getSafeObjectForKey:<span class="type">KEY</span>];</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">"get string: %@, length : %lu"</span>, <span class="literal">result</span>, <span class="literal">result</span>.length);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>test执行后，很快就会发生crash，读操作的result会发生野指针。<br>如果你有经验的话，可能会发现问题:<br>如果某个线程a刚取出了result值，这次线程b开始执行写操作，造成线程a中的result值成为了一份过期的数据，如果正好线程b的runloop结束，很有可能旧的result内存地址被释放掉,这时线程a中的result就会发生野指针crash。<br>这时候，你可能会采取这样子的修改，代码如下: </p>
-<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//版本二</span><br><span class="line">- (<span class="type">void</span>)test</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000000</span>; i++) &#123;             </span><br><span class="line">        dispatch_async(dispatch_get_global_queue(<span class="type">DISPATCH_QUEUE_PRIORITY_DEFAULT</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">            [self setSafeObject:[<span class="type">NSString</span> stringWithFormat:@<span class="string">"86+131633829%i"</span>, i] forKey:<span class="type">KEY</span>];</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="type">NSString</span> *<span class="literal">result</span> = [[self getSafeObjectForKey:<span class="type">KEY</span>] retain];</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">"get string: %@, length : %lu"</span>, <span class="literal">result</span>, <span class="literal">result</span>.length);</span><br><span class="line">        [<span class="literal">result</span> release];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>运行之后会发现，仍然会crash，其实问题和上面一样，我们的改动没有真正的解决问题。最好的解决方案是在读操作之前就已经retain住了，看看最终版的代码吧:<br><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//最终版</span><br><span class="line">- (id)getSafeObjectForKey:(<span class="type">NSString</span> *)key</span><br><span class="line">&#123;</span><br><span class="line">    __block id <span class="literal">result</span> = <span class="keyword">nil</span>;</span><br><span class="line">    dispatch_sync(self.ioQueue, ^&#123;</span><br><span class="line">        <span class="literal">result</span> = [[_dic objectForKey:key] retain];</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> [<span class="literal">result</span> autorelease];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>注意retain过一定要释放掉，不然或造成内存泄露。</p>
-</blockquote>
-<p>再次验证后发现，程序不会crash了，恭喜。</p>
-<blockquote>
-<p>转自 <a href="http://luoyibu.com/" target="_blank" rel="external">http://luoyibu.com/</a> </p>
-</blockquote>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GCD/">GCD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Thread/">Thread</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
 	</div>
 
       
