@@ -5,27 +5,21 @@
   
   <title>详解CALayer 和 UIView的区别和联系 | 白色键盘</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="转自 http://www.jianshu.com/p/079e5cf0f014
-
-前言前面发了一篇iOS 面试的文章，在说到 UIView 和 CALayer 的区别和联系的时候，被喵神指出没有切中要点，所以这里就 CALayer 和 UIView 这个问题重新整理了下。这里会先分条解释，最后会在文章的结尾给出概括性总结。
-1.首先UIView可以响应事件，Layer不可以.UIKit使用UIR">
+  <meta name="description" content="前言前面发了一篇iOS 面试的文章，在说到 UIView 和 CALayer 的区别和联系的时候，被喵神指出没有切中要点，所以这里就 CALayer 和 UIView 这个问题重新整理了下。这里会先分条解释，最后会在文章的结尾给出概括性总结。
+1.首先UIView可以响应事件，Layer不可以.UIKit使用UIResponder作为响应对象，来响应系统传递过来的事件并进行处理。UIApplica">
 <meta property="og:type" content="article">
 <meta property="og:title" content="详解CALayer 和 UIView的区别和联系">
 <meta property="og:url" content="http://yoursite.com/2015/09/03/详解CALayer-和-UIView的区别和联系/index.html">
 <meta property="og:site_name" content="白色键盘">
-<meta property="og:description" content="转自 http://www.jianshu.com/p/079e5cf0f014
-
-前言前面发了一篇iOS 面试的文章，在说到 UIView 和 CALayer 的区别和联系的时候，被喵神指出没有切中要点，所以这里就 CALayer 和 UIView 这个问题重新整理了下。这里会先分条解释，最后会在文章的结尾给出概括性总结。
-1.首先UIView可以响应事件，Layer不可以.UIKit使用UIR">
+<meta property="og:description" content="前言前面发了一篇iOS 面试的文章，在说到 UIView 和 CALayer 的区别和联系的时候，被喵神指出没有切中要点，所以这里就 CALayer 和 UIView 这个问题重新整理了下。这里会先分条解释，最后会在文章的结尾给出概括性总结。
+1.首先UIView可以响应事件，Layer不可以.UIKit使用UIResponder作为响应对象，来响应系统传递过来的事件并进行处理。UIApplica">
 <meta property="og:image" content="http://yoursite.com/images/Snip20150820_12.png">
 <meta property="og:image" content="http://yoursite.com/images/Snip20150820_11.png">
-<meta property="og:updated_time" content="2015-09-03T12:59:06.000Z">
+<meta property="og:updated_time" content="2015-09-03T13:07:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="详解CALayer 和 UIView的区别和联系">
-<meta name="twitter:description" content="转自 http://www.jianshu.com/p/079e5cf0f014
-
-前言前面发了一篇iOS 面试的文章，在说到 UIView 和 CALayer 的区别和联系的时候，被喵神指出没有切中要点，所以这里就 CALayer 和 UIView 这个问题重新整理了下。这里会先分条解释，最后会在文章的结尾给出概括性总结。
-1.首先UIView可以响应事件，Layer不可以.UIKit使用UIR">
+<meta name="twitter:description" content="前言前面发了一篇iOS 面试的文章，在说到 UIView 和 CALayer 的区别和联系的时候，被喵神指出没有切中要点，所以这里就 CALayer 和 UIView 这个问题重新整理了下。这里会先分条解释，最后会在文章的结尾给出概括性总结。
+1.首先UIView可以响应事件，Layer不可以.UIKit使用UIResponder作为响应对象，来响应系统传递过来的事件并进行处理。UIApplica">
   
     <link rel="alternative" href="/atom.xml" title="白色键盘" type="application/atom+xml">
   
@@ -165,10 +159,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>转自 <a href="http://www.jianshu.com/p/079e5cf0f014" target="_blank" rel="external">http://www.jianshu.com/p/079e5cf0f014</a></p>
-</blockquote>
-<h3 id="前言">前言</h3><p>前面发了一篇iOS 面试的文章，在说到 UIView 和 CALayer 的区别和联系的时候，被喵神指出没有切中要点，所以这里就 CALayer 和 UIView 这个问题重新整理了下。这里会先分条解释，最后会在文章的结尾给出概括性总结。</p>
+        <h3 id="前言">前言</h3><p>前面发了一篇iOS 面试的文章，在说到 UIView 和 CALayer 的区别和联系的时候，被喵神指出没有切中要点，所以这里就 CALayer 和 UIView 这个问题重新整理了下。这里会先分条解释，最后会在文章的结尾给出概括性总结。</p>
 <h4 id="1-首先UIView可以响应事件，Layer不可以-">1.首先UIView可以响应事件，Layer不可以.</h4><p>UIKit使用UIResponder作为响应对象，来响应系统传递过来的事件并进行处理。UIApplication、UIViewController、UIView、和所有从UIView派生出来的UIKit类（包括UIWindow）都直接或间接地继承自UIResponder类。</p>
 <p>在 UIResponder中定义了处理各种事件和事件传递的接口, 而 CALayer直接继承 NSObject，并没有相应的处理事件的接口。</p>
 <p>下面列举一些处理触摸事件的接口</p>
@@ -218,6 +209,9 @@
 <li>两者最明显的区别是 View可以接受并处理事件，而 Layer 不可以</li>
 </ul>
 <h4 id="参考链接">参考链接</h4><p><a href="http://blog.csdn.net/weiwangchao_/article/details/7771538" target="_blank" rel="external">http://blog.csdn.net/weiwangchao_/article/details/7771538</a></p>
+<blockquote>
+<p>转自 <a href="http://www.jianshu.com/p/079e5cf0f014" target="_blank" rel="external">http://www.jianshu.com/p/079e5cf0f014</a></p>
+</blockquote>
 
       
     </div>
@@ -226,15 +220,6 @@
   
     
 <nav id="article-nav">
-  
-    <a href="/2015/09/03/详解CALayer-和-UIView的区别和联系/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
   
     <a href="/2015/08/31/iOS开发之UITableView性能优化/" id="article-nav-older" class="article-nav-link-wrap">

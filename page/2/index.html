@@ -118,77 +118,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-iOS-Cell-图片异步加载优化，缓存机制" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/22/iOS-Cell-图片异步加载优化，缓存机制/" class="article-date">
-  	<time datetime="2015-08-22T13:45:29.000Z" itemprop="datePublished">2015-08-22</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/22/iOS-Cell-图片异步加载优化，缓存机制/">iOS Cell 图片异步加载优化，缓存机制</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>为了防止图片多次下载，我们需要对图片做缓存，缓存分为<code>内存缓存</code> <code>沙盒缓存</code>，我们当然两种都要实现。<br>由于<code>tableViewCell</code>是有重用机制的，也就是说，内存中只有当前可见的<code>cell</code>数目的实例，滑动的时候，新显示<code>cell</code>会重用被滑出的<code>cell</code>对象。这样就存在一个问题：</p>
-<p>一般情况下在我们会在cellForRow方法里面设置cell的图片数据源，也就是说如果一个cell的imageview对象开启了一个下载任务，这个时候该cell对象发生了重用，新的image数据源会开启另外的一个下载任务，由于他们关联的imageview对象实际上是同一个cell实例的imageview对象，就会发生2个下载任务回调给同一个imageview对象。这个时候就有必要做一些处理，避免回调发生时，错误的image数据源刷新了UI。</p>
-<p><code>所以在我们向下滑动tableview的时候我们需要手动去取消掉下载操作，当用户停止滑动，再去执行下载操作</code>。</p>
-<blockquote>
-<p>SDWebImage采用的也是这种策略。</p>
-</blockquote>
-<p>很简单我们只需要监听ScrollView的代理方法(tableview继承自Scrollview)。<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> *  当用户开始拖拽表格时调用</span><br><span class="line"> */</span></span><br><span class="line"><span class="tag">-</span> (void)<span class="tag">scrollViewWillBeginDragging</span>:(UIScrollView *)<span class="tag">scrollView</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 暂停下载</span></span><br><span class="line">    <span class="attr_selector">[self.queue setSuspended:YES]</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *  当用户停止拖拽表格时调用</span><br><span class="line"> */</span></span><br><span class="line"><span class="tag">-</span> (void)<span class="tag">scrollViewDidEndDragging</span>:(UIScrollView *)<span class="tag">scrollView</span> <span class="tag">willDecelerate</span>:(BOOL)<span class="tag">decelerate</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 恢复下载</span></span><br><span class="line">    <span class="attr_selector">[self.queue setSuspended:NO]</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>而SDWebImage采用的就是这种方式,所以在运行SDWebImage的demo的时候，可以看到，如果快速滑下去，然后又滑回来的话，图片是过了一会才显示出来，这是因为快速滑动的时候，旧数据源的下载任务被取消掉了。</p>
-<p>下面介绍一下具体的思路。<br>异步下载图片我们用的是NSOperation，并且创建一个全局的queue来管理下载图片的操作。<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span>  存放所有下载操作的队列</span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line"><span class="comment">@property (nonatomic,strong) NSOperationQueue* queue;</span></span><br></pre></td></tr></table></figure></p>
-<p>另外需要两个字典operations、images<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span>  存放所有的下载操作（url是key，operation对象是value）</span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line"><span class="comment">@property (nonatomic,strong) NSMutableDictionary* operations;</span></span><br><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span>  存放所有下载完成的图片，用于内存缓存，同样用Url为key</span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line"><span class="comment">@property (nonatomic,strong) NSMutableDictionary* images;</span></span><br></pre></td></tr></table></figure></p>
-<p>在把图片显示到Cell上之前<br>先判断内存中(images字典中)有没有图片，<br>如果有，则取出url对应的图片来显示，<br>如果没有，再去沙盒缓存中查看，当然存到沙盒中都是NSData。<br>如果沙盒缓存中有，我们取出对应的数据给Cell去显示<br>如果沙盒中也没有图片，我们先显示占位图片。再创建operation去执行下载操作了。<br>当然在创建operation之前，我们要判断这个operation操作是否存在<br>这个时候就用到我们operations这个字典了<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//取出当前URL对应的下载操作</span></span><br><span class="line"><span class="built_in">NSBlockOperation</span>* operation = <span class="keyword">self</span><span class="variable">.operations</span>[app<span class="variable">.icon</span>];</span><br></pre></td></tr></table></figure></p>
-<p>如果没有下载操作，我们才需要真正的去创建operation执行下载。<br>创建好下载操作之后应该把该操作存放到全局队列中去异步执行，同时吧操作放入operations字典中记录下来。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//添加操作到队列中</span></span><br><span class="line">  [<span class="keyword">self</span><span class="variable">.queue</span> addOperation:operation];</span><br><span class="line"><span class="comment">//添加到字典中</span></span><br><span class="line">   <span class="keyword">self</span><span class="variable">.operations</span>[app<span class="variable">.icon</span>] = operation;</span><br></pre></td></tr></table></figure></p>
-<p>下载完成之后：<br>把下载好的图片放到内存中、同时存到沙盒缓存中<br>下面存放到沙盒中的代码可以定义成宏，具体可以下载后面的demo</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (image) &#123; <span class="comment">//防止下载失败为空赋值造成崩溃</span></span><br><span class="line">  vc<span class="variable">.images</span>[app<span class="variable">.icon</span>] = image;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//下载完成的图片存入沙盒中                    </span></span><br><span class="line">  <span class="comment">// UIImage --&gt; NSData --&gt; File（文件）</span></span><br><span class="line">     <span class="built_in">NSData</span>* ImageData = <span class="built_in">UIImagePNGRepresentation</span>(image);</span><br><span class="line"></span><br><span class="line">     <span class="built_in">NSString</span>* CachesPath = [<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];</span><br><span class="line">     <span class="built_in">NSString</span>* filePath = [CachesPath stringByAppendingPathComponent:[app<span class="variable">.icon</span> lastPathComponent]];</span><br><span class="line"></span><br><span class="line">     [ImageData writeToFile:filePath atomically:<span class="literal">YES</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>执行完上面的操作之后回到主线程刷新表格，<br>从operations字典中移除下载操作(防止operations越来越大，同时保证下载失败后，能重新下载)<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//刷新当前行的图片数据</span></span><br><span class="line">  self.tableView <span class="string">reloadRowsAtIndexPaths:</span>@[indexPath] <span class="string">withRowAnimation:</span>UITableViewRowAnimationNone];</span><br></pre></td></tr></table></figure></p>
-<p>这里我们不用[self.tableView reloadata]，因为会刷新整个cell，浪费性能。</p>
-<p>当然如果你的下载操作里面需要做的事情很多的时候，可以考虑自定义operation。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/优化/">优化</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-GCD实现单一资源的多读写" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1454,6 +1383,72 @@
 	</div>
 
       
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-multiple-uiimage-merged" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/12/multiple-uiimage-merged/" class="article-date">
+  	<time datetime="2015-08-12T15:45:58.000Z" itemprop="datePublished">2015-08-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/12/multiple-uiimage-merged/">iOS多张图片合并</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>写了两篇关于照片保存的文章：</p>
+<p>iOS开发之保存照片到系统相册（Photo Album）<br>iOS开发之保存照片到自己创建的相簿<br>介绍了如何将图片保存到系统相册，也可以将照片保存到自己的相簿。里面还介绍了一个第三方<code>ALAssetsLibrary+CustomPhotoAlbum</code>保存照片的方法。</p>
+<p>本篇文章将会介绍如何将多个<code>UIImage</code>合并成一个<code>UIImage</code>。听起来似乎有点晕晕乎乎的，这个可以合并吗？答案是肯定的。我们拿两个<code>UIImage</code>来举例。</p>
+<p>创建两个UIImage<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIImage</span> *image1 = [<span class="built_in">UIImage</span> imageNamed:<span class="string">@"iOSDevTip"</span>];</span><br><span class="line"><span class="built_in">UIImage</span> *image2 = [<span class="built_in">UIImage</span> imageNamed:<span class="string">@"CodePush"</span>];</span><br></pre></td></tr></table></figure></p>
+<p>创建UIImage的方法有很多种，我们就简单的通过imageNamed:方法来创建。</p>
+<hr>
+<p>合并之后的size<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CGSize <span class="built_in">size</span> = CGSizeMake(image1.<span class="built_in">size</span>.<span class="variable">width</span> + image2.<span class="built_in">size</span>.<span class="variable">width</span>, image1.<span class="built_in">size</span>.<span class="variable">height</span>);</span><br></pre></td></tr></table></figure></p>
+<p>合并两个<code>UIImage</code>，需要计算合并之后的<code>size</code>。假设这两个<code>UIImage</code>的高度是是相同的，把他们的宽度相加，得到合并之后的<code>UIImage</code>的<code>size</code>。</p>
+<hr>
+<p>合并方法</p>
+<p>有了UIImage和size接下来就是把两个<code>UIImage</code>合并，方法如下：<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> UIGraphicsBeginImageContext(<span class="built_in">size</span>);</span><br><span class="line">[image1 drawInRect:CGRectMake(<span class="number">0</span>, <span class="number">0</span>, image1.<span class="built_in">size</span>.<span class="variable">width</span>, <span class="built_in">size</span>.<span class="variable">height</span>)];</span><br><span class="line">[image2 drawInRect:CGRectMake(image1.<span class="built_in">size</span>.<span class="variable">width</span>, <span class="number">0</span>, image2.<span class="built_in">size</span>.<span class="variable">width</span>, <span class="built_in">size</span>.<span class="variable">height</span>)];</span><br><span class="line">UIImage *togetherImage = UIGraphicsGetImageFromCurrentImageContext();</span><br><span class="line">UIGraphicsEndImageContext();</span><br></pre></td></tr></table></figure></p>
+<p>通过上述的代码，就可以实现两个<code>UIImage</code>的合并。` 这个小功能还挺有用的。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS/">iOS</a>
+	</div>
+
 
       
       <div class="clearfix"></div>

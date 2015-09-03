@@ -118,67 +118,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-hmsegmentedcontrol-selected-section-textcolor" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/07/31/hmsegmentedcontrol-selected-section-textcolor/" class="article-date">
-  	<time datetime="2014-07-31T15:23:13.000Z" itemprop="datePublished">2014-07-31</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/07/31/hmsegmentedcontrol-selected-section-textcolor/">HMSegmentedControl-选中section的字体颜色</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>HMSegmentedControl是一个很常用的，比UISegmentedControl强大百倍的的开源控件库<br>效果如图<br><img src="/images/ios/UISegmentControl.png"></p>
-<p>图中所示，当前被选中的section的颜色并没有高亮，和其他section没有差异，相信很多开发者都有类似需求，把当前选中section高亮。</p>
-<p>阅读了下HMSegementedControl的源码，发现稍稍改动即可完成上述需求。<br>在HMSegmentControl.h中加入<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, strong) UIColor *selectedTextColor; <span class="comment">// default is [UIColor whiteColor]</span></span><br></pre></td></tr></table></figure></p>
-<p>然后在.m文件中给selectedTextColor初始化值，修改drawRect方法中加入几行代码即可</p>
-<figure class="highlight c++"><figcaption><span>修改后的- (void)drawRect:(CGRect)rect</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)drawRect:(CGRect)rect</span><br><span class="line">&#123;</span><br><span class="line">    [self.backgroundColor <span class="built_in">set</span>];</span><br><span class="line">    UIRectFill([self bounds]);</span><br><span class="line">    </span><br><span class="line">    [self.textColor <span class="built_in">set</span>];</span><br><span class="line">    </span><br><span class="line">    [self.sectionTitles enumerateObjectsUsingBlock:^(id titleString, NSUInteger idx, BOOL *stop) &#123;</span><br><span class="line">        CGFloat stringHeight = [titleString sizeWithFont:self.font].height;</span><br><span class="line">        CGFloat y = ((self.height - self.selectionIndicatorHeight) / <span class="number">2</span>) + (self.selectionIndicatorHeight - stringHeight / <span class="number">2</span>);</span><br><span class="line">        CGRect rect = CGRectMake(self.segmentWidth * idx, y, self.segmentWidth, stringHeight);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//HN: added by ywang</span></span><br><span class="line">        <span class="comment">//set current selected section's font color</span></span><br><span class="line">        <span class="keyword">if</span>(idx == _selectedIndex)</span><br><span class="line">        &#123;</span><br><span class="line">            [self.selectedTextColor <span class="built_in">set</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            [self.textColor <span class="built_in">set</span>];</span><br><span class="line">        &#125;</span><br><span class="line"><span class="preprocessor">#<span class="keyword">if</span> __IPHONE_OS_VERSION_MIN_REQUIRED &lt; <span class="number">60000</span></span></span><br><span class="line">        [titleString drawInRect:rect</span><br><span class="line">                       withFont:self.font</span><br><span class="line">                  lineBreakMode:UILineBreakModeClip</span><br><span class="line">                      alignment:UITextAlignmentCenter];</span><br><span class="line"><span class="preprocessor">#<span class="keyword">else</span></span></span><br><span class="line">        [titleString drawInRect:rect</span><br><span class="line">                       withFont:self.font</span><br><span class="line">                  lineBreakMode:NSLineBreakByClipping</span><br><span class="line">                      alignment:NSTextAlignmentCenter];</span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br><span class="line">        </span><br><span class="line">        self.selectedSegmentLayer.frame = [self frameForSelectionIndicator];</span><br><span class="line">        self.selectedSegmentLayer.backgroundColor = self.selectionIndicatorColor.CGColor;</span><br><span class="line">        [self.layer addSublayer:self.selectedSegmentLayer];</span><br><span class="line"></span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><br><br>使用时设置selectedTextColor的颜色，效果如图<br><img src="/images/ios/UISegmentControl-SelectedTextColor.png"></p>
-<p><br><br>注：现在HMSegementedControl已经支持选中的setion高亮了，并且支持图标的secion了，希望后续可以支持图标+文字的section (^O^)<br><a href="https://github.com/HeshamMegid/HMSegmentedControl.git" target="_blank" rel="external">HMSegmentedControl的github地址</a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/IOS/">IOS</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-cocos2d-x-tencentweibo" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
