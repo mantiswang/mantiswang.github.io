@@ -118,6 +118,295 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Swift学习-从Objective-C到Swift" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/09/04/Swift学习-从Objective-C到Swift/" class="article-date">
+  	<time datetime="2015-09-04T12:54:50.000Z" itemprop="datePublished">2015-09-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/04/Swift学习-从Objective-C到Swift/">Swift学习: 从Objective-C到Swift</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Swift学习:_从Objective-C到Swift">Swift学习: 从Objective-C到Swift</h3><p>这篇文章是自己学习Swift的笔记与深化。希望这篇文章能够帮助已经有Objective-C经验的开发者更快地学习Swift。同时也品味到Swift的精妙之处。</p>
+<p>结论放在开头:</p>
+<p>我认为Swift比Objective-C更优雅,更安全同时也更现代,更性感。</p>
+<p>文章组织脉络：</p>
+<ol>
+<li>从Objective-C到Swift的语法差异。我们熟悉的Objective-C特性在Swift中如何展现。</li>
+<li>从Objective-C到Swift的进步改进。研究对比Swift在安全性,易用性上的提升,给我们带来的新编程范式。</li>
+</ol>
+<h4 id="1-属性(property)和实例变量(instance_variable)">1.属性(property)和实例变量(instance variable)</h4><h4 id="Objective-C_property_in_Swift_world">Objective-C property in Swift world</h4><p>在Cocoa世界开发的过程中,我们最常打交道的是property.<br>典型的声明为:<br><code>@property (strong,nonatomic) NSString *string;</code></p>
+<p>而在Swift当中,摆脱了C的包袱后,变得更为精炼,我们只需直接在类中声明即可<br><code>class Shape {    var name = &quot;shape&quot;}</code><br>注意到这里,我们不再需要<code>@property</code>指令,而在Objective-C中,我们可以指定property的attribute,例如strong,weak,readonly等。<br>而在Swift的世界中,我们通过其他方式来声明这些property的性质。</p>
+<p>需要注意的几点:</p>
+<ul>
+<li><code>strong</code>: 在Swift中是默认的</li>
+<li><code>weak</code>: 通过weak关键词申明<br><code>weak var delegate: UITextFieldDelegate?</code></li>
+<li><code>readonly</code>,<code>readwrie</code>  直接通过声明变量<code>var</code>,声明常量<code>let</code>的方式来指明</li>
+<li><code>copy</code> 通过<code>@NSCopying</code>指令声明。</li>
+</ul>
+<h3 id="值得注意的是String,Array和Dictionary在Swift是以值类型(value_type)而不是引用类型(reference_type)出现,因此它们在赋值,初始化,参数传递中都是以拷贝的方式进行（简单来说,String,Array,Dictionary在Swift中是通过struct实现的）">值得注意的是String,Array和Dictionary在Swift是以值类型(value type)而不是引用类型(reference type)出现,因此它们在赋值,初始化,参数传递中都是以拷贝的方式进行（简单来说,String,Array,Dictionary在Swift中是通过struct实现的）</h3><blockquote>
+<p>延伸阅读：Value and Reference Types</p>
+</blockquote>
+<ul>
+<li><code>nonatomic</code>,<code>atomic</code> 所有的Swift properties 都是nonatomic。但是我们在线程安全上已经有许多机制,例如NSLock,GCD相关API等。个人推测原因是苹果想把这一个本来就用的很少的特性去掉,线程安全方面交给平时我们用的更多的机制去处理。</li>
+</ul>
+<p>然后值得注意的是,在Objective-C中,我们可以跨过property直接与instance variable打交道,而在Swift是不可以的。</p>
+<p>例如：我们可以不需要将someString声明为property,直接使用即可。即使我们将otherString声明为property,我们也可以直接用_otherString来使用property背后的实例变量。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">SomeClass</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">  <span class="built_in">NSString</span> *someString;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span>* otherString;</span><br></pre></td></tr></table></figure></p>
+<p>而在Swift中,我们不能直接与instance variable打交道。也就是我们声明的方式简化为简单的一种,简单来说在Swift中,我们只与property打交道。</p>
+<blockquote>
+<p>A Swift property does not have a corresponding instance variable, and the backing store for a property is not accessed directly</p>
+</blockquote>
+<h4 id="小结">小结</h4><ul>
+<li><p>因此之前使用OC导致的像巧哥指出的开发争议就不再需要争执了,在Swift的世界里,我们只与property打交道。</p>
+</li>
+<li><p>并且我们在OC中<code>init</code>和<code>dealloc</code>不能使用属性<code>self.property = XXX</code>来进行设置的情况得以解决和统一。</p>
+</li>
+</ul>
+<p>(不知道这一条规定,在init直接用self.property = value 的同学请自觉阅读iOS夯实：内存管理)</p>
+<p>：）</p>
+<p>个人觉得这看似小小一点变动使Swift开发变得更加安全以及在代码的风格更为统一与稳定。</p>
+<h4 id="Swift_property延伸：">Swift property延伸：</h4><ul>
+<li><code>Stored Properties</code>和<code>Computed properties</code></li>
+</ul>
+<p>在Swift中,property被分为两类：<code>Stored Properties</code>和<code>Computed properties</code><br>简单来说,就是stored properties 能够保存值,而conmuted properties只提供getter与setter,利用stored properties来生成自己的值。个人感觉Computed properties更像方法,而不是传统意义的属性。但是这样一个特性存在,使得我们更容易组织我们的代码。</p>
+<blockquote>
+<p>延伸阅读：computed property vs function</p>
+</blockquote>
+<ul>
+<li><code>Type Properties</code></li>
+</ul>
+<p>Swift提供了语言级别定义类变量的方法。</p>
+<blockquote>
+<p>In C and Objective-C, you define static constants and variables associated with a type as global static variables.In Swift, however, type properties are written as part of the type’s definition, within the type’s outer curly braces, and each type property is explicitly scoped to the type it supports.</p>
+</blockquote>
+<p>在Objective-C中,我们只能通过单例,或者static变量加类方法来自己构造类变量：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Model</span></span></span><br><span class="line">+ (<span class="keyword">int</span>) value;</span><br><span class="line">+ (<span class="keyword">void</span>) setValue:(<span class="keyword">int</span>)val;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Model</span></span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> value;</span><br><span class="line">+ (<span class="keyword">int</span>) value</span><br><span class="line">&#123; <span class="keyword">@synchronized</span>(<span class="keyword">self</span>) &#123; <span class="keyword">return</span> value; &#125; &#125;</span><br><span class="line">+ (<span class="keyword">void</span>) setValue:(<span class="keyword">int</span>)val</span><br><span class="line">&#123; <span class="keyword">@synchronized</span>(<span class="keyword">self</span>) &#123; value = val; &#125; &#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Foo.h</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+(<span class="built_in">NSDictionary</span>*) dictionary;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Foo.m</span></span><br><span class="line">+(<span class="built_in">NSDictionary</span>*) dictionary</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">static</span> <span class="built_in">NSDictionary</span>* fooDict = <span class="literal">nil</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> oncePredicate;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">dispatch_once</span>(&amp;oncePredicate, ^&#123;</span><br><span class="line">        <span class="comment">// create dict</span></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> fooDict;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而在Swift中我们通过清晰的语法便能定义类变量：</p>
+<p>通过static定义的类变量无法在子类重写,通过class定义的类变量则可在子类重写。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">struct SomeStructure &#123;    </span><br><span class="line">    static <span class="variable"><span class="keyword">var</span> storedTypeProperty</span> = <span class="string">"Some value."</span></span><br><span class="line">    static <span class="variable"><span class="keyword">var</span> computedTypeProperty</span>: <span class="typename">Int</span> &#123; </span><br><span class="line">           <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">var</span> <span class="title">overrideableComputedTypeProperty</span>: <span class="typename">Int &#123;  </span></span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">107</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同时利用类变量我们也有了更优雅的单例模式实现：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">singletonClass</span> &#123;  </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">let</span> sharedInstance = singletonClass()</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">init</span>(<span class="params"></span>) </span>&#123;&#125; <span class="comment">// 这就阻止其他对象使用这个类的默认的'()'初始化方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Swift单例模式探索：The Right Way to Write a Singleton</p>
+<ul>
+<li>延伸：<br>目前Swift支持的type propertis中的Stored Properties类型不是传统意义上的类变量(class variable)，暂时不能通过class 关键词定义,通过static定义的类变量类似java中的类变量,是无法被继承的,父类与子类的类变量指向的都是同一个静态变量。</li>
+</ul>
+<blockquote>
+<p>延伸阅读： Class variables not yet supported</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SomeStructure</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">var</span> <span class="title">storedTypeProperty</span> </span>= <span class="string">"Some value."</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Swift 2.0 </span></span><br><span class="line"><span class="built_in">Error</span>: Class stored properties not yet supported <span class="keyword">in</span> classes</span><br></pre></td></tr></table></figure>
+<p>通过编译器抛出的错误信息,相信在未来的版本中会完善Type properties。</p>
+<h4 id="2-控制流">2.控制流</h4><p>Swift与Objective-C在控制流的语法上关键词基本是一致的,但是扩展性和安全性得到了很大的提升。</p>
+<p>主要有三种类型的语句</p>
+<ol>
+<li>if,switch和新增的guard</li>
+<li>for,while</li>
+<li>break,continue<br>主要差异有：</li>
+</ol>
+<h4 id="关于if">关于if</h4><h5 id="语句里的条件不再需要使用()包裹了。">语句里的条件不再需要使用()包裹了。</h5><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="built_in">number</span> = <span class="number">23</span></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">number</span> &lt; <span class="number">10</span> &#123;  </span><br><span class="line">  print(<span class="string">"The number is small"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是后面判断执行的的代码必须使用{}包裹住。<br>为什么呢,在C,C++等语言中,如果后面执行的语句只有语句,我们可以写成:<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> <span class="built_in">number</span> = <span class="number">23</span></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">number</span> &lt; <span class="number">10</span>)</span><br><span class="line">   NSLog(<span class="string">"The number is small"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>但是如果有时要在后面添加新的语句,忘记添加{},灾难就很可能发送。</p>
+<p>：） 像苹果公司自己就犯过这样的错误。下面这段代码就是著名的goto fail错误,导致了严重的安全性问题。<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ((err = SSLHashSHA1<span class="built_in">.</span>update(<span class="subst">&amp;</span>hashCtx, <span class="subst">&amp;</span>signedParams)) != <span class="number">0</span>)    goto fail;    goto fail;  <span class="comment">// :)注意 这不是Python的缩减</span></span><br><span class="line"><span class="attribute">...</span> other checks <span class="attribute">...</span></span><br><span class="line">fail:</span><br><span class="line">  <span class="attribute">...</span> buffer frees (cleanups) <span class="attribute">...</span>    <span class="keyword">return</span> err;</span><br></pre></td></tr></table></figure></p>
+<p>：）<br>最终在Swift,苹果终于在根源上消除了可能导致这种错误的可能性。</p>
+<h5 id="if_后面的条件必须为Boolean表达式">if 后面的条件必须为Boolean表达式</h5><p>也就是不会隐式地与0进行比较,<code>下面这种写法是错误的</code>,因为number并不是一个boolean表达式,number != 0才是。<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> <span class="built_in">number</span> = <span class="number">0</span></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">number</span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="关于for">关于for</h4><p>for循环在Swift中变得更方便,更强大。</p>
+<p>得益于Swift新添加的范围操作符<code>...</code>与 <code>...&lt;</code><br>我们能够将之前繁琐的for循环：<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">1</span><span class="comment">; i &lt;= 5; i++)</span></span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@<span class="string">"%d"</span>, i)<span class="comment">;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>改写为：<br><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for <span class="built_in">index</span> <span class="type">in</span> <span class="number">1.</span>.<span class="number">.5</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">index</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当然,熟悉Python的亲们知道Python的range函数很方便,我们还能自由选择步长。<br>像这样：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; range(<span class="number">1</span>,<span class="number">5</span>) <span class="preprocessor">#代表从<span class="number">1</span>到<span class="number">5</span>(不包含<span class="number">5</span>)[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]&gt;&gt;&gt; range(<span class="number">1</span>,<span class="number">5</span>,<span class="number">2</span>) #代表从<span class="number">1</span>到<span class="number">5</span>，间隔<span class="number">2</span>(不包含<span class="number">5</span>)[<span class="number">1</span>, <span class="number">3</span>]</span></span><br></pre></td></tr></table></figure></p>
+<p>虽然在《The Swift Programming Language》里面没有提到类似的用法,但是在Swift中我们也有优雅的方法办到。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">for</span> index in <span class="title">stride</span><span class="params">(from: <span class="number">1</span>, through: <span class="number">5</span>, by: <span class="number">2</span>)</span> </span>&#123; </span><br><span class="line">   print(index)</span><br><span class="line">&#125;<span class="comment">// through是包括5</span></span><br></pre></td></tr></table></figure></p>
+<p>然后对字典的遍历也增强了.在Objective-c的快速枚举中我们只能对字典的键进行枚举。<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">NSString *<span class="variable">key</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="variable">key</span> in someDictionary)&#123;</span><br><span class="line">     NSLog(@<span class="string">"Key: %@, Value %@"</span>, <span class="variable">key</span>, [someDictionary objectForKey: <span class="variable">key</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>而在Swift中,通过tuple我们可以同时枚举key与value:<br><figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> dictionary = [<span class="string">"firstName"</span>:<span class="string">"Mango"</span>,<span class="string">"lastName"</span>:<span class="string">"Fang"</span>]</span><br><span class="line"><span class="keyword">for</span> (key,<span class="keyword">value</span>) <span class="keyword">in</span> dictionary&#123;</span><br><span class="line">    print(key+<span class="string">" "</span>+<span class="keyword">value</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="关于Switch">关于Switch</h4><p>Swich在Swift中也得到了功能的增强与安全性的提高。</p>
+<h5 id="不需要Break来终止往下一个Case执行">不需要Break来终止往下一个Case执行</h5><p><strong>也就是下面这两种写法是等价的</strong></p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let <span class="keyword">character</span> = <span class="string">"a"</span></span><br><span class="line"><span class="keyword">switch</span> <span class="keyword">character</span>&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"a"</span>:        <span class="keyword">print</span>(<span class="string">"A"</span>)    <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">case</span> <span class="string">"b"</span>:        <span class="keyword">print</span>(<span class="string">"B"</span>)    <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">default</span>: <span class="keyword">print</span>(<span class="string">"character"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let <span class="keyword">character</span> = <span class="string">"a"</span></span><br><span class="line"><span class="keyword">switch</span> <span class="keyword">character</span>&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"a"</span>:        <span class="keyword">print</span>(<span class="string">"A"</span>)    </span><br><span class="line">    <span class="keyword">case</span> <span class="string">"b"</span>:        <span class="keyword">print</span>(<span class="string">"B"</span>)</span><br><span class="line">    <span class="keyword">default</span>: <span class="keyword">print</span>(<span class="string">"character"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种改进避免了忘记写break造成的错误,自己深有体会,曾经就是因为漏写了break而花了一段时间去debug。</p>
+<p>如果我们想不同值统一处理,使用逗号将值隔开即可。<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> some <span class="built_in">value</span> <span class="built_in">to</span> consider &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="built_in">value</span> <span class="number">1</span>,<span class="built_in">value</span> <span class="number">2</span>:</span><br><span class="line">    statements</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="Switch支持的类型">Switch支持的类型</h5><p>在OC中,Swtich只支持int类型,char类型作为匹配。<br>而在Swift中,Switch支持的类型大大的拓宽了。实际上,苹果是这么说的。</p>
+<blockquote>
+<p>A switch statement supports any kind of data</p>
+</blockquote>
+<p>这意味在开发中我们能够能够对字符串,浮点数等进行匹配了。<br>之前在OC繁琐的写法就可以进行改进了:</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">if</span> ([cardName <span class="attribute">isEqualToString</span>:@<span class="string">"Six"</span>]) &#123;</span><br><span class="line">    <span class="attr_selector">[self setValue:6]</span>;</span><br><span class="line">&#125; <span class="tag">else</span> <span class="tag">if</span> ([cardName <span class="attribute">isEqualToString</span>:@<span class="string">"Seven"</span>]) &#123;</span><br><span class="line">    <span class="attr_selector">[self setValue:7]</span>;</span><br><span class="line">&#125; <span class="tag">else</span> <span class="tag">if</span> ([cardName <span class="attribute">isEqualToString</span>:@<span class="string">"Eight"</span>]) &#123;</span><br><span class="line">    <span class="attr_selector">[self setValue:8]</span>;</span><br><span class="line">&#125; <span class="tag">else</span> <span class="tag">if</span> ([cardName <span class="attribute">isEqualToString</span>:@<span class="string">"Nine"</span>]) &#123;</span><br><span class="line">    <span class="attr_selector">[self setValue:9]</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> carName&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"Six"</span>:        self.vaule = <span class="number">6</span></span><br><span class="line">    <span class="keyword">case</span> <span class="string">"Seven"</span>:        self.vaule = <span class="number">7</span></span><br><span class="line">    <span class="keyword">case</span> <span class="string">"Eight"</span>:        self.vaule = <span class="number">8</span></span><br><span class="line">    <span class="keyword">case</span> <span class="string">"Night"</span>:        self.vaule = <span class="number">9</span>   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-函数">3.函数</h4><p>对于在OC中,方法有两种类型,类方法与实例方法。方法的组成由方法名,参数,返回值组成。<br>在Swift中函数的定义基本与OC一样。</p>
+<p>主要区别为：<br>通过<code>func</code>关键词定义函数<br>返回值在<code>-&gt;</code>关键词后标注<br>各举一个类方法与实例方法例子。<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+ <span class="comment">(UIColor*)</span>blackColor</span><br><span class="line">- <span class="comment">(void)</span>addSubview:<span class="comment">(UIView *)</span>view</span><br></pre></td></tr></table></figure></p>
+<p>对应的swift版本<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">class func <span class="function"><span class="title">blackColor</span><span class="params">()</span></span> -&gt; UIColor <span class="comment">//类方法, 通过 class func 关键词声明    </span></span><br><span class="line">func <span class="function"><span class="title">addSubview</span><span class="params">(view: UIView)</span></span> <span class="comment">//实例方法</span></span><br></pre></td></tr></table></figure></p>
+<h5 id="改进：">改进：</h5><ul>
+<li>在Swift中,函数的最重要的改进就是函数作为一等公民(first-class),和对象一样可以作为参数进行传递,可以作为返回值,函数式编程也成为了Swift支持的编程范式。</li>
+</ul>
+<blockquote>
+<p>In computer science, a programming language is said to have first-class functions if it treats functions as first-class citizens. Specifically, this means the language supports passing functions as arguments to other functions, returning them as the values from other functions, and assigning them to variables or storing them in data structures</p>
+</blockquote>
+<p>让我们初略感受一下函数式编程的魅力:<br>举一个例子,我们要筛选出一个数组里大于4的数字。<br>在OC中我们可能会用快速枚举来进行筛选。<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">NSArray *oldArray = <span class="constant">@[</span><span class="constant">@1</span>,<span class="constant">@2</span>,<span class="constant">@3</span>,<span class="constant">@4</span>,<span class="constant">@5</span>,<span class="constant">@6</span>,<span class="constant">@7</span>,<span class="constant">@8</span>,<span class="constant">@9</span>,<span class="constant">@10]</span><span class="comment">;</span></span><br><span class="line">NSMutableArray *newArray<span class="comment">;</span></span><br><span class="line"><span class="keyword">for</span> (NSNumber* <span class="built_in">number</span> <span class="keyword">in</span> oldArray) &#123;</span><br><span class="line">    <span class="keyword">if</span> ([<span class="built_in">number</span> compare:<span class="constant">@4]</span> == NSOrderedDescending ) &#123;</span><br><span class="line">        [newArray addObject:<span class="built_in">number</span>]<span class="comment">;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>而在Swift中,我们用两行代码解决这个问题：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let oldArray = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>]let newArray = oldArray.filter(&#123;$<span class="number">0</span> &gt; <span class="number">4</span>&#125;)</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>进一步了解Swift的函数式编程可以通过这篇优秀的博客Functional Reactive Programming in Swift</p>
+</blockquote>
+<ul>
+<li>个人觉得另外一个很棒的改进是：<code>Default parameter values</code></li>
+</ul>
+<p>在我们的项目中,经常会不断进行功能的增添。为了新增特性,许多方法在开发的过程中不断变动。举一个例子：我们开始有一个tableViewCell,它的设置方法一开始简单地需要一个Model参数：</p>
+<p><code>func configureCellWithModel(Model: model)</code><br>不久之后,我们想对部分Cell增添一个设置背景颜色的功能。方法需要再接收多一个参数：<br><code>func configureCellWithModel(Model: model,color:UIColor)</code></p>
+<p>这个时候方法改变,所以涉及到这些方法的地方都需要修改。给我们造成的困扰<br>  一是：需要做许多重复修改的工作。<br>  二是：无法做得很好的扩展和定制,有些地方的cell需要设置颜色,有些不需要。但是在OC里,我们只能对所有的cell都赋值。你可能觉得我们可以写两个方法,一个接收颜色参数,一个不接受。但是我们知道这不是一个很好的解决方法,会造成冗余的代码,维护起来也不方便。</p>
+<p>而在Swift中,<code>default parameter values</code>的引入让我们能够这样修改我们的代码：<br><code>func configureCellWithModel(Model: model,color:UIColor = UIColor.whiteColor())</code><br>这样的改进能让我们写出的代码更具向后兼容性,减少了我们的重复工作量,减少了犯错误的可能性。</p>
+<h4 id="4-类与初始化（Initializers）">4.类与初始化（Initializers）</h4><ul>
+<li>文件结构与访问控制<br>在swift中,一个类不再分为<code>interface</code>（.h）与<code>implementation</code>(.m)两个文件实现,直接在一个.swift文件里进行处理。好处就是我们只需管理一份文件,以往两头奔波修改的情况就得到解放了,也减少了头文件与实现文件不同步导致的错误。</li>
+</ul>
+<p>这时我们会想到,那么我们如何来定义私有方法与属性呢,在OC中我们通过在<code>class extension</code>中定义私有属性,在.m文件定义私有方法。</p>
+<p>而在Swift中,我们通过<code>Access Control</code>来进行控制。</p>
+<blockquote>
+<p>properties, types, functions等能够进行版本控制的统称为实体。</p>
+<ul>
+<li>Public：可以访问自己模块或应用中源文件里的任何实体，别人也可以访问引入该模块中源文件里的所有实体。通常情况下，某个接口或Framework是可以被任何人使用时，你可以将其设置为public级别。</li>
+<li>Internal：可以访问自己模块或应用中源文件里的任何实体，但是别人不能访问该模块中源文件里的实体。通常情况下，某个接口或Framework作为内部结构使用时，你可以将其设置为internal级别。</li>
+<li>Private：只能在当前源文件中使用的实体，称为私有实体。使用private级别，可以用作隐藏某些功能的实现细节</li>
+</ul>
+</blockquote>
+<p>一个小技巧,如果我们有一系列的私有方法,我们可以把它们组织起来,放进一个extension里,这样就不需要每个方法都标记private,同时也便于管理组织代码：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MARK: Private</span></span><br><span class="line">private <span class="class"><span class="keyword">extension</span> <span class="title">ViewController</span> </span>&#123;    </span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">privateFunction</span><span class="params">()</span></span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>创建对象与alloc和init<br>关于初始化,在Swift中创建一个对象的语法很简洁：只需在类名后加一对圆括号即可。<br><code>var shape = Shape()</code><br>而在Swift中,<code>initializer</code>也与OC有所区别,Swift的初始化方法不返回数据。而在OC中我们通常返回一个self指针。</li>
+</ul>
+<blockquote>
+<p>Unlike Objective-C initializers, Swift initializers do not return a value. Their primary role is to ensure that new instances of a type are correctly initialized before they are used for the first time.</p>
+</blockquote>
+<p>Swift的初始化方法让我们只关注对象的初始化。之前在OC世界中为什么要self = [super init]？。这种问题得以避免。Swift帮助我们处理了alloc的过程。也让我们的代码更简洁明确。</p>
+<p>而在Swift中,<code>init</code>也有了更严格的规则。</p>
+<ul>
+<li>对于所有<code>Stored Properties</code>,都必须在对象被创建出来前设置好。也就是我们必须在<code>init</code>方法中赋好值,或是直接给属性提供一个默认值。</li>
+</ul>
+<p>如果有property可以被允许在初始出来时没有值,也就是需要在创建出来后再赋值,或是在程序运行过程都可能不会被赋值。那么这个property必须被声明为<code>optional</code>类型。该类型的属性会在init的时候初始化为nil.</p>
+<ul>
+<li>initializer严格分为<code>Designated Initializer</code>和<code>Convenience Initializer</code><br>并且有语法定义。</li>
+</ul>
+<p>而在Objective-C中没有明确语法标记哪个初始化方式是convenience方法。</p>
+<blockquote>
+<p>关于Designated Initializer可参阅之前的:Objective-C 拾遗：designated initializer</p>
+</blockquote>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">init</span><span class="params">(parameters)</span> &#123;</span><br><span class="line">    <span class="title">statements</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title">convenience</span> <span class="title">init</span><span class="params">(parameters)</span> &#123;</span><br><span class="line">    <span class="title">statements</span></span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="5-枚举与结构体">5.枚举与结构体</h4><ul>
+<li>枚举<br>在Swift中,枚举是一等公民。(first-class)。能够拥有方法,computed properties等以往只有类支持的特性。</li>
+</ul>
+<p>在C中,枚举为每个成员指定一个整型值。而在Swift中,枚举更强大和灵活。我们不必给枚举成员提供一个值。如果我们想要为枚举成员提供一个值(raw value),我们可以用字符串,字符,整型或浮点数类型。<br><figure class="highlight puppet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">enum <span class="name">CompassPoint</span> &#123;</span><br><span class="line">   <span class="keyword">case</span> Northcase Southcase Eastcase West</span><br><span class="line">&#125;  </span><br><span class="line"><span class="name">var</span> <span class="name">directionToHead</span> = CompassPoint.West</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>结构体</li>
+</ul>
+<p>Struct在Swift中和类有许多相同的地方,可以定义属性,方法,初始化方法,可通过extension扩展等。<br>不同的地方在于struct是值类型.在传递的过程中都是通过拷贝进行。</p>
+<p>在这里要提到在前面第一节处提到了<code>String</code>,<code>Array</code>和<code>Dictionary</code>在Swift是以值类型出现的。这背后的原因就是<code>String</code>,<code>Array</code>,<code>Dictionary</code>在Swift中是通过Struct实现的。而之前在Objective-C它们都是通过class实现的。</p>
+<p>Swift中强大的Struct使得我们能够更多与值类型打交道。Swift的值类型增强了<code>不可变性(Immutabiliity)</code>。而不可变性提升了我们代码的稳定性,多线程并发的安全性。</p>
+<p>在WWDC2014《Advanced iOS Application Architecture and Patterns》中就有一节的标题是Simplify with immutability。</p>
+<blockquote>
+<p>延伸阅读：WWDC心得：Advanced iOS Application Architecture and Patterns</p>
+</blockquote>
+<h4 id="6-协议（Protocols）">6.协议（Protocols）</h4><p>语法:</p>
+<p>在Objective-C中我们这么声明Protocol:<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@protocol</span> <span class="title">SampleProtocol</span> &lt;<span class="title">NSObject</span>&gt;</span></span><br><span class="line">- (<span class="keyword">void</span>)someMethod;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure></p>
+<p>而在Swift中：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">SampleProtocol</span> </span>&#123;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">someMethod</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在Swift遵循协议:<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AnotherClass</span>: <span class="title">SomeSuperClass</span>, <span class="title">SampleProtocol</span></span>&#123;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">someMethod</span><span class="params">()</span></span> &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>那么之前Objective-C的protocol中,我们可以标志optional。那在Swift中呢？</p>
+<p>遗憾的是,目前纯Swift的protocol还不支持optional。但根据苹果官方论坛的一位员工的回答,未来Swift是会支持的</p>
+<blockquote>
+<p>Optional methods in protocols are limited to @objc protocols only because we haven’t implemented them in native protocols yet. This is something we plan to support. We’ve gotten a number of requests for abstract/pure virtual classes and methods too.<br>— Joe Groff<br>Source: <a href="https://devforums.apple.com/message/1051431#1051431" target="_blank" rel="external">https://devforums.apple.com/message/1051431#1051431</a></p>
+</blockquote>
+<p><code>protocol</code>和<code>delegate</code>是紧密联系的。那么我们在Swift中如何定义Delegate呢？<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">protocol MyDelegate : <span class="keyword">class</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title">MyClass</span> &#123; </span><br><span class="line">   weak <span class="keyword">var</span> <span class="keyword">delegate</span> : MyDelegate?</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意到上面的protocol定义后面跟着的class。这意味着该protocol只能被class类型所遵守。<br>并且只有遵守了class protocol的delegate才能定义为weak。这是因为在Swift中,除了class能够遵守协议,枚举和结构同样能够遵守协议。而枚举和结构是值类型,不存在内存管理的问题。因此只需要class类型的变量声明为weak即可。</p>
+<p>利用Swift的optional chaining,我们能够很方便的检查delegate是否为Nil,是否有实现某个方法:</p>
+<p>以前我们要在Objective-C这样检查：<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="keyword">self</span>.dataSource &amp;&amp; [<span class="keyword">self</span>.dataSource <span class="symbol">respondsToSelector:</span><span class="variable">@selector</span>(<span class="symbol">titleForSegmentAtIndex:</span>)]) &#123;</span><br><span class="line">        thisSegmentTitle = [<span class="keyword">self</span>.dataSource <span class="symbol">titleForSegmentAtIndex:</span>index];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在Swift中,非常的优雅简洁。<br><figure class="highlight openscad"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">let</span> thisSementTitle = dataSource?.titleFroSegmentAtIndex?<span class="params">(index)</span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>新特性:</p>
+<p>在Swift中,protocol变得更加强大,灵活：</p>
+<ol>
+<li><p>class,enum,structure都可以遵守协议。</p>
+</li>
+<li><p>Extension也能遵守协议。利用它,我们不需要继承,也能够让系统的类也遵循我们的协议。</p>
+</li>
+</ol>
+<p>例如：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">myProtocol</span> </span>&#123;</span><br><span class="line">  <span class="func"><span class="keyword">func</span> <span class="title">hello</span><span class="params">()</span></span> -&gt; <span class="type">String</span></span><br><span class="line">&#125; </span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">String</span>:<span class="title">myProtocol</span></span>&#123;</span><br><span class="line">  <span class="func"><span class="keyword">func</span> <span class="title">hello</span><span class="params">()</span></span> -&gt; <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"hello world!"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们还能够用这个特性来组织我们的代码结构,如下面的代码所示,将UITableViewDataSource的实现移到了Extension。使代码更清晰。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MARK: - UITableViewDataSource</span></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">MyViewcontroller</span>: <span class="title">UITableViewDataSource</span> </span>&#123; <span class="comment">// table view data source methods</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>Protocol Oriented Programming<br>随着Swift2.0的发布,面向协议编程正式也加入到了Swift的编程范式。Cool.<br>这种编程方式通过怎样的语法特性支撑的呢？<br>那就是我们能够对协议进行扩展,也就是我们能够提供协议的默认实现,能够为协议添加新的方法与实现。<br>用前面的myProtocol为例子,我们在Swift里这样为它提供默认实现。<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">myProtocol</span></span>&#123;</span><br><span class="line">     <span class="func"><span class="keyword">func</span> <span class="title">hello</span><span class="params">()</span></span> -&gt; <span class="type">String</span> &#123;</span><br><span class="line">           <span class="keyword">return</span> <span class="string">"hello world!"</span></span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>我们还能对系统原有的protocol进行扩展,大大增强了我们的想象空间。Swift2.0的实现也有很多地方用extension protocol的形式进行了重构。</p>
+<p>面向协议编程能够展开说很多,在这里这简单地介绍了语法。</p>
+<blockquote>
+<p>有兴趣的朋友可以参考下面的资料：<br>Session 408: Protocol-Oriented Programming in Swift<br>IF YOU’RE SUBCLASSING, YOU’RE DOING IT WRONG.</p>
+</blockquote>
+<h4 id="7-Swift与Cocoa">7.Swift与Cocoa</h4><p>一门语言的的强大与否,除了自身优秀的特性外,很大一点还得依靠背后的框架。Swift直接采用苹果公司经营了很久的Cocoa框架。现在我们来看看使用Swift和Cocoa交互一些需要注意的地方。</p>
+<ol>
+<li>id与AnyObject<br>在Swift中,没有id类型,Swift用一个名字叫AnyObject的protocol来代表任意类型的对象。</li>
+</ol>
+<p><code>id myObject = [[UITableViewCell alloc]init];</code><br><code>var myObject: AnyObject = UITableViewCell()</code><br>我们知道id的类型直到运行时才能被确定,如果我们向一个对象发送一条不能响应的消息,就会导致crash。</p>
+<p>我们可以利用Swift的语法特性来防止这样的错误:<br><code>myObject.method?()</code><br>如果myObject没有这个方法,就不会执行,类似检查delegate是否有实现代理方法。</p>
+<p>在Swift中,在AnyObject上获取的property都是optional的。</p>
+<ol>
+<li><p>闭包<br>OC中的block在Swift中无缝地转换为闭包。函数实际上也是一种特殊的闭包。</p>
+</li>
+<li><p>错误处理<br>之前OC典型的错误处理步骤:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSFileManager</span> *fileManager = [<span class="built_in">NSFileManager</span> defaultManager];</span><br><span class="line"> <span class="built_in">NSURL</span> *URL = [<span class="built_in">NSURL</span> fileURLWithPath:<span class="string">@"/path/to/file"</span>];</span><br><span class="line"> <span class="built_in">NSError</span> *error = <span class="literal">nil</span>;</span><br><span class="line"> <span class="built_in">BOOL</span> success = [fileManager removeItemAtURL:URL error:&amp;error];</span><br><span class="line"> <span class="keyword">if</span> (!success) &#123;</span><br><span class="line">  <span class="built_in">NSLog</span>(<span class="string">@"Error: %@"</span>, error<span class="variable">.domain</span>);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>在Swift中：<br><figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fileManager = NSFileManager.defaultManager() </span><br><span class="line"><span class="keyword">let</span> URL = NSURL.fileURLWithPath(<span class="string">"/path/to/file"</span>) <span class="keyword">do</span> &#123;</span><br><span class="line"> <span class="keyword">try</span> fileManager.removeItemAtURL(URL)</span><br><span class="line">&#125; <span class="keyword">catch</span> <span class="keyword">let</span> error <span class="keyword">as</span> NSError &#123;  <span class="keyword">print</span>(<span class="string">"Error: \(error.domain)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>KVO。<br>Swift支持KVO。但是KVO在Swift,个人觉得是不够优雅的,KVO在Swift只限支持继承NSObject的类,有其局限性,在这里就不介绍如何使用了。</li>
+</ol>
+<p>网上也出现了一些开源库来解决这样的问题。有兴趣可以参考一下:</p>
+<blockquote>
+<p>Observable-Swift</p>
+</blockquote>
+<p>KVO 在OS X中有Binding的能力,也就是我们能够将两个属性绑定在一起,一个属性变化,另外一个属性也会变化。对与UI和数据的同步更新很有帮助,也是MVVM架构的需求之一。之前已经眼馋这个特性很久了,虽然Swift没有原生带来支持,Swift支持的泛型编程给开源界带来许多新的想法。下面这个库就是实现binding的效果。</p>
+<blockquote>
+<p>Bond</p>
+</blockquote>
+<h4 id="8-总结">8.总结</h4><p>到这里就基本介绍完Swift当中最基本的语法和与Objective-C的对比和改进。</p>
+<p>事实上Swift的世界相比OC的世界还有很多新鲜的东西等待我们去发现和总结,Swift带来的多范式编程也将给我们编程的架构和代码的组织带来更来的思考。而Swift也是一个不断变化,不断革新的语言。相信未来的发展和稳定性会更让我们惊喜。这篇文章也将随着Swift的更新而不断更新,同时限制篇幅,突出重点。</p>
+<p>希望这篇文章能够给各位同行的小伙伴们快速了解和学习Swift提供一点帮助。有疏漏错误的地方欢迎直接提出。感谢。</p>
+<blockquote>
+<p>转自 <a href="https://github.com/100mango/zen" target="_blank" rel="external">https://github.com/100mango/zen</a></p>
+</blockquote>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-swift/">iOS,swift</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-详解CALayer-和-UIView的区别和联系" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -944,77 +1233,6 @@
 <blockquote>
 <p>转自 <a href="http://luoyibu.com/" target="_blank" rel="external">http://luoyibu.com/</a> </p>
 </blockquote>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/优化/">优化</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-iOS-Cell-图片异步加载优化，缓存机制" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/22/iOS-Cell-图片异步加载优化，缓存机制/" class="article-date">
-  	<time datetime="2015-08-22T13:45:29.000Z" itemprop="datePublished">2015-08-22</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/22/iOS-Cell-图片异步加载优化，缓存机制/">iOS Cell 图片异步加载优化，缓存机制</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>为了防止图片多次下载，我们需要对图片做缓存，缓存分为<code>内存缓存</code> <code>沙盒缓存</code>，我们当然两种都要实现。<br>由于<code>tableViewCell</code>是有重用机制的，也就是说，内存中只有当前可见的<code>cell</code>数目的实例，滑动的时候，新显示<code>cell</code>会重用被滑出的<code>cell</code>对象。这样就存在一个问题：</p>
-<p>一般情况下在我们会在cellForRow方法里面设置cell的图片数据源，也就是说如果一个cell的imageview对象开启了一个下载任务，这个时候该cell对象发生了重用，新的image数据源会开启另外的一个下载任务，由于他们关联的imageview对象实际上是同一个cell实例的imageview对象，就会发生2个下载任务回调给同一个imageview对象。这个时候就有必要做一些处理，避免回调发生时，错误的image数据源刷新了UI。</p>
-<p><code>所以在我们向下滑动tableview的时候我们需要手动去取消掉下载操作，当用户停止滑动，再去执行下载操作</code>。</p>
-<blockquote>
-<p>SDWebImage采用的也是这种策略。</p>
-</blockquote>
-<p>很简单我们只需要监听ScrollView的代理方法(tableview继承自Scrollview)。<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> *  当用户开始拖拽表格时调用</span><br><span class="line"> */</span></span><br><span class="line"><span class="tag">-</span> (void)<span class="tag">scrollViewWillBeginDragging</span>:(UIScrollView *)<span class="tag">scrollView</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 暂停下载</span></span><br><span class="line">    <span class="attr_selector">[self.queue setSuspended:YES]</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *  当用户停止拖拽表格时调用</span><br><span class="line"> */</span></span><br><span class="line"><span class="tag">-</span> (void)<span class="tag">scrollViewDidEndDragging</span>:(UIScrollView *)<span class="tag">scrollView</span> <span class="tag">willDecelerate</span>:(BOOL)<span class="tag">decelerate</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 恢复下载</span></span><br><span class="line">    <span class="attr_selector">[self.queue setSuspended:NO]</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>而SDWebImage采用的就是这种方式,所以在运行SDWebImage的demo的时候，可以看到，如果快速滑下去，然后又滑回来的话，图片是过了一会才显示出来，这是因为快速滑动的时候，旧数据源的下载任务被取消掉了。</p>
-<p>下面介绍一下具体的思路。<br>异步下载图片我们用的是NSOperation，并且创建一个全局的queue来管理下载图片的操作。<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span>  存放所有下载操作的队列</span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line"><span class="comment">@property (nonatomic,strong) NSOperationQueue* queue;</span></span><br></pre></td></tr></table></figure></p>
-<p>另外需要两个字典operations、images<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span>  存放所有的下载操作（url是key，operation对象是value）</span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line"><span class="comment">@property (nonatomic,strong) NSMutableDictionary* operations;</span></span><br><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span>  存放所有下载完成的图片，用于内存缓存，同样用Url为key</span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line"><span class="comment">@property (nonatomic,strong) NSMutableDictionary* images;</span></span><br></pre></td></tr></table></figure></p>
-<p>在把图片显示到Cell上之前<br>先判断内存中(images字典中)有没有图片，<br>如果有，则取出url对应的图片来显示，<br>如果没有，再去沙盒缓存中查看，当然存到沙盒中都是NSData。<br>如果沙盒缓存中有，我们取出对应的数据给Cell去显示<br>如果沙盒中也没有图片，我们先显示占位图片。再创建operation去执行下载操作了。<br>当然在创建operation之前，我们要判断这个operation操作是否存在<br>这个时候就用到我们operations这个字典了<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//取出当前URL对应的下载操作</span></span><br><span class="line"><span class="built_in">NSBlockOperation</span>* operation = <span class="keyword">self</span><span class="variable">.operations</span>[app<span class="variable">.icon</span>];</span><br></pre></td></tr></table></figure></p>
-<p>如果没有下载操作，我们才需要真正的去创建operation执行下载。<br>创建好下载操作之后应该把该操作存放到全局队列中去异步执行，同时吧操作放入operations字典中记录下来。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//添加操作到队列中</span></span><br><span class="line">  [<span class="keyword">self</span><span class="variable">.queue</span> addOperation:operation];</span><br><span class="line"><span class="comment">//添加到字典中</span></span><br><span class="line">   <span class="keyword">self</span><span class="variable">.operations</span>[app<span class="variable">.icon</span>] = operation;</span><br></pre></td></tr></table></figure></p>
-<p>下载完成之后：<br>把下载好的图片放到内存中、同时存到沙盒缓存中<br>下面存放到沙盒中的代码可以定义成宏，具体可以下载后面的demo</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (image) &#123; <span class="comment">//防止下载失败为空赋值造成崩溃</span></span><br><span class="line">  vc<span class="variable">.images</span>[app<span class="variable">.icon</span>] = image;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//下载完成的图片存入沙盒中                    </span></span><br><span class="line">  <span class="comment">// UIImage --&gt; NSData --&gt; File（文件）</span></span><br><span class="line">     <span class="built_in">NSData</span>* ImageData = <span class="built_in">UIImagePNGRepresentation</span>(image);</span><br><span class="line"></span><br><span class="line">     <span class="built_in">NSString</span>* CachesPath = [<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];</span><br><span class="line">     <span class="built_in">NSString</span>* filePath = [CachesPath stringByAppendingPathComponent:[app<span class="variable">.icon</span> lastPathComponent]];</span><br><span class="line"></span><br><span class="line">     [ImageData writeToFile:filePath atomically:<span class="literal">YES</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>执行完上面的操作之后回到主线程刷新表格，<br>从operations字典中移除下载操作(防止operations越来越大，同时保证下载失败后，能重新下载)<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//刷新当前行的图片数据</span></span><br><span class="line">  self.tableView <span class="string">reloadRowsAtIndexPaths:</span>@[indexPath] <span class="string">withRowAnimation:</span>UITableViewRowAnimationNone];</span><br></pre></td></tr></table></figure></p>
-<p>这里我们不用[self.tableView reloadata]，因为会刷新整个cell，浪费性能。</p>
-<p>当然如果你的下载操作里面需要做的事情很多的时候，可以考虑自定义operation。</p>
 
       
     </div>
