@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS开发最佳实践总结(下) | 白色键盘</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="点这里查看英文版接上篇
+网络请求传统方法：使用自定义回调 block12345678910111213141516// GigStore.htypedef void (^FetchGigsBlock)(NSArray *gigs, NSError *error);- (void)fetchGigsForArtist:(Artist *)artist completion:(FetchGigsBlo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发最佳实践总结(下)">
+<meta property="og:url" content="http://yoursite.com/2015/09/06/iOS开发最佳实践总结-下/index.html">
+<meta property="og:site_name" content="白色键盘">
+<meta property="og:description" content="点这里查看英文版接上篇
+网络请求传统方法：使用自定义回调 block12345678910111213141516// GigStore.htypedef void (^FetchGigsBlock)(NSArray *gigs, NSError *error);- (void)fetchGigsForArtist:(Artist *)artist completion:(FetchGigsBlo">
+<meta property="og:updated_time" content="2015-09-05T23:27:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS开发最佳实践总结(下)">
+<meta name="twitter:description" content="点这里查看英文版接上篇
+网络请求传统方法：使用自定义回调 block12345678910111213141516// GigStore.htypedef void (^FetchGigsBlock)(NSArray *gigs, NSError *error);- (void)fetchGigsForArtist:(Artist *)artist completion:(FetchGigsBlo">
+  
+    <link rel="alternative" href="/atom.xml" title="白色键盘" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/photo.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/images/photo.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">苹果</a></h1>
+		</hgroup>
+
+		
+
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">苹果</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/images/photo.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">苹果</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-iOS开发最佳实践总结-下" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/09/06/iOS开发最佳实践总结-下/" class="article-date">
+  	<time datetime="2015-09-05T22:52:39.000Z" itemprop="datePublished">2015-09-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS开发最佳实践总结(下)
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/futurice/ios-good-practices" target="_blank" rel="external">点这里查看英文版</a><br>接上篇</p>
+<h4 id="网络请求">网络请求</h4><h5 id="传统方法：使用自定义回调_block">传统方法：使用自定义回调 block</h5><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// GigStore.h</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">void</span> (^FetchGigsBlock)(<span class="built_in">NSArray</span> *gigs, <span class="built_in">NSError</span> *error);</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)fetchGigsForArtist:(Artist *)artist completion:(FetchGigsBlock)completion</span><br><span class="line"></span><br><span class="line"><span class="comment">// GigsViewController.m</span></span><br><span class="line"></span><br><span class="line">[[GigStore sharedStore] fetchGigsForArtist:artist completion:^(<span class="built_in">NSArray</span> *gigs, <span class="built_in">NSError</span> *error) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!error) &#123;</span><br><span class="line">        <span class="comment">// Do something with gigs</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// :(</span></span><br><span class="line">    &#125;</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+<p>这样虽可行，但是如果要发起几个链式请求，很容易导致回调深渊。</p>
+<h5 id="Reactive_的方法：使用_RAC_signal">Reactive 的方法：使用 RAC signal</h5><p>如果你身陷回调深渊，可以看看<a href="https://github.com/ReactiveCocoa/ReactiveCocoa" target="_blank" rel="external">ReactiveCocoa (RAC)</a>。这是一个多功能、多用途的库，它可以改变<a href="https://github.com/jspahrsummers/GroceryList" target="_blank" rel="external">整个 app</a>  的写法。但你也可以仅在适合用它的时候，零散地用一用。</p>
+<p><a href="http://www.teehanlax.com/blog/getting-started-with-reactivecocoa/" target="_blank" rel="external">Teehan+Lax</a>以及<a href="http://nshipster.com/reactivecocoa/" target="_blank" rel="external">NSHipster</a>很好地介绍了 RAC 概念（以及整个 FRP 的概念）。<br><figure class="highlight openscad"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// GigStore.h</span></span><br><span class="line"></span><br><span class="line">- <span class="params">(RACSignal *)</span>gigsForArtist:<span class="params">(Artist *)</span>artist;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// GigsViewController.m</span></span><br><span class="line"></span><br><span class="line">[[GigStore sharedStore] gigsForArtist:artist]</span><br><span class="line">    subscribeNext:^<span class="params">(NSArray *gigs)</span> &#123;</span><br><span class="line">        <span class="comment">// Do something with gigs</span></span><br><span class="line">    &#125; error:^<span class="params">(NSError *error)</span> &#123;</span><br><span class="line">        <span class="comment">// :(</span></span><br><span class="line">    &#125;</span><br><span class="line">];</span><br></pre></td></tr></table></figure></p>
+<p>在这里我们可以把 gig 信号与其他信号结合，因此可以在展示 gig 之前做一些修改、过滤等处理。</p>
+<h4 id="Assets">Assets</h4><p>使用 <a href="https://developer.apple.com/library/ios/recipes/xcode_help-image_catalog-1.0/Recipe.html" target="_blank" rel="external">Asset catalogs</a> 是管理工程中视觉素材的最好方法。这里既可以添加 iPhone 和 iPad 共用的素材，也可以添加针对特定设备（4寸屏 iPhone，iPhone Retina，iPad 等等）的素材，并且会根据名称来自动提供恰当的素材。教会你的设计师（们）怎么在这里添加并 commit 素材，可以帮你节省许多时间，再也不用把素材从邮件或者别的什么渠道导进代码库里了。同时，这样做也可以让他们即刻看到自己的改动，可以根据需要进行迭代。</p>
+<h5 id="使用位图">使用位图</h5><p>Asset catalog 只会暴露出一套图片的名字，省略了每张图片实际的文件名。这样，类似button_large@2x.png这类文件的命名空间仅限于 asset 内部，很好地避免了 asset 的命名冲突。然而，命名 asset 时遵循一些原则可以让生活更轻松：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">IconCheckmarkHighlighted<span class="class">.png</span> <span class="comment">// Universal, non-Retina</span></span><br><span class="line">IconCheckmarkHighlighted@<span class="number">2</span>x<span class="class">.png</span> <span class="comment">// Universal, Retina</span></span><br><span class="line">IconCheckmarkHighlighted~iphone<span class="class">.png</span> <span class="comment">// iPhone, non-Retina</span></span><br><span class="line">IconCheckmarkHighlighted@<span class="number">2</span>x~iphone<span class="class">.png</span> <span class="comment">// iPhone, Retina</span></span><br><span class="line">IconCheckmarkHighlighted-<span class="number">568</span>h@<span class="number">2</span>x~iphone<span class="class">.png</span> <span class="comment">// iPhone, Retina, 4-inch</span></span><br><span class="line">IconCheckmarkHighlighted~ipad<span class="class">.png</span> <span class="comment">// iPad, non-Retina</span></span><br><span class="line">IconCheckmarkHighlighted@<span class="number">2</span>x~ipad<span class="class">.png</span> <span class="comment">// iPad, Retina</span></span><br></pre></td></tr></table></figure></p>
+<p>其中的<code>-568h</code>、<code>@2x</code>、<code>~iphone</code>以及<code>~ipad</code>这些标示符本身不是必需的，但是如果在文件名里加上它们，把文件拖动到 asset 时就能自动落到正确的“格子”上，因此能避免难以察觉的错误拖放。</p>
+<h5 id="使用矢量图">使用矢量图</h5><p>你可以把设计师设计的原始的<a href="http://martiancraft.com/blog/2014/09/vector-images-xcode6/" target="_blank" rel="external">矢量图 (PDFs)</a>放进 asset catalog，让 Xcode 来自动生成位图。这样能减少工程的复杂度（减少文件个数）。</p>
+<h4 id="编码风格">编码风格</h4><h5 id="命名">命名</h5><p>Apple 非常注意在 API 中保持命名一致性，有时候有点过于冗长了。做 Cocoa 开发时要遵循<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html" target="_blank" rel="external">Apple的命名规范</a>，这样能让加入项目的新人轻松许多。</p>
+<p>以下是几条看了就能用上的基本规则：</p>
+<p>以 <em>动词</em> 开头的方法表示它执行的操作会造成一些影响，但是不返回任何值。</p>
+<p><code>- (void)loadView; - (void)startAnimating;</code></p>
+<p>相反的是，以 <em>名词</em> 开头的方法返回一个对象，但不会造成额外的影响。</p>
+<p><code>- (UINavigationItem *)navigationItem; + (UILabel *)labelWithText:(NSString *)text;</code></p>
+<p>尽可能地区分这两种方法会有很多好处，也就是说，如果一个方法是处理数据的，就不要让它造成额外的影响，反过来也一样。这样可以让造成影响的代码块保持紧凑，因此可以帮助理解代码，并且有利于 debug。</p>
+<h5 id="代码结构">代码结构</h5><p><a href="http://nshipster.com/pragma/" target="_blank" rel="external">Pragma marks</a>是给方法分组很好的方法，特别是在 view controller 中。下面是一个在 view controller 中常见的结构：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">"SomeModel.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"SomeView.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"SomeController.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"SomeStore.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"SomeHelper.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">&lt;SomeExternalLibrary/SomeExternalLibraryHeader.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="built_in">NSString</span> * <span class="keyword">const</span> XYZFooStringConstant = <span class="string">@"FoobarConstant"</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="built_in">CGFloat</span> <span class="keyword">const</span> XYZFooFloatConstant = <span class="number">1234.5</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">XYZFooViewController</span> () &lt;<span class="title">XYZBarDelegate</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>, <span class="keyword">readonly</span>) Foo *foo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">XYZFooViewController</span></span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark - Lifecycle</span></span><br><span class="line"></span><br><span class="line">- (instancetype)initWithFoo:(Foo *)foo;</span><br><span class="line">- (<span class="keyword">void</span>)dealloc;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark - View Lifecycle</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)viewDidLoad;</span><br><span class="line">- (<span class="keyword">void</span>)viewWillAppear:(<span class="built_in">BOOL</span>)animated;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark - Layout</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)makeViewConstraints;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark - Public Interface</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)startFooing;</span><br><span class="line">- (<span class="keyword">void</span>)stopFooing;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark - User Interaction</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)foobarButtonTapped;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark - XYZFoobarDelegate</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)foobar:(Foobar *)foobar didSomethingWithFoo:(Foo *)foo;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark - Internal Helpers</span></span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSString</span> *)displayNameForFoo:(Foo *)foo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>最重要的是要让这些分块标记在工程里所有的类里保持一致。</p>
+</blockquote>
+<h4 id="External_Style_Guides">External Style Guides</h4><h5 id="其他风格指南">其他风格指南</h5><p>Futurice（作者所在的公司）并没有公司范围的编码风格指南。不过，仔细研究一下其他开发社区的 Objective-C 风格指南会非常有用，尽管有些部分可能是只对特定公司有效或者比较主观的。</p>
+<ul>
+<li><a href="https://github.com/github/objective-c-style-guide" target="_blank" rel="external">GitHub</a></li>
+<li><a href="http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml" target="_blank" rel="external">Google</a></li>
+<li><a href="https://github.com/NYTimes/objective-c-style-guide" target="_blank" rel="external">The New York Times</a></li>
+<li><a href="https://github.com/raywenderlich/objective-c-style-guide" target="_blank" rel="external">Ray Wenderlich</a></li>
+<li><a href="https://gist.github.com/soffes/812796" target="_blank" rel="external">Sam Soffes</a></li>
+<li><a href="http://lukeredpath.co.uk/blog/2011/06/28/my-objective-c-style-guide/" target="_blank" rel="external">Luke Redpath</a></li>
+</ul>
+<h4 id="诊断">诊断</h4><h5 id="编译警告">编译警告</h5><p>建议你尽量把编译警告都打开，并且像对待 <em>error</em> 一样对待 <em>warning</em>。<a href="https://speakerdeck.com/hasseg/the-compiler-is-your-friend" target="_blank" rel="external">这份幻灯片</a>论证了这一点。幻灯片里同时还讲了如何在特定文件里或者特定的代码段里忽略特定的 <em>warning</em>。</p>
+<p>一句话，在 build setting 的 “Other Warning Flags” 里至少要加入以下两个值：</p>
+<ul>
+<li><code>-Wall</code> （开启非常多额外的 warning）</li>
+<li><code>-Wextra</code> （开启许多额外的 warning）<br>同时打开 build setting 里的 “Treat warnings as errors” 。</li>
+</ul>
+<h5 id="Clang_静态分析器">Clang 静态分析器</h5><p>Clang 编译器（也就是 XCode 使用的编译器）有一个 静态分析器(static analyer) ，用来执行代码控制流和数据流的分析，可以发现许多编译器检查不出的问题。</p>
+<p>你可以在 Xcode 的 Product → Analyze 里手动运行分析器。</p>
+<p>分析器可以运行“shallow”和“deep”两种模式。后者要慢得多，但是有跨方法的控制流分析以及数据流分析，因此能发现更多问题。</p>
+<p>建议：</p>
+<p>开启分析器的 全部 检查（方法是在 build setting 的“Static Analyzer”部分开启所有选项）</p>
+<p>在 build setting 里，对 release 的 build 配置开启 “Analyze during ‘Build’” 。（真的，一定要这样做——你不会记得手动跑分析器的。）</p>
+<p>把 build setting 里的 “Mode of Analysis for ‘Analyze’” 设为 Shallow (faster)</p>
+<p>把 build setting 里的 “Mode of Analysis for ‘Build’” 设为 Deep</p>
+<h5 id="Faux_Pas"><a href="http://fauxpasapp.com/" target="_blank" rel="external">Faux Pas</a></h5><p>由我们的员工 <a href="https://twitter.com/AliRantakari" target="_blank" rel="external">Ali Rantakari</a> 创作的 Faux Pas 是一个出色的静态 error 检测工具。它能分析你的代码库，找出你全然不知的错误。在发布任何 iOS（或 Mac）app 之前务必要运行它一次！</p>
+<p>(Note: all Futurice employees get a free license to this — just ask Ali.)</p>
+<p>(注意：所有 Futurice 的员工都能得到一份免费的许可——只要问 Ali 要就行了。)</p>
+<h5 id="Debugging">Debugging</h5><p>当 app crash 的时候，默认情况下 Xcode 并不会进入 debugger。要想进入 debugger，添加一个 Exception Breakpoint（点击 Xcode 的 Debug Navigator 底部的“+”号），遇到 exception 的时候就会暂停执行。在大部分情况下，你都能看到导致 exception 的那行代码。这种方法会捕捉到任何 exception，包括已经做了处理的 exception。如果 Xcode 常常会停在正常的 exception（比如第三方库里的）上，选择 Edit Breakpoint 然后在 Exception 下拉框选择 Objective-C 可以减轻这种情况。</p>
+<p>在 view 的 debug 方面，<a href="http://revealapp.com/" target="_blank" rel="external">Reveal</a> 和 <a href="http://sparkinspector.com" target="_blank" rel="external">Spark Inspector </a>是两个强大的可视化检查器，可以节约你大量的时间，尤其是用 Auto Layout 时想知道消失的视图去哪儿了的情况。<a href="https://developer.apple.com/library/ios/recipes/xcode_help-debugger/using_view_debugger/using_view_debugger.html" target="_blank" rel="external">Xcode 也免费提供了一个类似的东西</a>，不过只支持 iOS 8+，并且略有些不够完善。</p>
+<h5 id="评估">评估</h5><p>Xcode 自带一套评估工具，叫做 Instruments。它包含众多的评估内存使用、CPU、网络连接、图像等方面的工具。它本身是个庞然大物，但一个比较简单直接的用途是用 Allocations instrument 来检测内存泄露。只需在 Xcode 中选择 Product &gt; Profile ，选择 Allocations instrument，点击 Record 按钮，然后从 Allocation Summary 中过滤出一些有用的字符串，比如 app 里你自己写的类的类名前缀。在 Persistant 一栏中的计数显示了每个对象有多少个实例。如果某个类的实例个数一直胡乱增长，就说明有内存泄露。</p>
+<p>另外值得注意的是 Instrument 有一个 Automation 工具，用来把 UI 交互录制为 JavaScript 文件并且重放。<a href="https://github.com/jonathanpenn/ui-auto-monkey" target="_blank" rel="external">UI Auto Monkey</a> 是一个脚本，它借助 Automation 在你的 app 上随机点击、清扫、旋转，对压力测试/浸泡测试可能会有帮助。</p>
+<h5 id="统计">统计</h5><p>强烈推荐在你的 app 里加上一个统计框架，它能帮助你看到用户实际上是怎么用你的 app 的。X 功能有价值吗？按钮 Y 太难找到了吗？要回答这些问题，可以把点击事件、计时以及其他可测的信息发送到一个能收集并可视化这些信息的服务，比如<a href="http://www.google.com/tagmanager/" target="_blank" rel="external">Google Tag Manager</a>。Google Tag Manager 比 Google Analytics 更灵活一些，它在 app 和 Analytics 之间插了一个数据层，因此不须更新 app 就可以通过 web service 更改数据逻辑。</p>
+<p>一种很好的做法是加一个轻量的辅助 class，比如 <code>XYZAnalyticsHelper</code>，用来把 app 内部的 model 和数据格式（XYZModel，NSTimeInterval 等）翻译成以字符串为主的数据层。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="typename">void</span>)<span class="string">pushAddItemEventWithItem:</span>(XYZItem *)item <span class="string">editMode:</span>(XYZEditMode)editMode</span><br><span class="line">&#123;</span><br><span class="line">    NSString *editModeString = [self <span class="string">nameForEditMode:</span>editMode];</span><br><span class="line"></span><br><span class="line">    [self <span class="string">pushToDataLayer:</span>@&#123;</span><br><span class="line">        @<span class="string">"event"</span>: <span class="string">"addItem"</span>,</span><br><span class="line">        @<span class="string">"itemIdentifier"</span>: item.identifier,</span><br><span class="line">        @<span class="string">"editMode"</span>: editModeString</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样有一个额外的好处，就是可以在需要时清除掉整个统计框架，而 app 其余的部分不会受任何影响。</p>
+<h4 id="Crash_Logs">Crash Logs</h4><h5 id="崩溃日志">崩溃日志</h5><p>首先应该让 app 把崩溃日志发送到某个服务器上，这样你才能看得到。可以自己实现这个功能（用PLCrashReporter结合自己的后台），但推荐使用已有的服务，比如下面这些：</p>
+<ul>
+<li><a href="http://www.crashlytics.com" target="_blank" rel="external">Crashlytics</a></li>
+<li><a href="http://hockeyapp.net" target="_blank" rel="external">HockeyApp</a></li>
+<li><a href="https://www.crittercism.com" target="_blank" rel="external">Crittercism</a></li>
+<li><a href="https://mint.splunk.com" target="_blank" rel="external">Splunk MINTexpress</a></li>
+</ul>
+<p>设置好这些之后，要确保每次发布都要 保存 Xcode archive (<code>.xcarchive</code>) 。Archive 里包含编译出的二进制文件以及 debug symbol（<code>dSYM</code>），你需要这些数据来解析这个版本 app 的崩溃报告。</p>
+<h4 id="编译构建">编译构建</h4><h5 id="编译配置">编译配置</h5><p>即使最简单的 app 也有不同的构建方式。Xcode 提供的最基本的区别是 <code>debug</code> 和 <code>release</code> 模式。后者的编译时优化要强很多，代价是损失了 <code>debug</code> 的可能性。苹果建议你开发时使用 <code>debug</code> 模式，提交到 App Store 的包用 <code>release</code> 模式编译。默认的模式（在 Xcode 里的运行/停止按钮旁边的下拉菜单可以更改）就是这么设置的，Run 用 <code>debug</code> ，Archive 用 <code>release</code> 。</p>
+<p>不过，对于真实的应用，这样还是过于简单了。你可以——不，是应该有几套不同的环境，分别用于测试、更新和其他与服务相关的操作。每套环境都可以有自己的 base URL，log 级别，bundle identifier（这样就可以同时安装），provision profile 等。因此，简单的 debug/release 不能满足要求。你可以在 Xcode 工程设置的“Info”一栏里添加更多的编译配置。</p>
+<h5 id="编译配置的xcconfig文件">编译配置的xcconfig文件</h5><p>编译配置一般是在 Xcode 的界面里设置的，不过你也可以使用 配置文件 （“<code>.xcconfig</code> 文件”）来设置。这样做的好处是：</p>
+<ul>
+<li><p>你可以添加注释来进行解释；</p>
+</li>
+<li><p>你可以 <code>#include</code> 其他编译配置文件，帮助避免重复：</p>
+<ul>
+<li><p>如果你有一些所有配置通用的设置，添加一个<code>Common.xcconfig</code>文件，然后把它 <code>#include</code> 到其他文件里；</p>
+</li>
+<li><p>比如说你想要加一个在“<code>Debug</code>”基础上开启编译优化的配置，只需 <code>#include &quot;MyApp_Debug.xcconfig&quot;</code>，然后覆盖相应的设置</p>
+</li>
+</ul>
+</li>
+<li><p>合并和解决冲突更简单一些。</p>
+</li>
+</ul>
+<p>更多关于本话题的信息，可以参考<a href="https://speakerdeck.com/hasseg/xcode-configuration-files" target="_blank" rel="external">这些幻灯片</a>。</p>
+<h5 id="Targets">Targets</h5><p>Target 的概念比 project 低一个级别，也就是说，一个 project 可以有数个 target，这些 target 的设置可以覆盖 project 的设置。粗略地说，每个 target 对应代码库里的“一个 app”。举个例子，你可能针对不同国家的 App Store 有不同的 app（都是从同一个代码库编译出来的）。每个 app 都需要开发/更新/release 的编译配置，因此用编译配置来处理会比 target 更好一些。一个 app 只有一个 target 完全不足为奇。</p>
+<h5 id="Schemes">Schemes</h5><p>Scheme 告诉 Xcode 在 <code>Run</code>、<code>Test</code>、<code>Profile</code>、<code>Analyze</code> 和 <code>Archive</code>时分别应该干什么。基本上，以上每个操作的 <code>scheme</code> 对应一个 <code>target</code> 和一套编译配置。你也可以传递启动参数，比如 app 运行的语言（对于测试本地化很方便！）或者设置一些 <code>debug</code> 用的诊断 <code>flag。</code></p>
+<p>Scheme 的推荐命名方式是 <code>MyApp (&lt;Language&gt;) [Environment]</code>：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">MyApp</span> (English)<span class="sqbracket"> [Development]</span></span><br><span class="line"><span class="keyword">MyApp</span> (German)<span class="sqbracket"> [Development]</span></span><br><span class="line"><span class="keyword">MyApp</span><span class="sqbracket"> [Testing]</span></span><br><span class="line"><span class="keyword">MyApp</span><span class="sqbracket"> [Staging]</span></span><br><span class="line"><span class="keyword">MyApp</span><span class="sqbracket"> [App Store]</span></span><br></pre></td></tr></table></figure>
+<p>对于大部分环境其中的语言是不需要的，因为 app 有可能通过 Xcode 之外的途径安装，比如 TestFlight，这样启动参数就会被忽略。这种情况下，只能手动设置设备语言来测试本地化。</p>
+<h4 id="部署">部署</h4><p>把应用安装到 iOS 设备上可算不上简单直接。尽管如此，在这里会介绍几个核心概念；理解这些概念，会对你的部署有很大的帮助。</p>
+<h5 id="签名">签名</h5><p>只要你想把应用跑在真实的设备上（相对于模拟器而言），你就需要在编译时用一个苹果颁发的 <em>证书 来签名</em>。每个证书对应一对公钥/私钥，私钥保存在你的 Mac 的钥匙串中。证书有两种：</p>
+<ul>
+<li><strong>开发证书</strong>：<br>团队里的每个开发者都可以有自己的开发证书，是通过请求获得的。Xcode 可以自动完成这项工作，<em>不过最好还是不要点击那个神奇的“Fix issue”按钮</em>，而是自己做一遍来理解这个过程到底做了什么。</li>
+</ul>
+<blockquote>
+<p>要把开发环境打的包安装到设备上就需要开发证书。</p>
+</blockquote>
+<ul>
+<li><strong>分发证书</strong>： 可以有多个，不过最好还是限制为每个组织一个，然后通过内部渠道分享它相关联的密钥。</li>
+</ul>
+<blockquote>
+<p>要发布到 App Store 或者企业的内部“app store”，就需要这个证书。</p>
+</blockquote>
+<h5 id="Provisioning">Provisioning</h5><p>除了证书之外，还有 <code>provisioning profiles</code> ，它就是<em>关联证书和设备的一环</em>。它同样有两种，分别用于开发和分发这两种不同目的：</p>
+<ul>
+<li><strong>Development provisioning profile</strong>: 它包括被授权安装、运行 app 的设备列表。同时它与一个或多个开发证书相关联，每个开发证书对应一个可以使用这个 profile 的开发者。</li>
+</ul>
+<blockquote>
+<p>这种 profile 可以与特定 app 绑定，但是对于开发的用途，大部分用通配的 profile 即可，App ID 以星号（*）结尾。</p>
+</blockquote>
+<ul>
+<li><p><strong>Distribution provisioning profile</strong>:<br>有 3 种分发的途径，每种都有一种不同的使用情景。每个 <code>distribution profile</code> 与一个分发证书相关联，证书过期即失效。</p>
+<ul>
+<li><p><strong>Ad-Hoc</strong>: 与开发证书相同，它包含可以安装 app 的设备白名单。这种 profile 可以用来在每年最多 100 个设备上做 beta 测试。想要更为顺畅的体验，增加至 1000 个不同的用户，你可以使用苹果新推出的<a href="https://developer.apple.com/testflight/" target="_blank" rel="external">TestFlight</a>服务。<a href="http://blog.supertop.co/post/108759935377/app-developer-friends-try-testflight" target="_blank" rel="external">Supertop 上对它的优势和问题有一个很好的总结</a>。</p>
+</li>
+<li><p><strong>App Store</strong>: 这种 <em>profile</em> 没有设备列表，因为任何人都可以通过苹果的官方分发渠道安装 app。发布到 App Store 会需要这种 <em>profile。</em></p>
+</li>
+<li><p><strong>Enterprise</strong>: 如同 App Store 类型一样，没有设备白名单，任何人都可以通过企业的内部“app store”来安装 app。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>要把所有的证书和 <em>profile</em> 同步到你的机器上，到 Xcode 的 Preferences 里的 Accounts，在这里添加你的 Apple ID，然后双击 team 名称。底部有一个刷新按钮，但有时需要重启 Xcode 才能正常刷新。</p>
+<h5 id="Debugging_Provisioning">Debugging Provisioning</h5><p>有时候你需要 <code>debug</code> 一个 <code>provisioning</code> 问题。例如，Xcode 可能拒绝把包安装到设备上，因为设备不在（development 或 ad-hoc 的）<code>profile</code> 的设备列表上。在这种情况下，你可以使用 Craig Hockenberry 优秀的<a href="https://github.com/chockenberry/Provisioning" target="_blank" rel="external">Provisioning</a>插件，定位到<code>~/Library/MobileDevice/Provisioning Profiles</code>，选择<code>.mobileprovision</code>文件然后按空格键，启动 Finder 的快速搜索功能。它会展示出非常丰富的信息，包括设备、授权、证书 和 App ID 等。</p>
+<h5 id="上传">上传</h5><p><a href="https://itunesconnect.apple.com" target="_blank" rel="external">iTunes Connect</a> 是苹果 App Store 上 app 的管理平台。要上传一个包，Xcode 6 需要用一个开发者账号的 Apple ID 来签名。这里如果你有多个开发者账号，想要分别上传他们的 app，可能遇到一些麻烦，因为不知为何 <code>一个特定的 Apple ID 只能与一个 iTunes Connect 账号相关联</code> 。一个替代方法是，为每个 iTunes Connect 账号都创建一个新的 Apple ID，然后使用 Application Loader 代替 Xcode 来上传包。这样就把打包签名与上传 <code>.app</code>文件的过程解耦了。</p>
+<p>上传包之后，保持耐心，可能一个小时后这个版本的 app 才会出现在 Builds 一栏。当它出现以后，你可以把它与 app 的版本信息链接起来，然后提交审核。</p>
+<h4 id="App内购买（IAP）">App内购买（IAP）</h4><p>验证 app 内购买的收据时，请记得进行以下检查：</p>
+<ul>
+<li><strong>真伪性</strong>: 购买收据确实来自苹果；</li>
+<li><strong>完整性</strong>: 收据没有被篡改；</li>
+<li><strong>应用匹配</strong>: 收据里的 bundle ID 符合你的 app 的 bundle ID；</li>
+<li><strong>产品匹配</strong>: 收据里的 product ID 符合你预期的 product ID；</li>
+<li><strong>最新性</strong>: 你之前没有见过相同的收据 ID</li>
+</ul>
+<blockquote>
+<p>设计你的 IAP 系统时，尽量把售卖的内容存储在 server 端，然后仅当收到有效的、通过以上所有检查的收据后，才把内容提供给 client 端。这样的设计阻碍了常规的盗版机制，并且——既然验证是在 server 端进行的——你可以利用苹果的 HTTP 收据验证服务，而不是自己解析收据的 PKCS #7 / ASN.1 格式。</p>
+</blockquote>
+<p>关于这个话题的更多信息，可以参考Futurice blog: <a href="http://futurice.com/blog/validating-in-app-purchases-in-your-ios-app" target="_blank" rel="external">在你的 iOS app 里验证 app 内购买</a>。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/09/05/iOS开发最佳实践总结/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS开发最佳实践总结(上)</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 苹果
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
