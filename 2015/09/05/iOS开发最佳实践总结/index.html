@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS开发最佳实践总结(上) | 白色键盘</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="点这里查看英文版
+这份文档就像软件项目一样，如果我们不维护它就会逐渐腐坏。欢迎大家跟我们一起来维护它——只需提交 issue 或者发 pull request 即可！
+对其他移动平台感兴趣？也许我们的《Android 开发最佳实践》以及《Windows App 开发 最佳实践》能满足你。
+为什么要写这篇文档？iOS 开发在上手时可能会有些令人生畏。无论是 Objective-C 还是 Swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发最佳实践总结(上)">
+<meta property="og:url" content="http://yoursite.com/2015/09/05/iOS开发最佳实践总结/index.html">
+<meta property="og:site_name" content="白色键盘">
+<meta property="og:description" content="点这里查看英文版
+这份文档就像软件项目一样，如果我们不维护它就会逐渐腐坏。欢迎大家跟我们一起来维护它——只需提交 issue 或者发 pull request 即可！
+对其他移动平台感兴趣？也许我们的《Android 开发最佳实践》以及《Windows App 开发 最佳实践》能满足你。
+为什么要写这篇文档？iOS 开发在上手时可能会有些令人生畏。无论是 Objective-C 还是 Swift">
+<meta property="og:updated_time" content="2015-09-05T15:39:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS开发最佳实践总结(上)">
+<meta name="twitter:description" content="点这里查看英文版
+这份文档就像软件项目一样，如果我们不维护它就会逐渐腐坏。欢迎大家跟我们一起来维护它——只需提交 issue 或者发 pull request 即可！
+对其他移动平台感兴趣？也许我们的《Android 开发最佳实践》以及《Windows App 开发 最佳实践》能满足你。
+为什么要写这篇文档？iOS 开发在上手时可能会有些令人生畏。无论是 Objective-C 还是 Swift">
+  
+    <link rel="alternative" href="/atom.xml" title="白色键盘" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/photo.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/images/photo.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">苹果</a></h1>
+		</hgroup>
+
+		
+
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">苹果</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/images/photo.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">苹果</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-iOS开发最佳实践总结" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/09/05/iOS开发最佳实践总结/" class="article-date">
+  	<time datetime="2015-09-05T15:20:18.000Z" itemprop="datePublished">2015-09-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS开发最佳实践总结(上)
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/futurice/ios-good-practices" target="_blank" rel="external">点这里查看英文版</a></p>
+<p>这份文档就像软件项目一样，如果我们不维护它就会逐渐腐坏。欢迎大家跟我们一起来维护它——只需提交 issue 或者发 pull request 即可！</p>
+<p>对其他移动平台感兴趣？也许我们的<a href="https://github.com/futurice/android-best-practices" target="_blank" rel="external">《Android 开发最佳实践》</a>以及<a href="https://github.com/futurice/windows-app-development-best-practices" target="_blank" rel="external">《Windows App 开发 最佳实践》</a>能满足你。</p>
+<h4 id="为什么要写这篇文档？">为什么要写这篇文档？</h4><p>iOS 开发在上手时可能会有些令人生畏。无论是 Objective-C 还是 Swift 在别处都没有广泛的应用，iOS 这个平台几乎对一切都有一套不同的叫法，而尝试把你的代码跑在真机上的过程难免磕磕碰碰。这份持续更新的文档就是来帮你的，无论你是 Cocoa 王国的新手，或是想知道“最佳做法”是什么，都可以一读。下文仅供参考，如果你有理由采取不同的做法，不用顾虑，只管做吧！</p>
+<h4 id="上手">上手</h4><h4 id="Xcode">Xcode</h4><p><a href="https://developer.apple.com/xcode/" target="_blank" rel="external">Xcode</a> 是绝大部分 iOS 开发者选择的 IDE，也是唯一一个苹果官方支持的 IDE。也有一些其他选择，最著名的可能要数 <a href="https://www.jetbrains.com/objc/" target="_blank" rel="external">AppCode</a> 了。但除非你已经对 iOS 游刃有余，否则还是用 Xcode 吧。尽管 Xcode 有一些缺点，它现在还算是相当实用的！</p>
+<p>要安装 Xcode，只需在 <a href="https://itunes.apple.com/us/app/xcode/id497799835" target="_blank" rel="external">Mac 的 App Score</a> 上下载即可。它自带最新版的 SDK 和 iOS 模拟器，其他版本可以在 Preferences &gt; Downloads 处安装。</p>
+<h4 id="建立工程">建立工程</h4><p>开始一个新的 iOS 项目时，一个常见的问题是：用代码写界面还是用 Storyboard、xib 画界面。在现有的应用里，这两种做法都占有一席之地。你需要考虑以下几点：</p>
+<h5 id="用代码写界面有哪些好处？">用代码写界面有哪些好处？</h5><ul>
+<li>Storyboard 的 XML 结构很复杂，所以如果用 Storyboard ，合并代码时很容易冲突，比起用代码写的界面要麻烦许多。</li>
+<li>It’s easier to structure and reuse views in code, thereby keeping your codebase DRY.</li>
+<li>用代码写界面时，构建和重用 view 更加方便，因此能保持你的 codebase 遵循DRY 原则。</li>
+<li>所有的信息都集中在一处。如果用 Interface Builder，你还得到处点开各种检查器，才能找到你要设置的属性。</li>
+</ul>
+<h5 id="用_Storyboard_画界面有哪些好处？">用 Storyboard 画界面有哪些好处？</h5><ul>
+<li>对技术不太熟悉的人也可以画 Storyboard，调整颜色、layout 约束，为项目做出直接贡献。不过，要做这些需要工程已经建好，并且也要了解一些基本知识。</li>
+<li>开发迭代会更快，因为不需要 build 工程就能预览到做出的改动。<ul>
+<li>在 Xcode 6 中，在 Storyboard 里终于能看到自定义的字体和 UI 控件样式了。这让你在设计时能更好地了解界面的最终外观。</li>
+<li>从 iOS 8 开始，你可以用<a href="http://blog.futurice.com/adaptive-view-ios8" target="_blank" rel="external">Size Classes</a>来设计同时支持各种屏幕尺寸的界面，省去了很多重复工作。</li>
+</ul>
+</li>
+</ul>
+<h5 id="gitignore_文件">gitignore 文件</h5><p>要为一个项目添加版本控制，最好第一步就弄一个恰当的.gitignore文件。这样一来，不需要的文件（例如用户设置、临时文件等等）就不会进入 repository 了。幸运的是，Github 帮我们同时准备好了 <a href="https://github.com/github/gitignore/blob/master/Objective-C.gitignore" target="_blank" rel="external">Objective-C 版</a>  和 <a href="https://github.com/github/gitignore/blob/master/Swift.gitignore" target="_blank" rel="external">Swift 版</a>。</p>
+<h5 id="CocoaPods">CocoaPods</h5><p>如果你准备在工程里引入外部依赖（例如第三方库），CocoaPods提供了快速而便捷的集成方法。安装方法如下：<br><code>sudo gem install cocoapods</code><br>To get started, move inside your iOS project folder and run<br>开始的第一步是进入你的工程目录，然后运行<br><code>pod init</code><br>这样会创建一个 Podfile，在这里集中管理所有的依赖。把你的依赖添加到 Profile 里，然后运行<br><code>pod install</code></p>
+<p>来安装这些库，并且把它们和你自己的工程一起放进一个 workspace 里。在 commit 的时候，一般推荐把依赖在你的 repo 里安装好之后再 commit，最好不要让每个开发者 checkout 之后还要自己跑一遍<code>pod install</code>.</p>
+<p>要注意，从此以后，打开工程的时候就要打开<code>.xcworkspace</code>文件了，不要再打开<code>.xcproject</code>，否则代码编译不通过。下面这条命令<br><code>pod update</code><br>会把所有的 pod 都更新到 Podfile 允许的最新版本。你可以使用一系列的<a href="http://guides.cocoapods.org/syntax/podfile.html#pod" target="_blank" rel="external">符号</a>来准确指定你对版本的要求。</p>
+<h4 id="工程结构">工程结构</h4><p>既然把这些数以百计的源文件都保存在同一目录下，根据工程结构来建立一个目录结构是个好主意。例如，你可以使用以下的结构：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">├─ Models</span><br><span class="line">├─ Views</span><br><span class="line">├─ Controllers</span><br><span class="line">├─ Stores</span><br><span class="line">├─ Helpers</span><br></pre></td></tr></table></figure></p>
+<p>首先，在 Xcode 的 Project Navigator（左边栏）里，把这些目录建立为 group（小小的黄色“文件夹”），建在与工程的同名的 group 下。然后，把每一个 group 与工程路径下实际的文件夹链接起来，方法是选中 group，打开右边栏的 File Inspector，点击小小的灰色文件夹 icon，然后在工程目录下创建一个新的子文件夹，名称与 group 相同。</p>
+<h5 id="本地化">本地化</h5><p>从最开始就要把所有的文案放在本地化文件里。这不仅有利于翻译，也能让你更快地找到面向用户的文字。你可以在 build scheme 里添加一个 launch 参数，指定在某种语言下启动 app，例如：<br><code>-AppleLanguages (Finnish)</code><br>对于更复杂的翻译，比如与名词的数量有关的复数形式（如 “1 person” 对应 “3 people”），你应该使用.stringsdict 格式来替换普通的localizable.strings文件。只要你能习惯这种奇特的语法，你就拥有了一个强大的工具，可以根据需要（例如俄语或阿拉伯语的规则）把名词变为“一个”、“一些”、“少数”和“许多”等复数形式。</p>
+<p>更多关于本地化的信息，请参考 2012 年 2 月 HelsinkiOS 大会上的这些幻灯片。其中的大部分演讲至少到 2014 年 10 月为止仍然是不过时的。</p>
+<h5 id="常量">常量</h5><p>把整个 app 范围的常量定义在一个<code>Constants.h</code>文件里，然后在 prefix header 里加入这个文件。</p>
+<p>相比使用 <code>#define</code> 定义的预处理宏，使用真正的常量更好：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="built_in">CGFloat</span> <span class="keyword">const</span> XYZBrandingFontSizeSmall = <span class="number">12.0</span>f;</span><br><span class="line"><span class="keyword">static</span> <span class="built_in">NSString</span> * <span class="keyword">const</span> XYZAwesomenessDeliveredNotificationName = <span class="string">@"foo"</span>;</span><br></pre></td></tr></table></figure></p>
+<p>真正的常量是类型安全的，拥有更明确的作用域，不能在后续的代码中重新定义也不能取消定义，并且在 debugger 中可用。</p>
+<h5 id="分支策略">分支策略</h5><p>App 发布的时候把 release 代码从原有的分支上隔离出来，并且加上适当的 tag，是很好的做法，对于向公众分发（比如通过 App Store）的 app 这一点尤其重要。同时，涉及到大量 commit 的 feature 应该在独立的分支上完成。git-flow是一个帮助你遵守这些原则的工具。它只是在 Git 的分支和 tag 命令上简单加了一层包装，就可以帮助维护一套适当的分支结构，对于团队协作尤为有用。所有的开发都应该在 feature 对应的分支上完成（小改动在develop分支上），给 release 打上 app 版本的 tag，然后 commit 到 master 分支时只能用下面这条命令：<br><code>git flow release finish &lt;version&gt;</code></p>
+<h4 id="Common_Libraries">Common Libraries</h4><h5 id="常用的库">常用的库</h5><p>一般来说，在工程里添加外部依赖要谨慎。当然，眼下某个第三方库能漂亮地解决你的问题，但或许不久之后就陷入了维护的泥淖，最后随着下一版 OS 的发布全线崩溃。另一种情况是，原先只能通过引用外部库来实现的 feature，突然官方 API 也支持了。在设计良好的项目里，把第三方库替换为官方的实现花不了多少功夫，但在将来会大有裨益。永远要优先考虑用苹果官方的框架（也是最好的框架）来解决问题！</p>
+<p>因此，这一章有意写得比较简短。下面介绍的第三方库主要用来减少模板代码（例如 Auto Layout）或者用来解决复杂的、需要大量测试的问题，例如计算日期。随着你对 iOS 越来越精通，务必要四处看看它们的源码，熟悉它们所使用的底层框架。你会发现做好这些就能减轻许多重担了。</p>
+<h5 id="AFNetworking">AFNetworking</h5><p>大约 99.95% 的 iOS 开发者都使用这个网络库。尽管NSURLSession已经非常强大了，但一旦涉及到实际管理请求队列时，AFNetworking仍然立于不败之地，而现代的 app 基本都会有这个需求。</p>
+<h5 id="DateTools">DateTools</h5><p>一条常识是，不要自己写日期计算。幸运的是，有 DateTools 这样一个基于 MIT 协议、充分测试过的第三方库，基本能满足所有日期方面的要求。</p>
+<h5 id="Auto_Layout_相关的库">Auto Layout 相关的库</h5><p>如果你习惯用代码写 view，你很可能用过这两种诡异的语法——常规的NSLayoutConstraint工厂，以及所谓的可视化语言。前者极其冗长，而后者是基于字符串的，完全躲过了编译检查。</p>
+<p>而 Masonry 的解决方法是：引入自己定义的 DSL 来创建、更新和替换约束。Swift 有一个类似的库 Cartography，是建立在这门语言强大的运算符重载基础上的。保守一些的库有 FLKAutoLayout，它对原生 API 加了一层整洁而不奇异的包装。</p>
+<h4 id="架构">架构</h4><ul>
+<li><p><a href="http://programmers.stackexchange.com/questions/184396/mvcs-model-view-controller-store" target="_blank" rel="external">Model-View-Controller-Store (MVCS)</a></p>
+<ul>
+<li><p>这是苹果默认的架构(MVC)上增加了一个 Store 层，用来吐出 Model，处理网络请求、缓存等。</p>
+</li>
+<li><p>每个 Store 暴露给 view controller 的或者是RACSignal，或者是返回值为void、参数带有自定义的 completion block 的方法。</p>
+</li>
+</ul>
+</li>
+<li><p><a href="http://www.objc.io/issue-13/mvvm.html" target="_blank" rel="external">Model-View-ViewModel (MVVM)</a></p>
+<ul>
+<li><p>MVVM 是为了解决“巨大的 view controller”而生，它把UIViewController的子类看做 View 层的一部分，用 ViewModel 维护所有的状态来给 ViewController 瘦身。</p>
+</li>
+<li><p>对于 Cocoa 开发者是一个很新的概念，但是正在引起 越来越多的关注</p>
+</li>
+</ul>
+</li>
+<li><p><a href="http://www.objc.io/issue-13/viper.html" target="_blank" rel="external">View-Interactor-Presenter-Entity-Routing (VIPER)</a></p>
+<ul>
+<li>相当特别的架构，大型项目可能值得参考，尤其是即使用 <code>MVVM</code>还是比较凌乱，以及对需要重点考虑可测试性的情况。</li>
+</ul>
+</li>
+</ul>
+<h5 id="“通知”_模型">“通知” 模型</h5><p>以下是组件之间互发通知的一些常见手段：</p>
+<ul>
+<li><strong>Delegation</strong>: (一对一) 苹果官方经常用这个模式（有些人认为用得太泛滥了）。主要用于回传，比如从模态框回传数据。</li>
+<li><strong>Callback blocks</strong>: (一对一) 耦合更松，同时能让相关联的代码在一起。并且，消息发出者数量很多时比 delegation 更方便。</li>
+<li><strong>Notification Center</strong>: (一对多) 可能是一个对象给多个观察者发出“通知”时最常用的方法。耦合非常松，甚至可以把通知发到全局，不需要对调度者的引用。</li>
+<li><strong>Key-Value Observing (KVO)</strong>: (一对多) 不需要被观测的对象主动“发出通知”，只需要被观测的键（属性）支持 Key-Value Coding (KVC) 。这种模式比较含混，而且标准 API 比较繁复，所以一般不推荐使用。</li>
+<li><strong>Signals</strong>: (一对多) 这是<a href="https://github.com/ReactiveCocoa/ReactiveCocoa" target="_blank" rel="external">ReactiveCocoa</a>的核心，它允许结合关键内容的链式调用，用这种方法逃离回调深渊（嵌套过多的回调）。</li>
+</ul>
+<h5 id="Models">Models</h5><p>要确保你的 model 是不可变的，它们用来把远程 API 的语义和类型转换为 app 适用的语义和类型。Github 的 <a href="https://github.com/Mantle/Mantle" target="_blank" rel="external">Mantle</a> 是个不错的选择。</p>
+<h5 id="Views">Views</h5><p>使用 Auto Layout 布局时，要记得在 View 类里加上：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="built_in">BOOL</span>)requiresConstraintBasedLayout</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>不然，系统可能不会如期调用<code>-updateConstraints</code>，而导致奇怪的 bug。</p>
+<p>Controllers</p>
+<p>要使用依赖注入，也就是说，应该把 Controller 需要的数据用参数传进来，而不要把所有状态信息都保存在单例里。后者仅当这些状态 的确 是全局的情况下才适用。</p>
+<p><code>+ [[FooDetailsViewController alloc] initWithFoo:(Foo *)foo];</code></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/09/04/Swift学习-从Objective-C到Swift/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Swift学习: 从Objective-C到Swift</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 苹果
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
