@@ -2,10 +2,10 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="keywords" content="键盘的记忆,iOS学习,html5,混合开发">
   
   <title>iOS开发之UITableView性能优化 | 键盘的记忆</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="iOS学习,html5,混合开发">
   <meta name="description" content="前面已经说过UITableView中的单元格cell是在显示到用户可视区域后创建的，那么如果用户往下滚动就会继续创建显示在屏幕上的单元格，如果用户向上滚动返回到查看过的内容时同样会重新创建之前已经创建过的单元格。如此一来即使UITableView的内容不是太多，如果用户反复的上下滚动，内存也会瞬间飙升，更何况很多时候UITableView的内容是很多的（例如微博展示列表，基本向下滚动是没有底限的）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS开发之UITableView性能优化">
