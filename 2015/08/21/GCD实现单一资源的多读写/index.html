@@ -5,6 +5,7 @@
   
   <title>GCD实现单一资源的多读写 | 键盘的记忆</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="keywords" content="iOS学习,html5,混合开发">
   <meta name="description" content="在多线程编程中，最常见的场景是如何保证线程安全，比如你可能经常遇到多线程访问某个dic（又或者是array或其他）造成的crash。这篇文章里，我们讨论下如何使用GCD实现多线程读者与写者问题，也即单一资源的线程安全问题。
 
 首先，还是先将示例代码放出来好了，后面会有一些我遇到过的问题及改进介绍。如果你只想得到一个解决方案，只需要看第一节就OK，当然，也许你也有兴趣看看后面的部分。
