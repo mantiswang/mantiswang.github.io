@@ -11,13 +11,13 @@
 解决方案与原理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GCD实现单一资源的多读写">
-<meta property="og:url" content="http://yoursite.com/2015/08/21/GCD实现单一资源的多读写/index.html">
+<meta property="og:url" content="http://blog.onecat.cc/2015/08/21/GCD实现单一资源的多读写/index.html">
 <meta property="og:site_name" content="键盘的记忆">
 <meta property="og:description" content="在多线程编程中，最常见的场景是如何保证线程安全，比如你可能经常遇到多线程访问某个dic（又或者是array或其他）造成的crash。这篇文章里，我们讨论下如何使用GCD实现多线程读者与写者问题，也即单一资源的线程安全问题。
 
 首先，还是先将示例代码放出来好了，后面会有一些我遇到过的问题及改进介绍。如果你只想得到一个解决方案，只需要看第一节就OK，当然，也许你也有兴趣看看后面的部分。
 解决方案与原理">
-<meta property="og:image" content="http://yoursite.com/dispatch_barrier.png">
+<meta property="og:image" content="http://blog.onecat.cc/dispatch_barrier.png">
 <meta property="og:updated_time" content="2015-08-22T13:40:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GCD实现单一资源的多读写">
