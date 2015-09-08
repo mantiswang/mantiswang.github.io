@@ -119,6 +119,73 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-iOS-Photo-album" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/18/iOS-Photo-album/" class="article-date">
+  	<time datetime="2015-08-18T14:15:53.000Z" itemprop="datePublished">2015-08-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/18/iOS-Photo-album/">iOS 开发只保存照片到系统相册</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>保存照片到系统相册这个功能很多社交类的APP都有的，今天我们简单讲解一下，如何将图片保存到系统相册（Photo Album）。</p>
+<h4 id="创建UIImageView">创建UIImageView</h4><p>创建<code>UIImageView</code>是为了将照片展示出来，我们是要把<code>UIImage</code>保存到系统相册（Photo Album）:<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#define SCREEN [UIScreen mainScreen].bounds.size</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">self</span><span class="variable">.image</span> = [<span class="built_in">UIImage</span> imageNamed:<span class="string">@"iOSDevTip"</span>];</span><br><span class="line"><span class="built_in">UIImageView</span> *imageView = [[<span class="built_in">UIImageView</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>((SCREEN<span class="variable">.width</span> - <span class="number">300</span>) / <span class="number">2</span>, <span class="number">70</span>, <span class="number">300</span>, <span class="number">150</span>)];</span><br><span class="line">imageView<span class="variable">.image</span> = <span class="keyword">self</span><span class="variable">.image</span>;</span><br><span class="line">[<span class="keyword">self</span><span class="variable">.view</span> addSubview:imageView];</span><br></pre></td></tr></table></figure></p>
+<h4 id="创建UIButton">创建UIButton</h4><p>创建<code>UIButton</code>并绑定<code>actionClick:</code>事件:<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">UIButton *button = [[UIButton alloc] init];</span><br><span class="line">button.frame = CGRectMake( <span class="number">100</span>, <span class="number">300</span>, SCREEN.width - <span class="number">200</span>, <span class="number">40</span>);</span><br><span class="line">[button <span class="string">addTarget:</span>self <span class="string">action:</span><span class="annotation">@selector</span>(<span class="string">actionClick:</span>) <span class="string">forControlEvents:</span>UIControlEventTouchUpInside];</span><br><span class="line">[button <span class="string">setTitleColor:</span>[UIColor blueColor] <span class="string">forState:</span>UIControlStateNormal];</span><br><span class="line">[button <span class="string">setBackgroundColor:</span>[UIColor orangeColor]];</span><br><span class="line">[button <span class="string">setTitle:</span>@<span class="string">"SavePhoto"</span> <span class="string">forState:</span>UIControlStateNormal];</span><br><span class="line">[self.view <span class="string">addSubview:</span>button];</span><br><span class="line"></span><br><span class="line">- (<span class="typename">void</span>)<span class="string">actionClick:</span>(UIButton *)button</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="保存照片到系统相册（Photo_Album）">保存照片到系统相册（Photo Album）</h4><p>在<code>actionClick:</code>方法里调用：<br><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UIImageWriteToSavedPhotosAlbum<span class="list">(<span class="keyword">self</span>.image, self, @selector<span class="list">(<span class="keyword">image</span><span class="keyword">:didFinishSavingWithError</span><span class="keyword">:contextInfo</span>:)</span>, NULL)</span><span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
+<p>这个时候，我们想知道保存是否成功，所以需要指定回掉方法</p>
+<blockquote>
+<p>这是SDK提供的默认指定回调方法<br>// Adds a photo to the saved photos album.  The optional completionSelector should have the form:<br>//  - (void)image:(UIImage <em>)image didFinishSavingWithError:(NSError </em>)error contextInfo:(void <em>)contextInfo;<br>UIKIT_EXTERN void UIImageWriteToSavedPhotosAlbum(UIImage </em>image, id completionTarget, SEL completionSelector, void *contextInfo);</p>
+</blockquote>
+<figure class="highlight openscad"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 指定回调方法</span></span><br><span class="line">- <span class="params">(void)</span>image:<span class="params">(UIImage *)</span>image didFinishSavingWithError:<span class="params">(NSError *)</span>error contextInfo:<span class="params">(void *)</span>contextInfo</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span><span class="params">(!error)</span>&#123;</span><br><span class="line">        NSLog<span class="params">(@<span class="string">"save success"</span>)</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        NSLog<span class="params">(@<span class="string">"save failed"</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个方法里，我们就知道照片是否保存成功。然后，根据需求来刷新UI线程。demo地址: <a href="https://github.com/worldligang/iOSStrongDemo" target="_blank" rel="external">https://github.com/worldligang/iOSStrongDemo</a> </p>
+<blockquote>
+<p>本文转自微信号<code>iOSDevTip</code></p>
+</blockquote>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-iOS-runtime-basic" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -806,67 +873,6 @@ frame.origin.y = position.y - <span class="built_in">anchor</span>Point.y * boun
 <li>可以预先加载需要的网络资源（图片等），SDWebImagePrefetcher.</li>
 </ol>
 
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/iOS/">iOS</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-gcd-basic" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/03/05/gcd-basic/" class="article-date">
-  	<time datetime="2015-03-05T15:55:05.000Z" itemprop="datePublished">2015-03-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/05/gcd-basic/">iOS 多线程GCD入门</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>GCD中有三种类队列类型：</p>
-<p>1.The main queue：与主线程功能相同。实际上，提交至main queue的任务会到主线程中执行。main queue可以调用dispatch_get_main_queue()来获得。因为main queue是与主线程相关的，所以这是一个穿行队列。</p>
-<p>2.Global queues：全局队列是并发队列，并由整个进程共享。进程中存在3个全局队列：高、中（默认）、低三个优先级队列。可以调用dispatch_get_global_queue函数传入优先级来访问队列。</p>
-<p>3.自定义队列：串行队列。通过dispatch_queue_create创建的队列。</p>
-<p>典型应用场景</p>
-<figure class="highlight"><figcaption><span>创建一个异步任务，并在任务完成后更新界面</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^&#123;&#10;        [self goDoSomethingLongAndInvolved];&#10;        dispatch_async(dispatch_get_main_queue(), ^&#123;&#10;            [textField setStringValue:@&#34;Done doing something long and involved&#34;];&#10;        &#125;);&#10;&#125;);</span><br></pre></td></tr></table></figure>
-<p>平行进行doSomethingIntensiveWith，等待所有任务完成进行doSomethingWith</p>
-<figure class="highlight"><figcaption><span>dispatch_group_t 使用</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;dispatch_queue_t queue = dispatch_get_global_qeueue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);&#10;dispatch_group_t group = dispatch_group_create();&#10;for(id obj in array)&#10;    dispatch_group_async(group, queue, ^&#123;&#10;        [self doSomethingIntensiveWith:obj];&#10;    &#125;);&#10;dispatch_group_wait(group, DISPATCH_TIME_FOREVER);&#10;dispatch_release(group);&#10; &#10;[self doSomethingWith:array];</span><br></pre></td></tr></table></figure>
       
     </div>
     

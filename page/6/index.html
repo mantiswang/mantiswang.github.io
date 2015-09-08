@@ -119,6 +119,91 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-cocos2d-x-alipay" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/03/19/cocos2d-x-alipay/" class="article-date">
+  	<time datetime="2014-03-18T16:37:50.000Z" itemprop="datePublished">2014-03-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/19/cocos2d-x-alipay/">cocos2d-x集成支付宝问题trade_no</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>cocos2d-x plugin-x 包含很多第三方的库集成，使用起来非常方便！<br>官网使用手册  网上也有很多人总结集成的步骤和注意细节<a href="http://go3k.org/blog/2013/07/08/cocos2dx-pluginx-1/" target="_blank" rel="external">点击查看</a></p>
+<p>最近项目需要集成支付宝，按照文档一路下来，除了粗心忘记修改main.cpp的JNI_Onload方法导致报错 javaVM isNULL。main.cpp 做如下修改：</p>
+<pre>
+#include "PluginJniHelper.h" 
+
+ jint JNI_OnLoad(JavaVM *vm, void *reserved)
+ {
+     JniHelper::setJavaVM(vm);
+     PluginJniHelper::setJavaVM(vm); 
+     return JNI_VERSION_1_4;
+ }
+</pre>
+
+<p>大多说产品中需要对支付的交易号进行备份。但在alipay的plugin实现的<pre> String getOrderInfo(Hashtable<string, string=""> info)</string,></pre>方法实现可以看到调用了如下方法获取trade_no。</p>
+<p><pre><br>    /**</pre></p>
+<pre><code> * get the out_trade_no f<span class="subst">or</span> an <span class="keyword">order</span><span class="built_in">.
+ </span>* 获取外部订单号
+ * 
+ * @<span class="keyword">return</span>
+ */
+<span class="built_in">String</span> getOutTradeNo() {
+    SimpleDateFormat format = <span class="literal">new</span> SimpleDateFormat(<span class="string">"yyyyMMddHHmmss"</span>);
+    <span class="built_in">Date</span> <span class="built_in">date</span> = <span class="literal">new</span> <span class="built_in">Date</span>();
+    <span class="built_in">String</span> strKey = format<span class="built_in">.</span>format(<span class="built_in">date</span>);
+
+    java<span class="built_in">.</span>util<span class="built_in">.</span>Random r = <span class="literal">new</span> java<span class="built_in">.</span>util<span class="built_in">.</span>Random();
+    strKey = strKey + r<span class="built_in">.</span>nextInt(<span class="number">10000</span>);
+    <span class="keyword">return</span> strKey;
+}
+</code></pre><p><br>这里的trade_no就是当前时间+一个random值，这不能满足我们的需求，我们的trade_no是自己生成的，需要在交易完成后通过notify_url中传递回到我们的后台处理接口。<br>我们可以从<pre> String getOrderInfo(Hashtable<string, string=""> info)</string,></pre>方法中根据<pre>String productName = info.get(“productName”);</pre>得出我们也可以将我们的trade_no参数传递的方式传入plugin中来。</p>
+<p><pre><br>MyPurchase::MyPayMode mode = (MyPurchase::MyPayMode) (pMenuItem-&gt;getTag() - TAG_PAY_BY_ALIPAY + 1);<br>pInfo[“productName”] = “100金币”;<br>pInfo[“productPrice”] = “0.01”;<br>pInfo[“productDesc”] = “这个是游戏币的测试描述”;<br>pInfo[“trade_no”] = trade_no;<br>MyPurchase::sharedPurchase()-&gt;payByMode(pInfo, mode);<br></pre><br>上面的代码是我们支付的时候调用到的，封装商品信息，在这里加上我们需要的trade_no即可，在getOrderInfo中使用这个值。<br>至此，重新运行publish.sh即可。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/IOS/">IOS</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-ios-pcap" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">

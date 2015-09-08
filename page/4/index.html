@@ -119,6 +119,67 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-gcd-basic" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/03/05/gcd-basic/" class="article-date">
+  	<time datetime="2015-03-05T15:55:05.000Z" itemprop="datePublished">2015-03-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/05/gcd-basic/">iOS 多线程GCD入门</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>GCD中有三种类队列类型：</p>
+<p>1.The main queue：与主线程功能相同。实际上，提交至main queue的任务会到主线程中执行。main queue可以调用dispatch_get_main_queue()来获得。因为main queue是与主线程相关的，所以这是一个穿行队列。</p>
+<p>2.Global queues：全局队列是并发队列，并由整个进程共享。进程中存在3个全局队列：高、中（默认）、低三个优先级队列。可以调用dispatch_get_global_queue函数传入优先级来访问队列。</p>
+<p>3.自定义队列：串行队列。通过dispatch_queue_create创建的队列。</p>
+<p>典型应用场景</p>
+<figure class="highlight"><figcaption><span>创建一个异步任务，并在任务完成后更新界面</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^&#123;&#10;        [self goDoSomethingLongAndInvolved];&#10;        dispatch_async(dispatch_get_main_queue(), ^&#123;&#10;            [textField setStringValue:@&#34;Done doing something long and involved&#34;];&#10;        &#125;);&#10;&#125;);</span><br></pre></td></tr></table></figure>
+<p>平行进行doSomethingIntensiveWith，等待所有任务完成进行doSomethingWith</p>
+<figure class="highlight"><figcaption><span>dispatch_group_t 使用</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;dispatch_queue_t queue = dispatch_get_global_qeueue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);&#10;dispatch_group_t group = dispatch_group_create();&#10;for(id obj in array)&#10;    dispatch_group_async(group, queue, ^&#123;&#10;        [self doSomethingIntensiveWith:obj];&#10;    &#125;);&#10;dispatch_group_wait(group, DISPATCH_TIME_FOREVER);&#10;dispatch_release(group);&#10; &#10;[self doSomethingWith:array];</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS/">iOS</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-svn-trunk-merge" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -627,64 +688,6 @@
       
 	<div class="article-category tagcloud">
 	<a class="article-category-link" href="/categories/IOS/">IOS</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-ipa-wireless-sender" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/09/12/ipa-wireless-sender/" class="article-date">
-  	<time datetime="2014-09-12T14:19:27.000Z" itemprop="datePublished">2014-09-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/12/ipa-wireless-sender/">ipa 无线发布 OTA的使用</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>无线发布iOS应用（OTA）让用户不通过App Store直接下载iOS应用,目的是让企业用户能够在脱离 Apple App Store 的情况下通过网页无线发布 iOS 应用。</p>
-<p>使用item-services协议，通过Safari浏览器可以自动安装ipa</p>
-<p><a href="https://github.com/OpenFibers/php-tot" target="_blank" rel="external">php-tot OTA Server github地址</a></p>
-<p>上面连接中地址中提到一些第三方的OTA web 服务和开源的OTA服务项目，<br>其中 <a href="http://testflightapp.com/" target="_blank" rel="external">testflight</a> 很好用。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/IOS-OTA/">IOS OTA</a>
 	</div>
 
 

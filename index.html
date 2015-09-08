@@ -119,6 +119,143 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-13个小技巧帮你征服Xcode" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/09/09/13个小技巧帮你征服Xcode/" class="article-date">
+  	<time datetime="2015-09-08T22:47:07.000Z" itemprop="datePublished">2015-09-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/09/13个小技巧帮你征服Xcode/">13个小技巧帮你征服Xcode</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文由CocoaChina翻译组成员唧唧歪歪（博客）翻译自David McGraw的博客</p>
+<p>原文：13 Xcode Tips That Will Help You Conquer Xcode<br>当谈论到iOS开发工具时，有一个肯定是所有iOS开发者都熟悉的，那就是Xcode。Xcode是使所有令人赞叹的iOS app成为可能的驱动力。</p>
+<p>Xcode<br>能帮助我们完成非常多的事情，但是这也有点让人头疼。对于新手来说，可能会觉得Xcode太过繁重了。而对那些有几年使用经验的人来说，还是在不停地学习<br>一些细节来提高生产力。我对新手的建议就是不要想着一下就能学完关于Xcode的所有知识。关注当下最重要的部分，然后再根据经验慢慢拓展到新的知识。</p>
+<p>在本文中，我会提到一些能帮助你提高生产力的内容。这里面有些内容可能讲过就忘了，但有些应该能解决你经常遇到的问题。</p>
+<ul>
+<li>你将会学到如何自定义Xcode来提高生产力</li>
+<li>你将会学到一些功能来帮助你管理代码</li>
+<li>你将会学到一些提示来帮助你总体把控工程开发</li>
+</ul>
+<h3 id="Xcode_Behaviors">Xcode Behaviors</h3><p>Behaviors是一种神奇的东西，能让Xcode根据你的操作，自动执行一些后续操作。想象一下，你正在运行程序，遇到了一个断点或者错误。默认情况下，Xcode会自动打开调试窗口、在当前标签页跳转到出错的代码处，完全打乱了编辑器。现在我们通过设置来阻止这种情况发生。</p>
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlynXRJ6bX7QQ3rQb49KT5007z3DwibNlCJ9ExB7hrto0xGR8UBSr5Nic22jawy8pt7fT6PpqxpHSnFPg/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="1430192054157251.png"></p>
+<p>打开Xcode 偏好设置，能看到一个叫Behaviors的选项卡。在这里我们可以定义不同种类的状态改变时Xcode的行为，例如当构建开始时Xcode要做什么、当构建成功或失败时Xcode又要做什么。你可以让Xcode播放声音、打开新的标签页、显示导航等等。</p>
+<p>针对本例，我们想要改变app运行时的Xcode的一些行为。当app因为断点或错误暂停时，我们想要做以下的事情：</p>
+<ul>
+<li>播放声音（Hero音效对我来说不错，但是你可以换成其他的，包括自定义声音）</li>
+<li>显示debug标签页</li>
+<li>显示debug导航</li>
+<li>调试区域同时显示变量和控制台</li>
+</ul>
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlynXRJ6bX7QQ3rQb49KT5007EkZqILaMTjRVyyE3yyGSvD19ibM9lGdNJFF0J4Ifk33kb0OEZ1uNP3g/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="1430192094727065.png"></p>
+<p>在这里我选择打开一个新的标签页，是因为不想让Xcode改变我当前的工作状态。这样我就能轻松回到之前写代码的位置。另外我也没有关闭Xcode为调试打开的一些窗格，整个的体验是集中在单独的标签页中。</p>
+<p>你可以花些时间来探索Xcode其他的行为，根据自己的开发风格找到最合适的。你可能觉得Xcode的某些默认行为很烦人，或许在Behaviors中你就能把它关掉。</p>
+<h3 id="管理设备和模拟器">管理设备和模拟器</h3><p>你有没有想过，你其实可以管理Xcode中设备下拉框里的设备列表呢？<br><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlynXRJ6bX7QQ3rQb49KT5007aHQu9m8ETLZp8qpyvHGUiaBkF4vjBd5CosAzSbDA9kz0wKIT3ibibFVNg/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="1430192160188997.jpg"></p>
+<p>再想想读取设备中的数据库，从而验证表里的数据是否都设置正确了。你是否还遇到过，Xcode的下拉框里一个模拟器都没有了？现在打开Window &gt; Devices。</p>
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlynXRJ6bX7QQ3rQb49KT500778lQYboquO2fACEz6cMicic1zAKNuUFFWxSHKicOXWa6POmCweHBYziamw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="1430192168486298.png"></p>
+<p>在这里你能看到已连接的设备和可用的模拟器。如果你需要添加或移除模拟器，就点击左下角的+按钮（移除点击—按钮）。如果模拟器都找不到了，你可以到这来恢复它们。</p>
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlynXRJ6bX7QQ3rQb49KT50079vib5dCoV24xruS8nURSibyKH1pFCF9kQjbVmpVAqeTBWxFkRA4HouKw/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="1430192199681247.jpg"></p>
+<p>最后，这里另一个有用的功能就是可以下载app的 container。</p>
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlynXRJ6bX7QQ3rQb49KT5007gt4EiaJsY4tiajkB0nSxicpmu9Ho5PPqwbXTcSgoXSMeBdueQt0q1oVQg/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="1430192296134696.jpg"></p>
+<p>过去你可能通过访问模拟器文件夹来获取数据，但是真机怎么办呢？现在获取保存的照片、数据库文件等等都变得非常容易了，你可以下载一个包含有documents、libarary和temp文件夹的container，这样就能获取设备上的数据了。</p>
+<h3 id="更新app的显示名称">更新app的显示名称</h3><p>开发者们经常遇到的一个就是，创建的工程显示的名字不是自己想要的。我经常看到有些人重新命名和重构（refactor）整个工程，来显示正确的名称。如果你知道在工程的<code>info.plist</code>里添加一个key就能改变app显示名称了，那你肯定很高兴。这个key就是Bundle display<br>name。<br><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlynXRJ6bX7QQ3rQb49KT5007ASicv7oyWNWOpiaJbKJxnOagl5LyiaiacYFRY2aicAf6C0icLewMwZESkfXg/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="1430192522399034.jpg"></p>
+<h3 id="提高可读性_&amp;_Xcode扩展">提高可读性 &amp; Xcode扩展</h3><p>现在有很多插件都可以提高Xcode的生产力。一些开发者甚至创建了一些非常好的主题来替换Xcode默认主题。说实话，默认主题看起来还是挺不舒服的。那我们怎么样才能轻松地获取到这些插件呢？现在就去alcatraz.io，下载一个非常好用的Xcode包管理器吧。</p>
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlynXRJ6bX7QQ3rQb49KT5007215GuXFbEfVE30oKcDw4bDQUVhwB1KTFxBtPNRmYdib2lAicEGXIYzwg/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="1430192537680935.png"></p>
+<p>下面是一些我最近用到的插件：</p>
+<ul>
+<li>SCXcodeMinimap：这个插件和Sublime Text中的那个看起来像。它能够显示一个编辑器的缩略图，轻松地查看、滚动代码。</li>
+<li>RevealPlugin：如果你使用Reveal的话，这个插件能快速启动Reveal。</li>
+<li>RealmPlugin：Realm的模型对象的模板文件。（译注：Realm是一个面向移动设备的数据库。）</li>
+<li>VVDocumenter-Xcode：帮助你快速生成一个方法的注释。</li>
+<li>AdjustFontSize：当你展示代码时，你可能需要快速放大字体，这个插件能让你通过command+加减号来调整字体大小。</li>
+<li>Lin：为NSLocalizedString显示代码补全。</li>
+</ul>
+<p>有一个正在开发的本地化插件Rephrase，值得关注。当它发布之后，就有可能成为另一个节约时间的利器啊。</p>
+<p>我目前使用的主题是Dusk，我坚信这个才是默认主题。还有很多颜色主题，你都可以通过Alcatraz来下载。</p>
+<h3 id="下载文档和旧版模拟器">下载文档和旧版模拟器</h3><p>当你安装了一个新版本的Xcode后，你可能会发现你没有之前iOS系统的模拟器了。当测试app时这就是个问题了。你可以在偏好设置中的下载选项卡中安装旧版模拟器。</p>
+<p>你可以在这下载旧版模拟器，在Window &gt; Devices中管理它们。你还可以下载Xcode没有预载的文档。<br><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlynXRJ6bX7QQ3rQb49KT5007fr52ugmZeKg9ZiaQVagfBNlM1mQf1TBzialfkPicNqdFzkedSec6ALSlQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="1430192594304148.png"></p>
+<h3 id="组织源文件">组织源文件</h3><p>通过源文件上方的一个下拉框，你能查看到所有的属性和方法。<br><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlynXRJ6bX7QQ3rQb49KT5007v8XseoSKFh0UBOBCI2XuoPTcvtSLsT16iaugJNMCyQsd3cy8CJpuLwQ/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="1430192618307958.jpg"><br>当你点击这个位置时，下拉框会显示这个文件的详细信息。在源代码中你还可以使用例如// FIXME: 或者 // TODO: 或者 // MARK: 来添加标记。<br><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlynXRJ6bX7QQ3rQb49KT5007sKAzbV0wGoqqrd8eg9IKCSuM5cdQZCFb10Nda0lNIsQOdicD7LBnKmg/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="1430192640707944.jpg"></p>
+<h3 id="快速打开文件">快速打开文件</h3><p>有时你可能需要打开一个新文件，但同时还要保留当前文件。有下面几种办法。</p>
+<p>你可以打开assistant editor，然后在那里显示文件。点击View &gt; Assistant Editor &gt; Show Assistant Editor。</p>
+<p>你可以双击想要打开的文件。这会打开一个新的窗口。</p>
+<p>你可以通过 Option+Shift+点击，这会弹出一个框，让你选择在哪里打开文件。</p>
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlynXRJ6bX7QQ3rQb49KT5007expxuuGw0XG9V0UAQuN3Picf6GElBlrV1vibO0uYVoufcgySYsEoF1nw/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="1430192667909313.jpg"></p>
+<h3 id="跳转到文档">跳转到文档</h3><p>能快速跳转到文档将会节省很多时间。你可能正在写UITableViewDelegate，但是不记得所有相关方法。你可以通过在符号上Command+点击，快速跳转到文档。</p>
+<h3 id="生成文档">生成文档</h3><p>下载并安装插件VVDocumenter-Xcode，你就不用手动写注释代码了。只需输入三个斜杠///就能快速生成注释。</p>
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlynXRJ6bX7QQ3rQb49KT5007dDUxdNg6ELa3MicJCRVYGEyxnmH7Qg5kiaJkgpx4dT18tRZkC2hUWVPg/0?wx_fmt=gif&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="1430192726326115.gif"></p>
+<h3 id="创建代码片段">创建代码片段</h3><p>如果你经常需要输入格式完全一样的代码，那代码片段就很有用了。例如，我有一个代码片段，它能自动填充一个新的tableView或者<br>collectionView类，并且还有我需要的delegate方法。我还有一些小型片段来帮助我快速生成typealias、singleton、<br>gcd等等的代码。</p>
+<p>要生成代码片段，在file inspector中打开snippent panel。<br><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlynXRJ6bX7QQ3rQb49KT5007cPawhJ6jIRkWd2SEMjrXRicOOGJhYxEfDqIGHKXz1FdVa7vLFtmmV9A/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="1430192768559247.jpg"></p>
+<p>在编辑器中输入想要创建的片段。注意，如果需要占位符的话，输入 &lt;#placeholder-name#&gt;。选中代码，按住一秒，然后拖进代码片段区域。</p>
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlynXRJ6bX7QQ3rQb49KT5007eogEp1cFjvzb0xFFbGu8wmsU8AWrsHtBPPibCicn0tSOVpYxs51EzFsg/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="1430192784492226.jpg"></p>
+<p>然后你可以编辑片段来添加更多细节。最重要的一点就是“完成快捷键”。在编辑器中输入该关键字，就能选择片段了。或者你可以把代码片段从该区域拖到编辑器中。</p>
+<p>过两天我会收集整理我所有的片段并分享出来。</p>
+<h3 id="用Chisel改进调试">用Chisel改进调试</h3><p>Facebook开发了一套LLDB命令来让调试更容易一些。如果你还没有Chisel的话，现在就去Github安装。为了让你能明白Chisel到底是干嘛的，下面我列出了一些我喜欢的命令。这些命令省了我不少时间和脑子去记住那些语法。</p>
+<ul>
+<li>pviews：递归打印key window上的view。</li>
+<li>visualize：在Mac上的预览应用中打开UIImage、CGImageRef、UIView和CALayer。</li>
+<li>show/hide:显示或隐藏指定的view或者layer。</li>
+<li>border/unborder：显示或隐藏view/layer的边框，从而找到它在哪。</li>
+</ul>
+<p>Chisel还有很多命令，在lldb中输入help来查看内建和用户定义的命令。</p>
+<h3 id="版本编辑器">版本编辑器</h3><p>如果你需要查看一下修改了文件中的那些内容，你可以利用Xcode内建的版本编辑器，而不是复杂的Git。<br><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlynXRJ6bX7QQ3rQb49KT5007O09MK6aGFLq5mp9BbCDTybQicPqPRhmVWQJHibMbfXR48V5XGoUel9oA/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="1430192852614373.jpg"></p>
+<p>你可以通过点击右上角的双箭头按钮来快速打开版本编辑器，或者通过View &gt; Version Editor &gt; Show Version Editor来打开。想象一下，有很多不需要提交的测试代码，在版本编辑器中都会显示出来，并且能让你快速放弃这些修改。你完全可以用source control的界面来干这个，但用版本编辑器是最简单的了。</p>
+<h3 id="6个值得记住与设置的快捷键">6个值得记住与设置的快捷键</h3><p>有些快捷键默认没有设置，我建议你打开Preferences &gt; Key Bindings ，根据需要自行修改。</p>
+<ul>
+<li>Command + / ：注释/取消注释代码</li>
+<li>Command + [ 或者 ] ：向前或向后缩进代码</li>
+<li>Command + 左右方向键：移动光标到行首或行尾</li>
+<li>Control + s ：选择单词（译注：默认没有设置。Key Bindings 对应的key是 Select Word）</li>
+<li>Option + Command + e：（根据当前范围遍及选中的单词）（译注：默认没有设置，也不知道到底是个什么效果。）</li>
+<li>Option + 左右方向键：按单词移动光标</li>
+<li>esc：显示/隐藏自动补全弹出框。</li>
+</ul>
+<p>还有很多很多快捷键，找到适合你的风格的，活学活用。</p>
+<h3 id="要点">要点</h3><p>在这篇文章中我们提到了关于你最常用到的工具——Xcode的一些内容。我展示的大部分内容都是为了提高我的生产力。我并不是想要追求单纯的快（你不会看见<br>我只用一个键盘），而是把自己从那些反复出现的问题中解放出来。当你有更多的经验时，你就能找到最适合你的方式。这才是关键。看看怎么样能把你在这篇文章<br>中学到的内容应用起来吧。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-Xcode/">iOS, Xcode</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-iOS开发最佳实践总结-下" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1205,101 +1342,6 @@
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
 	</div>
 
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-谁让APP工程师产生了泡沫？" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/25/谁让APP工程师产生了泡沫？/" class="article-date">
-  	<time datetime="2015-08-25T14:54:56.000Z" itemprop="datePublished">2015-08-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/25/谁让APP工程师产生了泡沫？/">谁让APP工程师产生了泡沫？</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这两年移动互联网比较火，移动APP的开发人员也是比较紧缺。</p>
-<p>面试了一个做APP的，能力很一般，态度也比较傲慢。最后感觉肯定不会用这个人了，但是出于验证自己想法的目的，还是很诚恳地以一个决定录取他的态度，和他交谈。</p>
-<p>“刚才我问了你一些问题，可能比较偏，或者不是你所擅长的。我也是本着为公司负责的态度，问一些我们经常用到的问题。这一点请见谅。”，我说。</p>
-<p>他说：“没事的，问的确实有点偏。实际工作中，根本用不到，用到了现查就行，网上好多例子，复制粘贴都能搞定！”。</p>
-<p>我说，我们企业招一个人，你入职一个企业，是一个相互选择的事情。我问完你了，你对我们公司有什么想了解的。</p>
-<p>他有点发楞，停顿了一会。我提示他，公司的业务发展，个人的提升空间，你的职业规划？</p>
-<p>他说，噢，咱们公司是做什么的？</p>
-<p>我回答道，我们主业务是做基于社区的O2O平台的，现在业务有几块，深度垂直做上门推拿服务，打通商家上下游做云商供应链，最终将打造一个庞大的社区服务生态体系。</p>
-<p>他似乎没有听懂，依然发楞。</p>
-<p>“还有什么想问的吗？”我问。</p>
-<p>他似乎早想问，一直不好意思问，但是又不想在这浪费时间了，问道：“公司都有什么福利，年终奖是多少，加班费怎么算……”。</p>
-<p>我都一一回答了。</p>
-<p>沉默了一会。</p>
-<p>我问道：“你能接受的最低待遇是多少？”</p>
-<p>他说，就是简历上写的那些。</p>
-<p>我死死地盯着他：“如果我给你降一千你愿意吗？”</p>
-<p>他摇了摇头。</p>
-<p>“降五百呢？”</p>
-<p>他回答说：“我已经面试了四五家公司了，他们都要我，我也答应了。现在就是再面试几家，看看哪家更高。所以，我没必要……”，他向我耸肩，然后不说了。</p>
-<p>我说，你要的这个数，在我们公司不算高，好多人都拿的比这个多呢。你去过的那几家公司，多少人？</p>
-<p>他说，也得有，差不多，估计一百多人吧。</p>
-<p>我问，做APP的多少人？</p>
-<p>他回答，一两个，有的没有，我去了是第一个。</p>
-<p>谁面试的你，我问。</p>
-<p>有的是经理，有的是老板，都很希望我能快点入职。</p>
-<p>我说，好的，我们会把你面试的情况和你做的作品评估一下，然后再联系你。</p>
-<p>他走了。</p>
-<p>这不是个例。</p>
-<p>大多数年轻人都差不多这样。</p>
-<p>他们没房没车没压力，以单纯的收入高低作为亲友间的炫耀和比较的资本。</p>
-<p>让我陷入沉思的是，为什么一个近乎只能称得上操作和修理工的人，却顶着一个工程师的名号，可以到处要高价，而且还真有公司愿意给。享受能力所不匹配的东西，这显然是一种病态，结果必定可悲。谁赋予了他们这样的优厚际遇？或者，谁成心想害他们？</p>
-<p>答案是这个飞速发展时代和无可奈何的企业。</p>
-<p>移动互联网，这五个字可谓炙手可热。互联网+，又让这热度增上三分。好多公司都想搭上这艘船，捞一桶金，弄不巧还会成就一番霸业。</p>
-<p>怎么搞？好多人都觉得移动互联网就是个APP。想踏入移动互联网，首先要搞一个APP出来，拿出去好说话嘛！这种想法就像是，我研发个POS机有一家银行了能做金融了一样。你的POS机之所以能刷卡转移资金，是因为后面还有一个银行体系支撑，来了钱给谁，扣的钱从哪里出，是有一套服务做支撑的。这套服务，相比一个POS机而言，大象和蚂蚁的关系。还不明白的话，去五金店买一个淋浴头，在太阳下试试会不会喷水，那个淋浴头就是业务中的APP。</p>
-<p>好多小企业老板很明白政治和经济局势，但是不明白技术，他们觉得第一步先需要APP，其他的根据需求再说。于是，他们老板甚至亲自面试，随便聊聊天，要多少给多少就招进来了，先有人开个头再说呗。最后，发现不是这么一回事，有了淋浴头了还需要水管才能喷水，自己建供水系统太大，在小区建使用人群太少，连接卫生间的水管，跟自己又没啥关系。命长公司的干上半年，招的人也不专业，凑合随便弄一个出来，员工感觉老板瞎弄没有成就感，老板也感觉看错了人不出成绩。于是，一拍两散。</p>
-<p>出来的这人再换工作，感觉自己没有被完全发挥出来，现在工作经验也涨了，薪水肯定也得涨。于是，又找到一个公司，老板一看，这人以前待遇都那么高，那老板肯定不傻，做了那么久了也有成果，我这又急需要人，再涨一段吧。这个公司干半年，和上一个公司一样循环，直到一个顶点。</p>
-<p>这就造成了，个人技术没有实质提高，待遇却虚高。公司支出增加了，回报却没有增加。</p>
-<p>这就是泡沫啊，在慢慢膨胀的泡沫。这泡沫在小企业中很明显，在中型以上企业中不明显。第一，因为中型企业都有专业的人才，这些人能判断和规划整个业务体系，不至于盲目。第二，也正是由于规范和专业，所以吸引了很多更看良性成长环境的有志之士。</p>
-<p>泡沫，毕竟是泡沫，终有爆破的那一天。这个时间不会很长，3到5年。随着新技术慢慢变旧（当Android和IOS变成和C语言一样老），随着大批量的人才涌入和一些公司退出（十万开发者面对一千岗位），随着很多老板慢慢发现原理和真相（APP真的只是个终端）。我们再来设定一下，曾经那些在小公司频繁蹦来跳去的人，和那些在成熟部门茁壮成长的人，他们命运是不是会发生颠覆性的改变。</p>
-<p>互联网行业不同于传统行业，不存在第二。最终的局面是巨头垄断和精细化小企业填补的局面。</p>
-<p>其实公司和人历程都一样，都会遇到千奇百怪的事情，但是殊途同归平淡是真，最终都要踏实笃行。你一步一步地走，你眼看别人起高楼，你眼看别人宴宾客，你也眼看别人楼倒塌。</p>
-<p>你也可以心想自己建起一座壁垒，固若金汤，经久不衰，称为经典。</p>
-<blockquote>
-<p>转 <a href="http://www.cnblogs.com/yinrq/p/4745784.html" target="_blank" rel="external">http://www.cnblogs.com/yinrq/p/4745784.html</a></p>
-</blockquote>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
       
 
       
