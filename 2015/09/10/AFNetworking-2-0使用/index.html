@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="keywords" content="键盘的记忆,iOS学习,html5,混合开发">
+  
+  <title>AFNetworking 2.0使用 | 键盘的记忆</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="AFNetworking 2.0使用 简单示例：
+GET 请求123456AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];[manager GET:@&quot;http://example.com/resources.json&quot; parameters:nil success:^(AFHTTPR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AFNetworking 2.0使用">
+<meta property="og:url" content="http://blog.onecat.cc/2015/09/10/AFNetworking-2-0使用/index.html">
+<meta property="og:site_name" content="键盘的记忆">
+<meta property="og:description" content="AFNetworking 2.0使用 简单示例：
+GET 请求123456AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];[manager GET:@&quot;http://example.com/resources.json&quot; parameters:nil success:^(AFHTTPR">
+<meta property="og:updated_time" content="2015-09-10T15:42:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AFNetworking 2.0使用">
+<meta name="twitter:description" content="AFNetworking 2.0使用 简单示例：
+GET 请求123456AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];[manager GET:@&quot;http://example.com/resources.json&quot; parameters:nil success:^(AFHTTPR">
+  
+    <link rel="alternative" href="/atom.xml" title="键盘的记忆" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/photo.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/images/photo.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">键盘</a></h1>
+		</hgroup>
+
+		
+
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">键盘</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/images/photo.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">键盘</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-AFNetworking-2-0使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/09/10/AFNetworking-2-0使用/" class="article-date">
+  	<time datetime="2015-09-10T15:35:16.000Z" itemprop="datePublished">2015-09-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      AFNetworking 2.0使用
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AFNetworking-2-0/">AFNetworking 2.0</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>AFNetworking 2.0使用 简单示例：</p>
+<h4 id="GET_请求">GET 请求</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];</span><br><span class="line">[manager GET:<span class="string">@"http://example.com/resources.json"</span> parameters:<span class="literal">nil</span> success:^(AFHTTPRequestOperation *operation, <span class="keyword">id</span> responseObject) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"JSON: %@"</span>, responseObject);</span><br><span class="line">&#125; failure:^(AFHTTPRequestOperation *operation, <span class="built_in">NSError</span> *error) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"Error: %@"</span>, error);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<h4 id="POST_请求">POST 请求</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];</span><br><span class="line"><span class="built_in">NSDictionary</span> *parameters = @&#123;<span class="string">@"foo"</span>: <span class="string">@"bar"</span>&#125;;</span><br><span class="line">[manager POST:<span class="string">@"http://example.com/resources.json"</span> parameters:parameters success:^(AFHTTPRequestOperation *operation, <span class="keyword">id</span> responseObject) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"JSON: %@"</span>, responseObject);</span><br><span class="line">&#125; failure:^(AFHTTPRequestOperation *operation, <span class="built_in">NSError</span> *error) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"Error: %@"</span>, error);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<h4 id="POST_Multi-Part_Request">POST Multi-Part Request</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];</span><br><span class="line">NSDictionary *parameters = @&#123;@<span class="string">"foo"</span>: @<span class="string">"bar"</span>&#125;;</span><br><span class="line">NSURL *filePath = [NSURL <span class="string">fileURLWithPath:</span>@<span class="string">"file://path/to/image.png"</span>];</span><br><span class="line">[manager <span class="string">POST:</span>@<span class="string">"http://example.com/resources.json"</span> <span class="string">parameters:</span>parameters <span class="string">constructingBodyWithBlock:</span>^(id&lt;AFMultipartFormData&gt; formData) &#123;</span><br><span class="line">    [formData <span class="string">appendPartWithFileURL:</span>filePath <span class="string">name:</span>@<span class="string">"image"</span> <span class="string">error:</span>nil];</span><br><span class="line">&#125; <span class="string">success:</span>^(AFHTTPRequestOperation *operation, id responseObject) &#123;</span><br><span class="line">    NSLog(@<span class="string">"Success: %@"</span>, responseObject);</span><br><span class="line">&#125; <span class="string">failure:</span>^(AFHTTPRequestOperation *operation, NSError *error) &#123;</span><br><span class="line">    NSLog(@<span class="string">"Error: %@"</span>, error);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<h4 id="创建一个下载文件任务">创建一个下载文件任务</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSURLSessionConfiguration</span> *configuration = [<span class="built_in">NSURLSessionConfiguration</span> defaultSessionConfiguration];</span><br><span class="line">AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSURL</span> *URL = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://example.com/download.zip"</span>];</span><br><span class="line"><span class="built_in">NSURLRequest</span> *request = [<span class="built_in">NSURLRequest</span> requestWithURL:URL];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSURLSessionDownloadTask</span> *downloadTask = [manager downloadTaskWithRequest:request progress:<span class="literal">nil</span> destination:^<span class="built_in">NSURL</span> *(<span class="built_in">NSURL</span> *targetPath, <span class="built_in">NSURLResponse</span> *response) &#123;</span><br><span class="line">    <span class="built_in">NSURL</span> *documentsDirectoryURL = [[<span class="built_in">NSFileManager</span> defaultManager] URLForDirectory:<span class="built_in">NSDocumentDirectory</span> inDomain:<span class="built_in">NSUserDomainMask</span> appropriateForURL:<span class="literal">nil</span> create:<span class="literal">NO</span> error:<span class="literal">nil</span>];</span><br><span class="line">    <span class="keyword">return</span> [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];</span><br><span class="line">&#125; completionHandler:^(<span class="built_in">NSURLResponse</span> *response, <span class="built_in">NSURL</span> *filePath, <span class="built_in">NSError</span> *error) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"File downloaded to: %@"</span>, filePath);</span><br><span class="line">&#125;];</span><br><span class="line">[downloadTask resume];</span><br></pre></td></tr></table></figure>
+<h4 id="创建一个上传文件任务">创建一个上传文件任务</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSURLSessionConfiguration</span> *configuration = [<span class="built_in">NSURLSessionConfiguration</span> defaultSessionConfiguration];</span><br><span class="line">AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSURL</span> *URL = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://example.com/upload"</span>];</span><br><span class="line"><span class="built_in">NSURLRequest</span> *request = [<span class="built_in">NSURLRequest</span> requestWithURL:URL];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSURL</span> *filePath = [<span class="built_in">NSURL</span> fileURLWithPath:<span class="string">@"file://path/to/image.png"</span>];</span><br><span class="line"><span class="built_in">NSURLSessionUploadTask</span> *uploadTask = [manager uploadTaskWithRequest:request fromFile:filePath progress:<span class="literal">nil</span> completionHandler:^(<span class="built_in">NSURLResponse</span> *response, <span class="keyword">id</span> responseObject, <span class="built_in">NSError</span> *error) &#123;</span><br><span class="line">    <span class="keyword">if</span> (error) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"Error: %@"</span>, error);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"Success: %@ %@"</span>, response, responseObject);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;];</span><br><span class="line">[uploadTask resume];</span><br></pre></td></tr></table></figure>
+<h4 id="创建一个上传文件任务并显示进度">创建一个上传文件任务并显示进度</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] <span class="string">multipartFormRequestWithMethod:</span>@<span class="string">"POST"</span> <span class="string">URLString:</span>@<span class="string">"http://example.com/upload"</span> <span class="string">parameters:</span>nil <span class="string">constructingBodyWithBlock:</span>^(id&lt;AFMultipartFormData&gt; formData) &#123;</span><br><span class="line">        [formData <span class="string">appendPartWithFileURL:</span>[NSURL <span class="string">fileURLWithPath:</span>@<span class="string">"file://path/to/image.jpg"</span>] <span class="string">name:</span>@<span class="string">"file"</span> <span class="string">fileName:</span>@<span class="string">"filename.jpg"</span> <span class="string">mimeType:</span>@<span class="string">"image/jpeg"</span> <span class="string">error:</span>nil];</span><br><span class="line">    &#125; <span class="string">error:</span>nil];</span><br><span class="line"></span><br><span class="line">AFURLSessionManager *manager = [[AFURLSessionManager alloc] <span class="string">initWithSessionConfiguration:</span>[NSURLSessionConfiguration defaultSessionConfiguration]];</span><br><span class="line">NSProgress *progress = nil;</span><br><span class="line"></span><br><span class="line">NSURLSessionUploadTask *uploadTask = [manager <span class="string">uploadTaskWithStreamedRequest:</span>request <span class="string">progress:</span>&amp;progress <span class="string">completionHandler:</span>^(NSURLResponse *response, id responseObject, NSError *error) &#123;</span><br><span class="line">    <span class="keyword">if</span> (error) &#123;</span><br><span class="line">        NSLog(@<span class="string">"Error: %@"</span>, error);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        NSLog(@<span class="string">"%@ %@"</span>, response, responseObject);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;];</span><br><span class="line">[uploadTask resume];</span><br></pre></td></tr></table></figure>
+<h4 id="创建一个上传数据data任务">创建一个上传数据data任务</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSURLSessionConfiguration</span> *configuration = [<span class="built_in">NSURLSessionConfiguration</span> defaultSessionConfiguration];</span><br><span class="line">AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSURL</span> *URL = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://example.com/upload"</span>];</span><br><span class="line"><span class="built_in">NSURLRequest</span> *request = [<span class="built_in">NSURLRequest</span> requestWithURL:URL];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSURLSessionDataTask</span> *dataTask = [manager dataTaskWithRequest:request completionHandler:^(<span class="built_in">NSURLResponse</span> *response, <span class="keyword">id</span> responseObject, <span class="built_in">NSError</span> *error) &#123;</span><br><span class="line">    <span class="keyword">if</span> (error) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"Error: %@"</span>, error);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%@ %@"</span>, response, responseObject);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;];</span><br><span class="line">[dataTask resume];</span><br></pre></td></tr></table></figure>
+<h4 id="获取网络状态">获取网络状态</h4><figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="collection">[<span class="collection">[AFNetworkReachabilityManager sharedManager]</span> setReachabilityStatusChangeBlock:^<span class="list">(<span class="keyword">AFNetworkReachabilityStatus</span> status)</span> <span class="collection">&#123;</span><br><span class="line">    NSLog<span class="list">(@<span class="string">"Reachability: %@"</span>, AFStringFromNetworkReachabilityStatus<span class="list">(<span class="keyword">status</span>)</span>)</span><span class="comment">;</span></span><br><span class="line">&#125;</span>]</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<h3 id="HTTP_Manager_Reachability">HTTP Manager Reachability</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">NSURL *baseURL = [NSURL <span class="string">URLWithString:</span>@<span class="string">"http://example.com/"</span>];</span><br><span class="line">AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] <span class="string">initWithBaseURL:</span>baseURL];</span><br><span class="line"></span><br><span class="line">NSOperationQueue *operationQueue = manager.operationQueue;</span><br><span class="line">[manager.reachabilityManager <span class="string">setReachabilityStatusChangeBlock:</span>^(AFNetworkReachabilityStatus status) &#123;</span><br><span class="line">    <span class="keyword">switch</span> (status) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">AFNetworkReachabilityStatusReachableViaWWAN:</span></span><br><span class="line">        <span class="keyword">case</span> <span class="string">AFNetworkReachabilityStatusReachableViaWiFi:</span></span><br><span class="line">            [operationQueue <span class="string">setSuspended:</span>NO];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">AFNetworkReachabilityStatusNotReachable:</span></span><br><span class="line"><span class="label">        default:</span></span><br><span class="line">            [operationQueue <span class="string">setSuspended:</span>YES];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">[manager.reachabilityManager startMonitoring];</span><br></pre></td></tr></table></figure>
+<h4 id="AFHTTPRequestOperation的GET请求">AFHTTPRequestOperation的GET请求</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSURL</span> *URL = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://example.com/resources/123.json"</span>];</span><br><span class="line"><span class="built_in">NSURLRequest</span> *request = [<span class="built_in">NSURLRequest</span> requestWithURL:URL];</span><br><span class="line">AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:request];</span><br><span class="line">op<span class="variable">.responseSerializer</span> = [AFJSONResponseSerializer serializer];</span><br><span class="line">[op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, <span class="keyword">id</span> responseObject) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"JSON: %@"</span>, responseObject);</span><br><span class="line">&#125; failure:^(AFHTTPRequestOperation *operation, <span class="built_in">NSError</span> *error) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"Error: %@"</span>, error);</span><br><span class="line">&#125;];</span><br><span class="line">[[<span class="built_in">NSOperationQueue</span> mainQueue] addOperation:op];</span><br></pre></td></tr></table></figure>
+<h4 id="Batch_of_Operations">Batch of Operations</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSMutableArray</span> *mutableOperations = [<span class="built_in">NSMutableArray</span> array];</span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">NSURL</span> *fileURL <span class="keyword">in</span> filesToUpload) &#123;</span><br><span class="line">    <span class="built_in">NSURLRequest</span> *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:<span class="string">@"POST"</span> URLString:<span class="string">@"http://example.com/upload"</span> parameters:<span class="literal">nil</span> constructingBodyWithBlock:^(<span class="keyword">id</span>&lt;AFMultipartFormData&gt; formData) &#123;</span><br><span class="line">        [formData appendPartWithFileURL:fileURL name:<span class="string">@"images[]"</span> error:<span class="literal">nil</span>];</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];</span><br><span class="line"></span><br><span class="line">    [mutableOperations addObject:operation];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSArray</span> *operations = [AFURLConnectionOperation batchOfRequestOperations:@[...] progressBlock:^(<span class="built_in">NSUInteger</span> numberOfFinishedOperations, <span class="built_in">NSUInteger</span> totalNumberOfOperations) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%lu of %lu complete"</span>, numberOfFinishedOperations, totalNumberOfOperations);</span><br><span class="line">&#125; completionBlock:^(<span class="built_in">NSArray</span> *operations) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"All operations in batch complete"</span>);</span><br><span class="line">&#125;];</span><br><span class="line">[[<span class="built_in">NSOperationQueue</span> mainQueue] addOperations:operations waitUntilFinished:<span class="literal">NO</span>];</span><br></pre></td></tr></table></figure>
+<h4 id="获取请求的一些信息">获取请求的一些信息</h4><p>Request Serialization</p>
+<p>Request serializers create requests from URL strings, encoding parameters as either a query string or HTTP body.<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSString *URLString = @<span class="string">"http://example.com"</span><span class="comment">;</span></span><br><span class="line">NSDictionary *parameters = @&#123;@<span class="string">"foo"</span>: @<span class="string">"bar"</span>, @<span class="string">"baz"</span>: <span class="constant">@[</span><span class="constant">@1</span>, <span class="constant">@2</span>, <span class="constant">@3]</span>&#125;<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
+<p>Query String Parameter Encoding</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[[AFHTTPRequestSerializer serializer] requestWithMethod:@"GET" URLString:URLString parameters:parameters error:nil];</span><br><span class="line"></span><br><span class="line">GET <span class="link_url">http://example.com?foo=bar&amp;baz</span>[<span class="link_label"></span>]=1&amp;baz[]=2&amp;baz[]=3</span><br></pre></td></tr></table></figure>
+<p>URL Form Parameter Encoding</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[[AFHTTPRequestSerializer serializer] <span class="string">requestWithMethod:</span>@<span class="string">"POST"</span> <span class="string">URLString:</span>URLString <span class="string">parameters:</span>parameters];</span><br><span class="line"></span><br><span class="line">POST <span class="string">http:</span><span class="comment">//example.com/</span></span><br><span class="line">Content-<span class="string">Type:</span> application/x-www-form-urlencoded</span><br><span class="line"></span><br><span class="line">foo=bar&amp;baz[]=<span class="number">1</span>&amp;baz[]=<span class="number">2</span>&amp;baz[]=<span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>JSON Parameter Encoding</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[[AFJSONRequestSerializer serializer] <span class="string">requestWithMethod:</span>@<span class="string">"POST"</span> <span class="string">URLString:</span>URLString <span class="string">parameters:</span>parameters];</span><br><span class="line"></span><br><span class="line">POST <span class="string">http:</span><span class="comment">//example.com/</span></span><br><span class="line">Content-<span class="string">Type:</span> application/json</span><br><span class="line"></span><br><span class="line">&#123;<span class="string">"foo"</span>: <span class="string">"bar"</span>, <span class="string">"baz"</span>: [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>转自 <a href="http://www.superqq.com/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/" target="_blank" rel="external">http://www.superqq.com/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/</a></p>
+</blockquote>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/09/10/iOS-9适配/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS 9适配</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 键盘
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
