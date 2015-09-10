@@ -119,6 +119,61 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-iOS-9适配" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/09/10/iOS-9适配/" class="article-date">
+  	<time datetime="2015-09-10T01:40:52.000Z" itemprop="datePublished">2015-09-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/10/iOS-9适配/">iOS 9适配</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/ChenYilong/iOS9AdaptationTips/blob/master/README.md" target="_blank" rel="external">iOS9适配</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS，iOS9/">iOS，iOS9</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-13个小技巧帮你征服Xcode" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1267,71 +1322,6 @@
 </code></pre><p>这样就完成了所见即所得。</p>
 <p>关于GPUImage的实时滤镜添加或给已存在的视频添加滤镜,Demo都给出了详细过程,依葫芦画瓢即可。有一点要注意的是,在一些操作完成的时候注意removeTarget,还有就是在使用movieFile来播放已存在视频并添加滤镜的时候是没有声音的,这是这个库的一个缺陷,Github上有人提了这个issue和一些解决办法。同时在用movieFile处理视频的时候在切换滤镜的时候最好先cancelProcessing不然会有黑屏或卡顿现象出现。同样如果你是用老版本的GPUImage的时候,可能会遇到第一帧是红色的现象,有人提出这个issue后,作者修复了这个bug,切换到最新版的时候就不会有这种情况发生。发生这种情况的原因是视频掉帧,导致音频和视频不同步。</p>
 <h4 id="总结">总结</h4><p>AVFoundation还是有很多东西去做深层次的挖掘,GPUImage也是一样,有了这个强大的库,解决一些事情节省了大量时间。这次仅仅是一个小小的尝试,对于很多东西都是浅尝则止,文中难免会有错误,欢迎在评论中指正。如果你在使用GPUImage和AVFoundation有什么好的心得或者对一些问题有相应的解决方案,不妨在评论中分享一下。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-UIButton-UIEdgeinsets" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/25/UIButton-UIEdgeinsets/" class="article-date">
-  	<time datetime="2015-08-25T15:51:55.000Z" itemprop="datePublished">2015-08-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/25/UIButton-UIEdgeinsets/">UIButton中的三个UIEdgeInsets属性</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>UIEdgeInsets是什么</p>
-<p><code>UIEdgeInsets</code>是什么？我们点进去看一下：</p>
-<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef struct UIEdgeInsets &#123;</span><br><span class="line">    CGFloat <span class="attribute">top</span>, <span class="attribute">left</span>, <span class="attribute">bottom</span>, <span class="attribute">right</span>;  <span class="comment">// specify amount to inset (positive) for each of the edges. values can be negative to 'outset'</span></span><br><span class="line">&#125; UIEdgeInsets;</span><br><span class="line">UIEdgeInsets是个结构体类型。里面有四个参数，分别是：<span class="attribute">top</span>, <span class="attribute">left</span>, <span class="attribute">bottom</span>, <span class="attribute">right</span>。这四个参数表示距离上边界、左边界、下边界、右边界的距离。</span><br></pre></td></tr></table></figure>
-<p>哪三个UIEdgeInsets属性</p>
-<p>不知道大家发现没有，UIButton里面有三个UIEdgeInsets属性，分别是：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>)          <span class="built_in">UIEdgeInsets</span> contentEdgeInsets <span class="built_in">UI_APPEARANCE_SELECTOR</span>; <span class="comment">// default is UIEdgeInsetsZero</span></span><br></pre></td></tr></table></figure></p>
-<p>contentEdgeInsets后面有个UI_APPEARANCE_SELECTOR是什么意思呢？</p>
-<blockquote>
-<p>提示：UI_APPEARANCE_SELECTOR标记的属性都支持通过外观代理来定制。<br>举例，设置UIButton的contentEdgeInsets属性，可以直接调用：<br><code>[[UIButton appearance] setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];</code></p>
-</blockquote>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>)          <span class="built_in">UIEdgeInsets</span> titleEdgeInsets;                <span class="comment">// default is UIEdgeInsetsZero</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>)          <span class="built_in">UIEdgeInsets</span> imageEdgeInsets;                <span class="comment">//default is UIEdgeInsetsZero</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
