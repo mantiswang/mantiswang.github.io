@@ -119,6 +119,64 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-register-new-ios-developer-account" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/03/25/register-new-ios-developer-account/" class="article-date">
+  	<time datetime="2015-03-25T13:30:56.000Z" itemprop="datePublished">2015-03-25</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/25/register-new-ios-developer-account/">注册开发者账号</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>注册开发者账号步骤：<br><a href="https://developer.apple.com/programs/start/standard/create.php" target="_blank" rel="external">https://developer.apple.com/programs/start/standard/create.php</a></p>
+<p><img src="/images/ios/account/step-1.png"></p>
+<p>点击继续<br>提示申请公司账号，还是个人账号</p>
+<p><img src="/images/ios/account/step-2.png"></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/ios/">ios</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-position-and-anchorpoint" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -695,65 +753,6 @@ frame.origin.y = position.y - <span class="built_in">anchor</span>Point.y * boun
       
 	<div class="article-category tagcloud">
 	<a class="article-category-link" href="/categories/iOS/">iOS</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-ios-dev-upload-ipa-to-appstore-slow" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/09/17/ios-dev-upload-ipa-to-appstore-slow/" class="article-date">
-  	<time datetime="2014-09-16T23:40:53.000Z" itemprop="datePublished">2014-09-17</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/17/ios-dev-upload-ipa-to-appstore-slow/">ios dev upload ipa to appStore slow</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前几天在使用Application Loader上传ipa的时候，等了半小时没反应，连’斑马线’都没出现。<br><br></p>
-<p>在<a href="http://stackoverflow.com" target="_blank" rel="external">stackoverflow</a>上面找到一个解决方案<br><a href="http://stackoverflow.com/questions/8395000/application-loader-apple-stuck-on-sending-api-usage-to-itunes-connect" target="_blank" rel="external">http://stackoverflow.com/questions/8395000/application-loader-apple-stuck-on-sending-api-usage-to-itunes-connect</a></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> Application Loader &gt; Contents &gt; MacOS &gt; itms &gt; java &gt; lib - Open net.properties &lt;br/&gt;</span><br><span class="line"> Change the line</span><br><span class="line">&lt;br/&gt;</span><br><span class="line"> <span class="preprocessor"># https.proxyPort=<span class="number">443</span> to https.proxyPort=<span class="number">80.</span> </span></span><br><span class="line">&lt;br/&gt;</span><br><span class="line"> This enables the application to use the HTTP port <span class="keyword">for</span> HTTPS.</span><br><span class="line"> Worked straight away after <span class="keyword">this</span>. Hope <span class="keyword">this</span> helps.</span><br></pre></td></tr></table></figure>
-<p>重启ApplicationLoader,重新上传,搞定</p>
-<p>如何打包生成ipa,见<a href="stackoverflow.com/questions/5937660/how-to-create-the-upload-file-for-application-loader">stackoverflow.com/questions/5937660/how-to-create-the-upload-file-for-application-loader </a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/iOS-ApplicationLoader/">iOS ApplicationLoader</a>
 	</div>
 
 

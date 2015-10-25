@@ -119,6 +119,58 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-navigationbar-hide" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/10/26/navigationbar-hide/" class="article-date">
+  	<time datetime="2015-10-25T23:51:02.000Z" itemprop="datePublished">2015-10-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/26/navigationbar-hide/">导航条隐藏返回出现黑条</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>问题描述：这里有个<code>UINavigationController</code>，一级页面时这个navigationbar是显示的，由于项目的需要，二级页面是不需要的，问题就出现了：当点击一级页面跳转到二级页面时在跳转的间隙，一级页面的这个Navigationbar总是会显示黑条，我的处理办法是，在一级页面的<br>viewwilldisappear 这个函数里，这样写：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">-</span>(void)<span class="tag">viewWillDisappear</span>:(BOOL)<span class="tag">animated</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr_selector">[super viewWillDisappear:animated]</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attr_selector">[self.navigationControllersetNavigationBarHidden:YESanimated:YES]</span>;</span><br><span class="line">    <span class="comment">//（一定要注意，这个地方如果没有动画效果，即设为NO的话是怎么都会有黑框)</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-AFNetworking-2-0使用" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -231,7 +283,7 @@
       
       
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS，iOS9/">iOS，iOS9</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS9/">iOS9</a></li></ul>
 	</div>
 
       
@@ -1225,98 +1277,6 @@
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html5/">html5</a></li></ul>
 	</div>
 
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-怎么成为一名黑客" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/27/怎么成为一名黑客/" class="article-date">
-  	<time datetime="2015-08-27T15:10:14.000Z" itemprop="datePublished">2015-08-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/27/怎么成为一名黑客/">怎么成为一名黑客</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我有不少黑客朋友。他们有的学医，有的学数学，有的学建筑，有的做安全之前的职业是开中巴。恩，当然，也有不少是计算机科班出身的。</p>
-<p>这帮人，是怎么成为黑客的？</p>
-<h4 id="会动脑">会动脑</h4><ul>
-<li><p>最最重要的是「逆向思维」——所谓的「黑掉你，不在你关注的那个点上」（能独立思考，不人云亦云，善挖掘，不从众，懂大众心理，还懂得利用大众心理的「漏洞」）；</p>
-</li>
-<li><p>在网络攻防中找案例，我顺手搜了一个「自己打自己」的案例：简单一步即可扫描360内部系统安全漏洞（扫描器攻击技巧），出处为乌云：<a href="http://t.cn/RLeNiMY；" target="_blank" rel="external">http://t.cn/RLeNiMY；</a></p>
-</li>
-<li><p>逆向思维不仅仅适用于「暗黑领域」。实际上，无论你学的是什么，从事的是什么职业，这种思维模式都无比珍贵，拥有它，你有机会成为任意领域的黑客；</p>
-</li>
-<li><p>在军事上找类比，想想「马奇诺防线」，想想「围魏救赵」，再想想「黑掉你，不在你关注的那个点上」，你是不是领悟到了点什么？</p>
-</li>
-<li><p>一个漫画（出自 XKCD）：<br><img src="/images/42062-c7873b7151f31d5a.png" alt="图"></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">安全死宅想象中，自己的安全设计固若金汤：</span><br><span class="line"></span><br><span class="line">恶人甲：哇靠，丫电脑加密了，咱得砸个百万美金破掉它！</span><br><span class="line">恶人乙：嚓，想得美，是 <span class="number">4096</span> 位密码耶！</span><br><span class="line">恶人甲：倒霉，认栽吧，撤！</span><br><span class="line"></span><br><span class="line">真实世界里：</span><br><span class="line"></span><br><span class="line">恶人甲：哇靠，丫电脑居然加密！拿五美金买个扳手，扁他。扁到他说出密码为止！</span><br><span class="line">恶人乙：好咧。</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>扁到他说出密码为止！恩，这就是我最推崇的思维能力（别领会错了，不是暴力，是不受你的规则限制）。</p>
-<h4 id="肯学习">肯学习</h4><ul>
-<li><p>那个学医的黑客（TK）在微博上说：漏洞产业很像玉石产业。漏洞生于脑，玉石出自矿。矿里有没有玉，要挖一挖。思路可不可行，要试一试。挖出矿石是不是玉，要开窗看。Crash 能不能变成 PoC，要调一调。矿石里的玉多大、什么成色，得整个磨开。PoC 好不好利用，要写成 Exploit。而后玉石雕成器，Exploit 写成真正的工具，会再价值大增；</p>
-</li>
-<li><p>挖、试、看、调、磨……各位看着各种黑客大赛，几秒攻破某某系统时，有没有想过台上一分钟，台下十年功？</p>
-</li>
-<li><p>我从业生涯中遇到的，真正笨和天才的人很少。有不少人「以为自己比实际上聪明」地走捷径，反而绕远，不如日拱一卒走得稳健长远；</p>
-</li>
-<li><p>如果你问：我肯学习，但是该学什么？怎么学？请参见第一条：「会动脑」。</p>
-</li>
-</ul>
-<h4 id="重实践">重实践</h4><ul>
-<li><p>纸上得来终觉浅。绝大多数人都是「听过很多道理，依然过不好这一生」的，路要自己走，错误要自己犯，一行行代码要自己写，一个个绕过限制的奇技淫巧要自己苦思冥想。突破了，收获就是自己的；</p>
-</li>
-<li><p>实践的方法很多，比如长期做一个开源软件（做之前请先动脑想清楚做什么、为什么做、值不值得长期做等一系列问题）、比如写文章记录自己的学习历程、比如把历史上著名的漏洞撸一遍并分享代码和心得……</p>
-</li>
-</ul>
-<h4 id="走正道">走正道</h4><ul>
-<li><p>玩黑客攻防这个行当，脑洞一旦开了，很容易发现不少地方可以快速挣钱。但「伸手」之前，请想清楚：会上瘾！尝过轻松来钱的滋味后，再想踏实做事就难了。</p>
-</li>
-<li><p>常在河边走，哪有不湿鞋。</p>
-</li>
-</ul>
-<blockquote>
-<p>转 <a href="http://www.jianshu.com/p/611b32c50fa2" target="_blank" rel="external">http://www.jianshu.com/p/611b32c50fa2</a></p>
-</blockquote>
-<p>最近一直想破机附近的wifi密码 ^_^</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
       
 
       

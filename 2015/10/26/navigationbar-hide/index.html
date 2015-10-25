@@ -4,18 +4,21 @@
   <meta charset="utf-8">
   <meta name="keywords" content="键盘的记忆,iOS学习,html5,混合开发">
   
-  <title>iOS 9适配 | 键盘的记忆</title>
+  <title>导航条隐藏返回出现黑条 | 键盘的记忆</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="iOS9适配">
+  <meta name="description" content="问题描述：这里有个UINavigationController，一级页面时这个navigationbar是显示的，由于项目的需要，二级页面是不需要的，问题就出现了：当点击一级页面跳转到二级页面时在跳转的间隙，一级页面的这个Navigationbar总是会显示黑条，我的处理办法是，在一级页面的viewwilldisappear 这个函数里，这样写：
+12345678-(void)viewWillDi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS 9适配">
-<meta property="og:url" content="http://blog.onecat.cc/2015/09/10/iOS-9适配/index.html">
+<meta property="og:title" content="导航条隐藏返回出现黑条">
+<meta property="og:url" content="http://blog.onecat.cc/2015/10/26/navigationbar-hide/index.html">
 <meta property="og:site_name" content="键盘的记忆">
-<meta property="og:description" content="iOS9适配">
-<meta property="og:updated_time" content="2015-09-10T15:44:40.000Z">
+<meta property="og:description" content="问题描述：这里有个UINavigationController，一级页面时这个navigationbar是显示的，由于项目的需要，二级页面是不需要的，问题就出现了：当点击一级页面跳转到二级页面时在跳转的间隙，一级页面的这个Navigationbar总是会显示黑条，我的处理办法是，在一级页面的viewwilldisappear 这个函数里，这样写：
+12345678-(void)viewWillDi">
+<meta property="og:updated_time" content="2015-10-25T23:55:13.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS 9适配">
-<meta name="twitter:description" content="iOS9适配">
+<meta name="twitter:title" content="导航条隐藏返回出现黑条">
+<meta name="twitter:description" content="问题描述：这里有个UINavigationController，一级页面时这个navigationbar是显示的，由于项目的需要，二级页面是不需要的，问题就出现了：当点击一级页面跳转到二级页面时在跳转的间隙，一级页面的这个Navigationbar总是会显示黑条，我的处理办法是，在一级页面的viewwilldisappear 这个函数里，这样写：
+12345678-(void)viewWillDi">
   
     <link rel="alternative" href="/atom.xml" title="键盘的记忆" type="application/atom+xml">
   
@@ -118,11 +121,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-iOS-9适配" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-navigationbar-hide" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/09/10/iOS-9适配/" class="article-date">
-  	<time datetime="2015-09-10T01:40:52.000Z" itemprop="datePublished">2015-09-10</time>
+      <a href="/2015/10/26/navigationbar-hide/" class="article-date">
+  	<time datetime="2015-10-25T23:51:02.000Z" itemprop="datePublished">2015-10-26</time>
 </a>
     </div>
   
@@ -135,7 +138,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      iOS 9适配
+      导航条隐藏返回出现黑条
     </h1>
   
 
@@ -143,10 +146,6 @@
       
       <div class="article-info article-info-post">
         
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS9/">iOS9</a></li></ul>
-	</div>
-
         
 
         <div class="clearfix"></div>
@@ -155,7 +154,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://github.com/ChenYilong/iOS9AdaptationTips/blob/master/README.md" target="_blank" rel="external">iOS9适配</a></p>
+        <p>问题描述：这里有个<code>UINavigationController</code>，一级页面时这个navigationbar是显示的，由于项目的需要，二级页面是不需要的，问题就出现了：当点击一级页面跳转到二级页面时在跳转的间隙，一级页面的这个Navigationbar总是会显示黑条，我的处理办法是，在一级页面的<br>viewwilldisappear 这个函数里，这样写：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">-</span>(void)<span class="tag">viewWillDisappear</span>:(BOOL)<span class="tag">animated</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr_selector">[super viewWillDisappear:animated]</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attr_selector">[self.navigationControllersetNavigationBarHidden:YESanimated:YES]</span>;</span><br><span class="line">    <span class="comment">//（一定要注意，这个地方如果没有动画效果，即设为NO的话是怎么都会有黑框)</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -165,18 +165,9 @@
     
 <nav id="article-nav">
   
-    <a href="/2015/09/10/AFNetworking-2-0使用/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          AFNetworking 2.0使用
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/09/09/13个小技巧帮你征服Xcode/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">13个小技巧帮你征服Xcode</div>
+    <a href="/2015/09/10/AFNetworking-2-0使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">AFNetworking 2.0使用</div>
       <strong class="article-nav-caption">></strong>
     </a>
   

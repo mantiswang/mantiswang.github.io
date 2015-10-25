@@ -119,6 +119,101 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-NSString-tips" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/20/NSString-tips/" class="article-date">
+  	<time datetime="2015-08-19T23:00:20.000Z" itemprop="datePublished">2015-08-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/20/NSString-tips/">NSString 实用技巧</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>首字母大写</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//首字母大写</span></span><br><span class="line">NSString *<span class="built_in">string</span> = @<span class="string">"ligang"</span>;</span><br><span class="line">NSLog(@<span class="string">"string: %@"</span>,[<span class="built_in">string</span> capitalizedString]);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>分割字符串</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//分割字符串</span></span><br><span class="line">NSString *<span class="built_in">string</span> = @<span class="string">"This is a iOSDevTip"</span>;</span><br><span class="line">NSArray *<span class="built_in">array</span> = [<span class="built_in">string</span> componentsSeparatedByString:@<span class="string">"a"</span>];</span><br><span class="line">NSString *string1 = [<span class="built_in">array</span> objectAtIndex:<span class="number">0</span>];</span><br><span class="line">NSString *string2 = [<span class="built_in">array</span> objectAtIndex:<span class="number">1</span>];</span><br><span class="line">NSLog(@<span class="string">"string1:%@  string2:%@"</span>,string1,string2);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>追加字符串</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//追加字符串</span><br><span class="line">NSMutableString *<span class="built_in">string</span> = [[NSMutableString alloc] initWithStrin<span class="variable">g:</span>@<span class="string">"I Love "</span>];</span><br><span class="line">[<span class="built_in">string</span> appendStrin<span class="variable">g:</span>@<span class="string">"China"</span>];</span><br><span class="line">NSLog(@<span class="string">"string:%@"</span>,<span class="built_in">string</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>插入字符串</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//插入字符串</span></span><br><span class="line">NSMutableString *<span class="built_in">string</span> = [[NSMutableString alloc] initWithString:@<span class="string">"I China"</span>];</span><br><span class="line">[<span class="built_in">string</span> insertString:@<span class="string">"Love "</span> atIndex:<span class="number">2</span>];</span><br><span class="line">NSLog(@<span class="string">"string: %@"</span>,<span class="built_in">string</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除字符串</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//删除字符串</span></span><br><span class="line">NSMutableString *<span class="built_in">string</span> = [[NSMutableString alloc] initWithString:@<span class="string">"I love China"</span>];</span><br><span class="line">[<span class="built_in">string</span> deleteCharactersInRange:NSMakeRange(<span class="number">2</span>, <span class="number">4</span>)];</span><br><span class="line">NSLog(@<span class="string">"String1: %@"</span>,<span class="built_in">string</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>判断是否包含前后缀</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//判断是否包含前后缀</span></span><br><span class="line"><span class="constant">NSString *string</span> = @<span class="string">"I love China"</span>;</span><br><span class="line"><span class="constant">BOOL isHasI</span> = [<span class="built_in">string</span> hasPrefix:@<span class="string">"I"</span>];</span><br><span class="line"><span class="constant">BOOL isHasChina</span> = [<span class="built_in">string</span> hasSuffix:@<span class="string">"China"</span>];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>替换字符串</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//替换字符串</span></span><br><span class="line"><span class="built_in">NSString</span> *string = <span class="string">@"I love China"</span>;</span><br><span class="line"><span class="built_in">NSString</span> *replaceString = [string stringByReplacingOccurrencesOfString:<span class="string">@"love"</span> withString:<span class="string">@"like"</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"replaceString:  %@"</span>,replaceString);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>去除字符串首尾的空格和换行符</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//去除字符串首尾的空格和换行符</span></span><br><span class="line"><span class="built_in">NSString</span> *string = <span class="string">@" I love China "</span>;</span><br><span class="line"><span class="built_in">NSString</span> *text = [string stringByTrimmingCharactersInSet:[<span class="built_in">NSCharacterSet</span> whitespaceAndNewlineCharacterSet]];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"text:%@"</span>,text);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>判断字符串是否包含另一个字符串</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *string1 = <span class="string">@"This is a iOSDevTip"</span>;</span><br><span class="line"><span class="built_in">NSString</span> *string2 = <span class="string">@"iOSDevTip"</span>;</span><br><span class="line"><span class="built_in">NSRange</span> range = [string1 rangeOfString:string2];</span><br><span class="line"><span class="built_in">NSInteger</span> location = range<span class="variable">.location</span>;</span><br><span class="line"><span class="built_in">NSInteger</span> length = range<span class="variable">.length</span>;</span><br><span class="line"><span class="built_in">NSString</span> *logString = [[<span class="built_in">NSString</span> alloc] initWithString:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"Location:%ld,Leight:%ld"</span>,location,length]];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"logString:%@"</span>,logString);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>截取字符串</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">NSString</span> *<span class="keyword">string </span>= <span class="comment">@"This is a operation string!";</span></span><br><span class="line">//<span class="keyword">substringToIndex截取字符串</span><br><span class="line"></span><span class="label">NSString</span> *<span class="keyword">subToString </span>= [<span class="keyword">string </span><span class="keyword">substringToIndex:6];</span><br><span class="line"></span>//<span class="keyword">substringFromIndex截取字符串</span><br><span class="line"></span><span class="label">NSString</span> *<span class="keyword">subFromString </span>= [<span class="keyword">string </span><span class="keyword">substringFromIndex:6];</span><br><span class="line"></span>//<span class="keyword">substringWithRange截取字符串</span><br><span class="line"></span><span class="label">NSString</span> *rangeString = [<span class="keyword">string </span><span class="keyword">substringWithRange:NSMakeRange(6, </span><span class="number">3</span>)]<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字符串大小写转换</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//写转大写</span></span><br><span class="line">NSString *<span class="built_in">string</span> = @<span class="string">"This is an iOSDevTip!"</span>;</span><br><span class="line">[<span class="built_in">string</span> lowercaseString];</span><br><span class="line"></span><br><span class="line"><span class="comment">//大写转小写</span></span><br><span class="line">NSString *<span class="built_in">string</span> = @<span class="string">"This is an iOSDevTip!"</span>;</span><br><span class="line">[<span class="built_in">string</span> uppercaseString];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字符串比较</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//isEqualToString方法比较</span><br><span class="line"><span class="type">NSString</span> *stingOne = @<span class="string">"This is an iOSDevTip!"</span>;</span><br><span class="line"><span class="type">NSString</span> *stringTwo = @<span class="string">"This is an iOSDevTip!"</span>;</span><br><span class="line"><span class="type">BOOL</span> <span class="literal">result</span> = [stingOne isEqualToString:stringTwo];</span><br><span class="line">//compare方法比较</span><br><span class="line"><span class="type">BOOL</span> <span class="literal">result</span> = [stingOne compare:stringTwo] == <span class="type">NSOrderedSame</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>typedef NS_ENUM(NSInteger, NSComparisonResult) {<br>    NSOrderedAscending = -1L,<br>    NSOrderedSame,<br>    NSOrderedDescending<br>};</p>
+</blockquote>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-iOS-maths" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1172,64 +1267,6 @@ Boom.</span>
       
 	<div class="article-category tagcloud">
 	<a class="article-category-link" href="/categories/mac/">mac</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-register-new-ios-developer-account" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/03/25/register-new-ios-developer-account/" class="article-date">
-  	<time datetime="2015-03-25T13:30:56.000Z" itemprop="datePublished">2015-03-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/25/register-new-ios-developer-account/">注册开发者账号</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>注册开发者账号步骤：<br><a href="https://developer.apple.com/programs/start/standard/create.php" target="_blank" rel="external">https://developer.apple.com/programs/start/standard/create.php</a></p>
-<p><img src="/images/ios/account/step-1.png"></p>
-<p>点击继续<br>提示申请公司账号，还是个人账号</p>
-<p><img src="/images/ios/account/step-2.png"></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/ios/">ios</a>
 	</div>
 
 
