@@ -119,6 +119,71 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-iOS-go-to-Setting" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/12/04/iOS-go-to-Setting/" class="article-date">
+  	<time datetime="2015-12-03T23:54:46.000Z" itemprop="datePublished">2015-12-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/04/iOS-go-to-Setting/">iOS 开发跳转到系统设置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>iOS开发过程中，经常会遇到需要用户进入系统设置中修改系统设置的情况。<br>比如APP需要定位功能，而用户没有开启定位，需要打开WiFi，蓝牙等功能。</p>
+<ol>
+<li><p>首先进入设置需要在info里面设置<br>在项目中的info.plist中添加 URL types 并设置一项URL Schemes为prefs，如下图：<br><img src="info.png" alt="image"></p>
+</li>
+<li><p>接下来就可以在代码中通过<code>[[UIApplication sharedApplication] openURL:url];</code>打开想要进到的系统设置界面<br>其中的url,格式为<code>prefs:root=xxx</code></p>
+</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSURL *url = [NSURL URLWithString:@&#34;prefs:root=WIFI&#34;];&#10;if ([[UIApplication sharedApplication] canOpenURL:url])&#10;&#123;&#10;    [[UIApplication sharedApplication] openURL:url];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSURL *url = [NSURL URLWithString:@&#34;prefs:root=LOCATION_SERVICES&#34;];&#10;if ([[UIApplication sharedApplication] canOpenURL:url])&#10;&#123;&#10;    [[UIApplication sharedApplication] openURL:url];</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSURL *url = [NSURL URLWithString:@&#34;prefs:root=Bluetooth&#34;];&#10;if ([[UIApplication sharedApplication] canOpenURL:url])&#10;&#123;&#10;   [[UIApplication sharedApplication] openURL:url];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>下面是部分设置界面参数，可以根据需要配置<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">About &#8212; prefs:root=General&#38;path=About&#10;Accessibility &#8212; prefs:root=General&#38;path=ACCESSIBILITY&#10;Airplane Mode On &#8212; prefs:root=AIRPLANE_MODE&#10;Auto-Lock &#8212; prefs:root=General&#38;path=AUTOLOCK&#10;Brightness &#8212; prefs:root=Brightness&#10;Bluetooth &#8212; prefs:root=General&#38;path=Bluetooth&#10;Date &#38; Time &#8212; prefs:root=General&#38;path=DATE_AND_TIME&#10;FaceTime &#8212; prefs:root=FACETIME&#10;General &#8212; prefs:root=General&#10;Keyboard &#8212; prefs:root=General&#38;path=Keyboard&#10;iCloud &#8212; prefs:root=CASTLE&#10;iCloud Storage &#38; Backup &#8212; prefs:root=CASTLE&#38;path=STORAGE_AND_BACKUP&#10;International &#8212; prefs:root=General&#38;path=INTERNATIONAL&#10;Location Services &#8212; prefs:root=LOCATION_SERVICES&#10;Music &#8212; prefs:root=MUSIC&#10;Music Equalizer &#8212; prefs:root=MUSIC&#38;path=EQ&#10;Music Volume Limit &#8212; prefs:root=MUSIC&#38;path=VolumeLimit&#10;Network &#8212; prefs:root=General&#38;path=Network&#10;Nike + iPod &#8212; prefs:root=NIKE_PLUS_IPOD&#10;Notes &#8212; prefs:root=NOTES&#10;Notification &#8212; prefs:root=NOTIFICATIONS_ID&#10;Phone &#8212; prefs:root=Phone&#10;Photos &#8212; prefs:root=Photos&#10;Profile &#8212; prefs:root=General&#38;path=ManagedConfigurationList&#10;Reset &#8212; prefs:root=General&#38;path=Reset&#10;Safari &#8212; prefs:root=Safari&#10;Siri &#8212; prefs:root=General&#38;path=Assistant&#10;Sounds &#8212; prefs:root=Sounds&#10;Software Update &#8212; prefs:root=General&#38;path=SOFTWARE_UPDATE_LINK&#10;Store &#8212; prefs:root=STORE&#10;Twitter &#8212; prefs:root=TWITTER&#10;Usage &#8212; prefs:root=General&#38;path=USAGE&#10;VPN &#8212; prefs:root=General&#38;path=Network/VPN&#10;Wallpaper &#8212; prefs:root=Wallpaper&#10;Wi-Fi &#8212; prefs:root=WIFI</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-navigationbar-hide" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -154,6 +219,10 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
       
 
       
@@ -1219,62 +1288,6 @@
       
 	<div class="article-tag tagcloud">
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tableview优化/">tableview优化</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-html5-audio-使用" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/30/html5-audio-使用/" class="article-date">
-  	<time datetime="2015-08-29T16:02:33.000Z" itemprop="datePublished">2015-08-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/30/html5-audio-使用/">html5 audio 使用</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在做html5 使用到了audio，发现audio在移动设备上面不能够自动播放<code>autoplay</code>属性没用</p>
-<p>求解</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html5/">html5</a></li></ul>
 	</div>
 
       

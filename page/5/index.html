@@ -119,6 +119,61 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-iphone6-ui-adjust-quikly" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/09/23/iphone6-ui-adjust-quikly/" class="article-date">
+  	<time datetime="2014-09-22T16:37:28.000Z" itemprop="datePublished">2014-09-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/23/iphone6-ui-adjust-quikly/">快速适配iPhone6 iPhone6 plus </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p></p><p>图片转自网络</p><br><img src="/images/ios/iPhone6DesignResource.png"><p></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS/">iOS</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-ios-dev-upload-ipa-to-appstore-slow" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -618,386 +673,6 @@
       
 	<div class="article-category tagcloud">
 	<a class="article-category-link" href="/categories/cocos2d-x-IOS-shareSDK/">cocos2d-x IOS shareSDK</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-server-client-rsa" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/05/19/server-client-rsa/" class="article-date">
-  	<time datetime="2014-05-19T15:36:19.000Z" itemprop="datePublished">2014-05-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/05/19/server-client-rsa/">Android、IOS与服务器端rsa加密解密通讯</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p></p><p>最近做手机项目，服务器端使用的是php，客户端分别有android版及ios版，在部分通讯环节需要对内容进行加密，RSA加密演算法是一种非对称加密演算法，能够较好达到要求，不过如果服务器架设https服务，较为麻烦，系统效率也不高，我们只需要在部分重要接口上使用RSA加密解密就行。</p><p></p>
-<p></p><p>首先，准备工作</p><p></p>
-<p></p><p>下载RSA密钥生成工具openssl，www.openssl.org，解压缩至独立的文件夹，进入其中的bin目录，执行以下命令：</p><br>    openssl genrsa -out rsa_private_key.pem 1024<br>    openssl pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt -out private_key.pem<br>    openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem<p></p>
-<p>第一条命令生成原始 RSA私钥文件 rsa_private_key.pem，第二条命令将原始 RSA私钥转换为 pkcs8格式，第三条生成RSA公钥 rsa_public_key.pem<br>从上面看出通过私钥能生成对应的公钥，因此我们将私钥private_key.pem用在服务器端，公钥发放给android跟ios等前端</p>
-<p>第二步，php服务器端，使用openssl方法来进行加密解密类，代码如下：<br>    &lt;?php<br>    /**</p>
-<pre><code> * @author alun (http://alunblog.duapp.com)
- * @version <span class="number">1.0</span>
- * @created <span class="number">2013</span>-<span class="number">5</span>-<span class="number">17</span>
- */
-
-class Rsa
-{
-private static <span class="variable">$PRIVATE</span>_KEY = <span class="string">'-----BEGIN PRIVATE KEY-----
-MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAM9nUm7rPNhSgvsd
-jMuCd5E7IMJB/80A1YY7jYV9fBCKdhVKmqea26QYuw6FW7B00fppEUTSazduSmn9
-Yvhx9UOCcI75b0nq9FWm5O4P+Kp8l31M1pwsJ3cm+DceGOrFsl47vh9idiqj+abI
-lJ4sTmJmDghmbks9YFlZSndQsIBlAgMBAAECgYAasa6vbgF3yi7niScc7l7bR2Pw
-/LOivA+/ZhzR6JO2QUvvc5myJsFMPo6c0Nc7P93iv/EkDX0VNlHHkIBTf79URHXM
-gXwMad4pHAeOiqxk5A9w/szDCBoETngtoqQGJq+QINxwPVvDEO4i224Uj3MKg2fo
-4SDy3P1GCAAj1ahNoQJBAP4FV9vLWdLOOwOLnBpXt6vru4HT5VIf9fCeBIemuQ4C
-/yRtgU38zXWgZ8AAmS6EjBEUDnN/tWid6UBKfgPDwAkCQQDRBP+Y9wIYIaSxeL7B
-nHhPT25yAJCGK+l6r2qeaHVQr81O9YjusEi8E2M5OxCRolKxC3L7hrLJX8z1oyOV
-dNx9AkBqYGhzpgv+qNiz2mJL8dH8ECMc8lTFeJbw5eu1tw8mHAEnCyisNSMBkGQC
-Vv3PKjjR6hlHKwMYRZDpmIh/IRmpAkEAr1soLGaeZSxkhVetgbUJ4k/bct0yYr4Y
-ZQshwcAVHBpBforT1JwkiVUim3MIFYY/JbVbQ9XfzL4Ir9OsGMkv6QJAPaQnyNY5
-/D0PhXqODOM6jtAHHRfaSi4gve6AZ0iRz6YlB8beJ1ywZaJZWD9Cuw3zy4dDpCOn
-A4tBsIdpMMoT+w==
------END PRIVATE KEY-----'</span>;
-    /**
-    *返回对应的私钥
-    */
-    private static function getPrivateKey(){
-
-        <span class="variable">$privKey</span> = self::<span class="variable">$PRIVATE</span>_KEY;
-
-        return openssl_pkey_get_private(<span class="variable">$privKey</span>);      
-    }
-
-    /**
-     * 私钥加密
-     */
-    public static function privEncrypt(<span class="variable">$data</span>)
-    {
-        if(!is_string(<span class="variable">$data</span>)){
-                return null;
-        }           
-        return openssl_private_encrypt(<span class="variable">$data</span>,<span class="variable">$encrypted</span>,self::getPrivateKey())? base64_encode(<span class="variable">$encrypted</span>) : null;
-    }
-
-
-    /**
-     * 私钥解密
-     */
-    public static function privDecrypt(<span class="variable">$encrypted</span>)
-    {
-        if(!is_string(<span class="variable">$encrypted</span>)){
-                return null;
-        }
-        return (openssl_private_decrypt(base64_decode(<span class="variable">$encrypted</span>), <span class="variable">$decrypted</span>, self::getPrivateKey()))? <span class="variable">$decrypted</span> : null;
-    }
-}
-
-?&gt;
-</code></pre><p>打开private_key.pem，将上面的$PRIVATE_KEY，替换成private_key.pem的内容即可，服务器端我们只需要使用私钥来加密解密。</p>
-<p>第三步，android前端，使用java的Cipher类来实现加密解密类，代码如下：<br>    import java.io.ByteArrayInputStream;<br>    import java.io.ByteArrayOutputStream;<br>    import java.io.InputStream;<br>    import java.security.KeyFactory;<br>    import java.security.NoSuchAlgorithmException;<br>    import java.security.PublicKey;<br>    import java.security.spec.X509EncodedKeySpec;<br>    import javax.crypto.Cipher;</p>
-<pre><code><span class="keyword">import</span> android.util.Base64;
-
-<span class="comment">/**
- * <span class="doctag">@author</span> alun (http://alunblog.duapp.com)
- * <span class="doctag">@version</span> 1.0
- * <span class="doctag">@created</span> 2013-5-17
- */</span>
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Rsa</span> </span>{
-    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String RSA_PUBLICE =
-            <span class="string">"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDPZ1Ju6zzYUoL7HYzLgneROyDC"</span> + <span class="string">"\r"</span> +
-            <span class="string">"Qf/NANWGO42FfXwQinYVSpqnmtukGLsOhVuwdNH6aRFE0ms3bkpp/WL4cfVDgnCO"</span> + <span class="string">"\r"</span> +
-            <span class="string">"+W9J6vRVpuTuD/iqfJd9TNacLCd3Jvg3HhjqxbJeO74fYnYqo/mmyJSeLE5iZg4I"</span> + <span class="string">"\r"</span> +
-            <span class="string">"Zm5LPWBZWUp3ULCAZQIDAQAB"</span>;
-    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String ALGORITHM = <span class="string">"RSA"</span>;
-
-    <span class="comment">/**
-     * 得到公钥
-     * <span class="doctag">@param</span> algorithm
-     * <span class="doctag">@param</span> bysKey
-     * <span class="doctag">@return</span>
-     */</span>
-    <span class="keyword">private</span> <span class="keyword">static</span> <span class="function">PublicKey <span class="title">getPublicKeyFromX509</span><span class="params">(String algorithm,
-            String bysKey)</span> <span class="keyword">throws</span> NoSuchAlgorithmException, Exception </span>{
-        <span class="keyword">byte</span>[] decodedKey = Base64.decode(bysKey,Base64.DEFAULT);
-        X509EncodedKeySpec x509 = <span class="keyword">new</span> X509EncodedKeySpec(decodedKey);
-
-        KeyFactory keyFactory = KeyFactory.getInstance(algorithm);
-        <span class="function"><span class="keyword">return</span> keyFactory.<span class="title">generatePublic</span><span class="params">(x509)</span></span>;
-    }
-
-    <span class="comment">/**
-     * 使用公钥加密
-     * <span class="doctag">@param</span> content
-     * <span class="doctag">@param</span> key
-     * <span class="doctag">@return</span>
-     */</span>
-    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function">String <span class="title">encryptByPublic</span><span class="params">(String content)</span> </span>{
-        <span class="keyword">try</span> {
-            PublicKey pubkey = getPublicKeyFromX509(ALGORITHM, RSA_PUBLICE);
-
-            Cipher cipher = Cipher.getInstance(<span class="string">"RSA/ECB/PKCS1Padding"</span>);
-            cipher.init(Cipher.ENCRYPT_MODE, pubkey);
-
-            <span class="keyword">byte</span> plaintext[] = content.getBytes(<span class="string">"UTF-8"</span>);
-            <span class="keyword">byte</span>[] output = cipher.doFinal(plaintext);
-
-            String s = <span class="keyword">new</span> String(Base64.encode(output,Base64.DEFAULT));
-
-            <span class="keyword">return</span> s;
-
-        } <span class="keyword">catch</span> (Exception e) {
-            <span class="keyword">return</span> <span class="keyword">null</span>;
-        }
-    }
-
-    <span class="comment">/**
-    * 使用公钥解密
-    * <span class="doctag">@param</span> content 密文
-    * <span class="doctag">@param</span> key 商户私钥
-    * <span class="doctag">@return</span> 解密后的字符串
-    */</span>
-    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function">String <span class="title">decryptByPublic</span><span class="params">(String content)</span> </span>{
-        <span class="keyword">try</span> {
-            PublicKey pubkey = getPublicKeyFromX509(ALGORITHM, RSA_PUBLICE);
-            Cipher cipher = Cipher.getInstance(<span class="string">"RSA/ECB/PKCS1Padding"</span>);
-            cipher.init(Cipher.DECRYPT_MODE, pubkey);
-            InputStream ins = <span class="keyword">new</span> ByteArrayInputStream(Base64.decode(content,Base64.DEFAULT));
-            ByteArrayOutputStream writer = <span class="keyword">new</span> ByteArrayOutputStream();
-            <span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">128</span>];
-            <span class="keyword">int</span> bufl;
-            <span class="keyword">while</span> ((bufl = ins.read(buf)) != -<span class="number">1</span>) {
-                <span class="keyword">byte</span>[] block = <span class="keyword">null</span>;
-                <span class="keyword">if</span> (buf.length == bufl) {
-                block = buf;
-                } <span class="keyword">else</span> {
-                block = <span class="keyword">new</span> <span class="keyword">byte</span>[bufl];
-                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; bufl; i++) {
-                    block[i] = buf[i];
-                }
-                }
-                writer.write(cipher.doFinal(block));
-            }
-            <span class="keyword">return</span> <span class="keyword">new</span> String(writer.toByteArray(), <span class="string">"utf-8"</span>);
-        } <span class="keyword">catch</span> (Exception e) {
-            <span class="keyword">return</span> <span class="keyword">null</span>;
-        }
-    }
-
-}
-</code></pre><p>需要注意的是，在初始化Cipher对象时，一定要指明使用”RSA/ECB/PKCS1Padding”格式如Cipher.getInstance(“RSA/ECB/PKCS1Padding”);<br>打开rsa_public_key.pem文件，将上面代码的RSA_PUBLICE替换成其中内容即可。</p>
-<p>第四步，ios前端，iOS上没有直接处理RSA加密的API，网上说的大多数也是处理X.509的证书的方法来实现，不过X.509证书是带签名的，在php端openssl_pkey_get_private方法获取密钥时，第二个参数需要传签名，而android端实现X.509证书加密解密较为不易，在这里我们利用ios兼容c程序的特点，利用openssl的api实现rsa的加密解密，代码如下：<br>CRSA.h代码：</p>
-<pre><code><span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span></span>
-<span class="preprocessor">#include <span class="title">&lt;openssl/rsa.h&gt;</span></span>
-<span class="preprocessor">#include <span class="title">&lt;openssl/pem.h&gt;</span></span>
-<span class="preprocessor">#include <span class="title">&lt;openssl/err.h&gt;</span></span>
-
-<span class="keyword">typedef</span> <span class="keyword">enum</span> {
-    KeyTypePublic,
-    KeyTypePrivate
-}KeyType;
-
-<span class="keyword">typedef</span> <span class="keyword">enum</span> {
-    RSA_PADDING_TYPE_NONE       = RSA_NO_PADDING,
-    RSA_PADDING_TYPE_PKCS1      = RSA_PKCS1_PADDING,
-    RSA_PADDING_TYPE_SSLV23     = RSA_SSLV23_PADDING
-}RSA_PADDING_TYPE;
-
-<span class="class"><span class="keyword">@interface</span> <span class="title">CRSA</span> : <span class="title">NSObject</span></span>{
-    RSA *_rsa;
-}
-+ (<span class="keyword">id</span>)shareInstance;
-- (<span class="built_in">BOOL</span>)importRSAKeyWithType:(KeyType)type;
-- (<span class="keyword">int</span>)getBlockSizeWithRSA_PADDING_TYPE:(RSA_PADDING_TYPE)padding_type;
-- (<span class="built_in">NSString</span> *) encryptByRsa:(<span class="built_in">NSString</span>*)content withKeyType:(KeyType)keyType;
-- (<span class="built_in">NSString</span> *) decryptByRsa:(<span class="built_in">NSString</span>*)content withKeyType:(KeyType)keyType;
-<span class="keyword">@end</span>
-</code></pre><p>CRSA.m代码</p>
-<pre><code><span class="preprocessor">#import <span class="title">"CRSA.h"</span></span>
-
-<span class="preprocessor">#define BUFFSIZE  1024</span>
-<span class="preprocessor">#import <span class="title">"Base64.h"</span></span>
-
-<span class="preprocessor">#define PADDING RSA_PADDING_TYPE_PKCS1</span>
-<span class="class"><span class="keyword">@implementation</span> <span class="title">CRSA</span></span>
-
-+ (<span class="keyword">id</span>)shareInstance
-{
-    <span class="keyword">static</span> CRSA *_crsa = <span class="literal">nil</span>;
-    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;
-    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^{
-        _crsa = [[<span class="keyword">self</span> alloc] init];
-    });
-    <span class="keyword">return</span> _crsa;
-}
-- (<span class="built_in">BOOL</span>)importRSAKeyWithType:(KeyType)type
-{
-    FILE *file;
-    <span class="built_in">NSString</span> *keyName = type == KeyTypePublic ? <span class="string">@"public_key"</span> : <span class="string">@"private_key"</span>;
-    <span class="built_in">NSString</span> *keyPath = [[<span class="built_in">NSBundle</span> mainBundle] pathForResource:keyName ofType:<span class="string">@"pem"</span>];
-
-    file = fopen([keyPath UTF8String], <span class="string">"rb"</span>);
-
-    <span class="keyword">if</span> (<span class="literal">NULL</span> != file)
-    {
-        <span class="keyword">if</span> (type == KeyTypePublic)
-        {
-            _rsa = PEM_read_RSA_PUBKEY(file, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);
-            assert(_rsa != <span class="literal">NULL</span>);
-        }
-        <span class="keyword">else</span>
-        {
-            _rsa = PEM_read_RSAPrivateKey(file, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);
-            assert(_rsa != <span class="literal">NULL</span>);
-        }
-
-        fclose(file);
-
-        <span class="keyword">return</span> (_rsa != <span class="literal">NULL</span>) ? <span class="literal">YES</span> : <span class="literal">NO</span>;
-    }
-
-    <span class="keyword">return</span> <span class="literal">NO</span>;
-}
-
-- (<span class="built_in">NSString</span> *) encryptByRsa:(<span class="built_in">NSString</span>*)content withKeyType:(KeyType)keyType
-{
-    <span class="keyword">if</span> (![<span class="keyword">self</span> importRSAKeyWithType:keyType])
-         <span class="keyword">return</span> <span class="literal">nil</span>;
-
-    <span class="keyword">int</span> status;
-    <span class="keyword">int</span> length  = [content length];
-    <span class="keyword">unsigned</span> <span class="keyword">char</span> input[length + <span class="number">1</span>];
-    bzero(input, length + <span class="number">1</span>);
-    <span class="keyword">int</span> i = <span class="number">0</span>;
-    <span class="keyword">for</span> (; i &lt; length; i++)
-    {
-        input[i] = [content characterAtIndex:i];
-    }
-
-    <span class="built_in">NSInteger</span>  flen = [<span class="keyword">self</span> getBlockSizeWithRSA_PADDING_TYPE:PADDING];
-
-    <span class="keyword">char</span> *encData = (<span class="keyword">char</span>*)malloc(flen);
-    bzero(encData, flen);
-
-    <span class="keyword">switch</span> (keyType) {
-        <span class="keyword">case</span> KeyTypePublic:
-            status = RSA_public_encrypt(length, (<span class="keyword">unsigned</span> <span class="keyword">char</span>*)input, (<span class="keyword">unsigned</span> <span class="keyword">char</span>*)encData, _rsa, PADDING);
-            <span class="keyword">break</span>;
-
-        <span class="keyword">default</span>:
-            status = RSA_private_encrypt(length, (<span class="keyword">unsigned</span> <span class="keyword">char</span>*)input, (<span class="keyword">unsigned</span> <span class="keyword">char</span>*)encData, _rsa, PADDING);
-            <span class="keyword">break</span>;
-    }
-
-    <span class="keyword">if</span> (status)
-    {
-        <span class="built_in">NSData</span> *returnData = [<span class="built_in">NSData</span> dataWithBytes:encData length:status];
-        free(encData);
-        encData = <span class="literal">NULL</span>;
-
-        <span class="built_in">NSString</span> *ret = [returnData base64EncodedString];
-        <span class="keyword">return</span> ret;
-    }
-
-    free(encData);
-    encData = <span class="literal">NULL</span>;
-
-    <span class="keyword">return</span> <span class="literal">nil</span>;
-}
-
-- (<span class="built_in">NSString</span> *) decryptByRsa:(<span class="built_in">NSString</span>*)content withKeyType:(KeyType)keyType
-{
-    <span class="keyword">if</span> (![<span class="keyword">self</span> importRSAKeyWithType:keyType])
-        <span class="keyword">return</span> <span class="literal">nil</span>;
-
-    <span class="keyword">int</span> status;
-
-    <span class="built_in">NSData</span> *data = [content base64DecodedData];
-    <span class="keyword">int</span> length = [data length];
-
-    <span class="built_in">NSInteger</span> flen = [<span class="keyword">self</span> getBlockSizeWithRSA_PADDING_TYPE:PADDING];
-    <span class="keyword">char</span> *decData = (<span class="keyword">char</span>*)malloc(flen);
-    bzero(decData, flen);
-
-    <span class="keyword">switch</span> (keyType) {
-        <span class="keyword">case</span> KeyTypePublic:
-            status = RSA_public_decrypt(length, (<span class="keyword">unsigned</span> <span class="keyword">char</span>*)[data bytes], (<span class="keyword">unsigned</span> <span class="keyword">char</span>*)decData, _rsa, PADDING);
-            <span class="keyword">break</span>;
-
-        <span class="keyword">default</span>:
-            status = RSA_private_decrypt(length, (<span class="keyword">unsigned</span> <span class="keyword">char</span>*)[data bytes], (<span class="keyword">unsigned</span> <span class="keyword">char</span>*)decData, _rsa, PADDING);
-            <span class="keyword">break</span>;
-    }
-
-    <span class="keyword">if</span> (status)
-    {
-        <span class="built_in">NSMutableString</span> *decryptString = [[<span class="built_in">NSMutableString</span> alloc] initWithBytes:decData length:strlen(decData) encoding:<span class="built_in">NSASCIIStringEncoding</span>];
-        free(decData);
-        decData = <span class="literal">NULL</span>;
-
-        <span class="keyword">return</span> decryptString;
-    }
-
-    free(decData);
-    decData = <span class="literal">NULL</span>;
-
-    <span class="keyword">return</span> <span class="literal">nil</span>;
-}
-
-- (<span class="keyword">int</span>)getBlockSizeWithRSA_PADDING_TYPE:(RSA_PADDING_TYPE)padding_type
-{
-    <span class="keyword">int</span> len = RSA_size(_rsa);
-
-    <span class="keyword">if</span> (padding_type == RSA_PADDING_TYPE_PKCS1 || padding_type == RSA_PADDING_TYPE_SSLV23) {
-        len -= <span class="number">11</span>;
-    }
-
-    <span class="keyword">return</span> len;
-}
-<span class="keyword">@end</span>
-</code></pre><p>其中openssl api包，我们可以在第一步RSA密钥生成工具openssl的include文件夹中得到，完整代码包请点击<a href="http://pan.baidu.com/share/link?shareid=1369765071&amp;uk=3003569915" target="_blank" rel="external">这里下载</a></p>
-<p>注：原文转自<a href="http://alunblog.duapp.com/?p=50" target="_blank" rel="external">http://alunblog.duapp.com/?p=50</a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/IOS-android-cocos2d-x-java/">IOS android cocos2d-x java</a>
 	</div>
 
 

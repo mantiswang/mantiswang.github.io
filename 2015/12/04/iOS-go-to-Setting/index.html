@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="keywords" content="键盘的记忆,iOS学习,html5,混合开发">
+  
+  <title>iOS 开发跳转到系统设置 | 键盘的记忆</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="iOS开发过程中，经常会遇到需要用户进入系统设置中修改系统设置的情况。比如APP需要定位功能，而用户没有开启定位，需要打开WiFi，蓝牙等功能。
+
+首先进入设置需要在info里面设置在项目中的info.plist中添加 URL types 并设置一项URL Schemes为prefs，如下图：
+
+接下来就可以在代码中通过[[UIApplication sharedApplication] open">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 开发跳转到系统设置">
+<meta property="og:url" content="http://blog.onecat.cc/2015/12/04/iOS-go-to-Setting/index.html">
+<meta property="og:site_name" content="键盘的记忆">
+<meta property="og:description" content="iOS开发过程中，经常会遇到需要用户进入系统设置中修改系统设置的情况。比如APP需要定位功能，而用户没有开启定位，需要打开WiFi，蓝牙等功能。
+
+首先进入设置需要在info里面设置在项目中的info.plist中添加 URL types 并设置一项URL Schemes为prefs，如下图：
+
+接下来就可以在代码中通过[[UIApplication sharedApplication] open">
+<meta property="og:image" content="http://blog.onecat.cc/info.png">
+<meta property="og:updated_time" content="2015-12-04T00:09:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS 开发跳转到系统设置">
+<meta name="twitter:description" content="iOS开发过程中，经常会遇到需要用户进入系统设置中修改系统设置的情况。比如APP需要定位功能，而用户没有开启定位，需要打开WiFi，蓝牙等功能。
+
+首先进入设置需要在info里面设置在项目中的info.plist中添加 URL types 并设置一项URL Schemes为prefs，如下图：
+
+接下来就可以在代码中通过[[UIApplication sharedApplication] open">
+  
+    <link rel="alternative" href="/atom.xml" title="键盘的记忆" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/photo.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/images/photo.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">键盘</a></h1>
+		</hgroup>
+
+		
+
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">键盘</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/images/photo.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">键盘</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-iOS-go-to-Setting" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/12/04/iOS-go-to-Setting/" class="article-date">
+  	<time datetime="2015-12-03T23:54:46.000Z" itemprop="datePublished">2015-12-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS 开发跳转到系统设置
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>iOS开发过程中，经常会遇到需要用户进入系统设置中修改系统设置的情况。<br>比如APP需要定位功能，而用户没有开启定位，需要打开WiFi，蓝牙等功能。</p>
+<ol>
+<li><p>首先进入设置需要在info里面设置<br>在项目中的info.plist中添加 URL types 并设置一项URL Schemes为prefs，如下图：<br><img src="info.png" alt="image"></p>
+</li>
+<li><p>接下来就可以在代码中通过<code>[[UIApplication sharedApplication] openURL:url];</code>打开想要进到的系统设置界面<br>其中的url,格式为<code>prefs:root=xxx</code></p>
+</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSURL *url = [NSURL URLWithString:@&#34;prefs:root=WIFI&#34;];&#10;if ([[UIApplication sharedApplication] canOpenURL:url])&#10;&#123;&#10;    [[UIApplication sharedApplication] openURL:url];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSURL *url = [NSURL URLWithString:@&#34;prefs:root=LOCATION_SERVICES&#34;];&#10;if ([[UIApplication sharedApplication] canOpenURL:url])&#10;&#123;&#10;    [[UIApplication sharedApplication] openURL:url];</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSURL *url = [NSURL URLWithString:@&#34;prefs:root=Bluetooth&#34;];&#10;if ([[UIApplication sharedApplication] canOpenURL:url])&#10;&#123;&#10;   [[UIApplication sharedApplication] openURL:url];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>下面是部分设置界面参数，可以根据需要配置<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">About &#8212; prefs:root=General&#38;path=About&#10;Accessibility &#8212; prefs:root=General&#38;path=ACCESSIBILITY&#10;Airplane Mode On &#8212; prefs:root=AIRPLANE_MODE&#10;Auto-Lock &#8212; prefs:root=General&#38;path=AUTOLOCK&#10;Brightness &#8212; prefs:root=Brightness&#10;Bluetooth &#8212; prefs:root=General&#38;path=Bluetooth&#10;Date &#38; Time &#8212; prefs:root=General&#38;path=DATE_AND_TIME&#10;FaceTime &#8212; prefs:root=FACETIME&#10;General &#8212; prefs:root=General&#10;Keyboard &#8212; prefs:root=General&#38;path=Keyboard&#10;iCloud &#8212; prefs:root=CASTLE&#10;iCloud Storage &#38; Backup &#8212; prefs:root=CASTLE&#38;path=STORAGE_AND_BACKUP&#10;International &#8212; prefs:root=General&#38;path=INTERNATIONAL&#10;Location Services &#8212; prefs:root=LOCATION_SERVICES&#10;Music &#8212; prefs:root=MUSIC&#10;Music Equalizer &#8212; prefs:root=MUSIC&#38;path=EQ&#10;Music Volume Limit &#8212; prefs:root=MUSIC&#38;path=VolumeLimit&#10;Network &#8212; prefs:root=General&#38;path=Network&#10;Nike + iPod &#8212; prefs:root=NIKE_PLUS_IPOD&#10;Notes &#8212; prefs:root=NOTES&#10;Notification &#8212; prefs:root=NOTIFICATIONS_ID&#10;Phone &#8212; prefs:root=Phone&#10;Photos &#8212; prefs:root=Photos&#10;Profile &#8212; prefs:root=General&#38;path=ManagedConfigurationList&#10;Reset &#8212; prefs:root=General&#38;path=Reset&#10;Safari &#8212; prefs:root=Safari&#10;Siri &#8212; prefs:root=General&#38;path=Assistant&#10;Sounds &#8212; prefs:root=Sounds&#10;Software Update &#8212; prefs:root=General&#38;path=SOFTWARE_UPDATE_LINK&#10;Store &#8212; prefs:root=STORE&#10;Twitter &#8212; prefs:root=TWITTER&#10;Usage &#8212; prefs:root=General&#38;path=USAGE&#10;VPN &#8212; prefs:root=General&#38;path=Network/VPN&#10;Wallpaper &#8212; prefs:root=Wallpaper&#10;Wi-Fi &#8212; prefs:root=WIFI</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/10/26/navigationbar-hide/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">导航条隐藏返回出现黑条</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 键盘
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
