@@ -20,8 +20,8 @@
 首先进入设置需要在info里面设置在项目中的info.plist中添加 URL types 并设置一项URL Schemes为prefs，如下图：
 
 接下来就可以在代码中通过[[UIApplication sharedApplication] open">
-<meta property="og:image" content="http://blog.onecat.cc/info.png">
-<meta property="og:updated_time" content="2015-12-04T00:09:39.000Z">
+<meta property="og:image" content="http://blog.onecat.cc/images/info.png">
+<meta property="og:updated_time" content="2015-12-04T15:30:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 开发跳转到系统设置">
 <meta name="twitter:description" content="iOS开发过程中，经常会遇到需要用户进入系统设置中修改系统设置的情况。比如APP需要定位功能，而用户没有开启定位，需要打开WiFi，蓝牙等功能。
@@ -170,7 +170,7 @@
       
         <p>iOS开发过程中，经常会遇到需要用户进入系统设置中修改系统设置的情况。<br>比如APP需要定位功能，而用户没有开启定位，需要打开WiFi，蓝牙等功能。</p>
 <ol>
-<li><p>首先进入设置需要在info里面设置<br>在项目中的info.plist中添加 URL types 并设置一项URL Schemes为prefs，如下图：<br><img src="info.png" alt="image"></p>
+<li><p>首先进入设置需要在info里面设置<br>在项目中的info.plist中添加 URL types 并设置一项URL Schemes为prefs，如下图：<br><img src="/images/info.png" alt="image"></p>
 </li>
 <li><p>接下来就可以在代码中通过<code>[[UIApplication sharedApplication] openURL:url];</code>打开想要进到的系统设置界面<br>其中的url,格式为<code>prefs:root=xxx</code></p>
 </li>
