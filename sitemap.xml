@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.onecat.cc/2015/12/07/category-can-not-found-method/</loc>
+    <lastmod>2015-12-07T15:03:52.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://blog.onecat.cc/2015/12/04/iOS-go-to-Setting/</loc>
     <lastmod>2015-12-04T15:30:34.000Z</lastmod>
   </url>
@@ -172,22 +177,17 @@
   </url>
   
   <url>
-    <loc>http://blog.onecat.cc/2014/07/31/hmsegmentedcontrol-selected-section-textcolor/</loc>
+    <loc>http://blog.onecat.cc/2014/11/02/hmsegmentedcontrol-image-title-postion/</loc>
     <lastmod>2015-03-06T09:00:09.000Z</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.onecat.cc/2014/09/12/ipa-wireless-sender/</loc>
+    <loc>http://blog.onecat.cc/2014/11/07/ios8-lame-arm64/</loc>
     <lastmod>2015-03-06T09:00:09.000Z</lastmod>
   </url>
   
   <url>
     <loc>http://blog.onecat.cc/2014/09/16/ios8-cllocationmanager/</loc>
-    <lastmod>2015-03-06T09:00:09.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.onecat.cc/2014/09/12/ios-request-record-permission/</loc>
     <lastmod>2015-03-06T09:00:09.000Z</lastmod>
   </url>
   
@@ -207,7 +207,7 @@
   </url>
   
   <url>
-    <loc>http://blog.onecat.cc/2014/04/09/cocos2d-x-shareSDK-issue/</loc>
+    <loc>http://blog.onecat.cc/2014/09/17/mac-octopress-cocoapods-ruby-version/</loc>
     <lastmod>2015-03-06T09:00:09.000Z</lastmod>
   </url>
   
@@ -227,37 +227,12 @@
   </url>
   
   <url>
-    <loc>http://blog.onecat.cc/2014/03/08/ios-pcap/</loc>
-    <lastmod>2015-03-06T09:00:09.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.onecat.cc/2014/09/17/ios-dev-upload-ipa-to-appstore-slow/</loc>
-    <lastmod>2015-03-06T09:00:09.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.onecat.cc/2014/11/05/uicollectionview-layout/</loc>
-    <lastmod>2015-03-06T09:00:09.000Z</lastmod>
-  </url>
-  
-  <url>
     <loc>http://blog.onecat.cc/2014/09/23/iphone6-ui-adjust-quikly/</loc>
     <lastmod>2015-03-06T09:00:09.000Z</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.onecat.cc/2014/09/17/mac-octopress-cocoapods-ruby-version/</loc>
-    <lastmod>2015-03-06T09:00:09.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.onecat.cc/2014/11/07/ios8-lame-arm64/</loc>
-    <lastmod>2015-03-06T09:00:09.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.onecat.cc/2014/05/19/server-client-rsa/</loc>
+    <loc>http://blog.onecat.cc/2014/09/12/ipa-wireless-sender/</loc>
     <lastmod>2015-03-06T09:00:09.000Z</lastmod>
   </url>
   
@@ -267,12 +242,42 @@
   </url>
   
   <url>
+    <loc>http://blog.onecat.cc/2014/11/05/uicollectionview-layout/</loc>
+    <lastmod>2015-03-06T09:00:09.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.onecat.cc/2014/09/17/ios-dev-upload-ipa-to-appstore-slow/</loc>
+    <lastmod>2015-03-06T09:00:09.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.onecat.cc/2014/03/08/ios-pcap/</loc>
+    <lastmod>2015-03-06T09:00:09.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.onecat.cc/2014/09/12/ios-request-record-permission/</loc>
+    <lastmod>2015-03-06T09:00:09.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.onecat.cc/2014/05/19/server-client-rsa/</loc>
+    <lastmod>2015-03-06T09:00:09.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.onecat.cc/2014/07/31/hmsegmentedcontrol-selected-section-textcolor/</loc>
+    <lastmod>2015-03-06T09:00:09.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://blog.onecat.cc/2014/11/09/view-rotation-animation/</loc>
     <lastmod>2015-03-06T09:00:09.000Z</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.onecat.cc/2014/11/02/hmsegmentedcontrol-image-title-postion/</loc>
+    <loc>http://blog.onecat.cc/2014/04/09/cocos2d-x-shareSDK-issue/</loc>
     <lastmod>2015-03-06T09:00:09.000Z</lastmod>
   </url>
   

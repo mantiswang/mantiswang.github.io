@@ -119,6 +119,65 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-category-can-not-found-method" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/12/07/category-can-not-found-method/" class="article-date">
+  	<time datetime="2015-12-07T14:51:53.000Z" itemprop="datePublished">2015-12-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/07/category-can-not-found-method/">Category selector not recognized</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>阅读<a href="http://blog.ibireme.com/" target="_blank" rel="external">ibireme大神</a>的<a href="https://github.com/ibireme/YYCategories" target="_blank" rel="external">YYCategories</a>代码。</p>
+<p>刚开始在YYCategoriesMacro.h里面就发现</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> Add this macro before each category implementation, so we don't have to use</span><br><span class="line"> -all_load or -force_load to load object files from static libraries that only</span><br><span class="line"> contain categories and no classes.</span><br><span class="line"> More info: http://developer.apple.com/library/mac/<span class="comment">#qa/qa2006/qa1490.html .</span></span><br><span class="line"> <span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> Example:</span><br><span class="line">     YYSYNTH_DUMMY_CLASS(NSString_YYAdd)</span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line"><span class="comment">#ifndef YYSYNTH_DUMMY_CLASS</span></span><br><span class="line"><span class="comment">#define YYSYNTH_DUMMY_CLASS(_name_) \</span></span><br><span class="line"><span class="comment">@interface YYSYNTH_DUMMY_CLASS_ ## _name_ : NSObject @end \</span></span><br><span class="line"><span class="comment">@implementation YYSYNTH_DUMMY_CLASS_ ## _name_ @end</span></span><br><span class="line"><span class="comment">#endif</span></span><br></pre></td></tr></table></figure>
+<p>虽然大神写的很清楚，但是我还是看不懂这个宏定义有什么作用</p>
+<p>在大神的<a href="https://github.com/ChenYilong/iOS9AdaptationTips/blob/master/README.md" target="_blank" rel="external">iOS 如何创建和使用静态库</a> 这边文章中找到答案<br>原来是为了规避苹果的一个已知bug，增加的一个空的类</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-iOS-go-to-Setting" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1222,72 +1281,6 @@
       
 	<div class="article-tag tagcloud">
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-iOS开发之UITableView性能优化" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/31/iOS开发之UITableView性能优化/" class="article-date">
-  	<time datetime="2015-08-31T15:28:25.000Z" itemprop="datePublished">2015-08-31</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/31/iOS开发之UITableView性能优化/">iOS开发之UITableView性能优化</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前面已经说过UITableView中的单元格cell是在显示到用户可视区域后创建的，那么如果用户往下滚动就会继续创建显示在屏幕上的单元格，如果用户向上滚动返回到查看过的内容时同样会重新创建之前已经创建过的单元格。如此一来即使UITableView的内容不是太多，如果用户反复的上下滚动，内存也会瞬间飙升，更何况很多时候UITableView的内容是很多的（例如微博展示列表，基本向下滚动是没有底限的）。</p>
-<p>前面一节中我们曾经提到过如何优化UIScrollView，当时就是利用有限的UIImageView动态切换其内容来尽可能减少资源占用。同样的，在UITableView中也可以采用类似的方式，只是这时我们不是在滚动到指定位置后更改滚动的位置而是要将当前没有显示的Cell重新显示在将要显示的Cell的位置然后更新其内容。原因就是UITableView中的Cell结构布局可能是不同的，通过重新定位是不可取的，而是需要重用已经不再界面显示的已创建过的Cell。</p>
-<p>当然，听起来这么做比较复杂，其实实现起来很简单，因为UITableView已经为我们实现了这种机制。在UITableView内部有一个缓存池，初始化时使用initWithStyle:(UITableViewCellStyle) reuseIdentifier:(NSString *)方法指定一个可重用标识，就可以将这个cell放到缓存池。然后在使用时使用指定的标识去缓存池中取得对应的cell然后修改cell内容即可。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#pragma mark返回每行的单元格</span></span><br><span class="line">-(<span class="built_in">UITableViewCell</span> *)tableView:(<span class="built_in">UITableView</span> *)tableView cellForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath&#123;</span><br><span class="line">    <span class="comment">//NSIndexPath是一个对象，记录了组和行信息</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"生成单元格(组：%i,行%i)"</span>,indexPath<span class="variable">.section</span>,indexPath<span class="variable">.row</span>);</span><br><span class="line">    KCContactGroup *group=_contacts[indexPath<span class="variable">.section</span>];</span><br><span class="line">    KCContact *contact=group<span class="variable">.contacts</span>[indexPath<span class="variable">.row</span>];</span><br><span class="line"></span><br><span class="line">    <span class="comment">//由于此方法调用十分频繁，cell的标示声明成静态变量有利于性能优化</span></span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">NSString</span> *cellIdentifier=<span class="string">@"UITableViewCellIdentifierKey1"</span>;</span><br><span class="line">    <span class="comment">//首先根据标识去缓存池取</span></span><br><span class="line">    <span class="built_in">UITableViewCell</span> *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];</span><br><span class="line">    <span class="comment">//如果缓存池没有到则重新创建并放到缓存池中</span></span><br><span class="line">    <span class="keyword">if</span>(!cell)&#123;</span><br><span class="line">        cell=[[<span class="built_in">UITableViewCell</span> alloc]initWithStyle:<span class="built_in">UITableViewCellStyleValue1</span> reuseIdentifier:cellIdentifier];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cell<span class="variable">.textLabel</span><span class="variable">.text</span>=[contact getName];</span><br><span class="line">    cell<span class="variable">.detailTextLabel</span><span class="variable">.text</span>=contact<span class="variable">.phoneNumber</span>;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"cell:%@"</span>,cell);</span><br><span class="line">    <span class="keyword">return</span> cell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>上面的代码中已经打印了cell的地址，如果大家运行测试上下滚动UITableView会发现滚动时创建的cell地址是初始化时已经创建的。</p>
-<p>这里再次给大家强调两点：</p>
-<ul>
-<li>-(UITableViewCell )tableView:(UITableView )tableView cellForRowAtIndexPath:(NSIndexPath *)方法调用很频繁，无论是初始化、上下滚动、刷新都会调用此方法，所有在这里执行的操作一定要注意性能；</li>
-<li>可重用标识可以有多个，如果在UITableView中有多类结构不同的Cell，可以通过这个标识进行缓存和重新；</li>
-</ul>
-<blockquote>
-<p>转 Kenshin Cui’s Blog</p>
-</blockquote>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tableview优化/">tableview优化</a></li></ul>
 	</div>
 
       
