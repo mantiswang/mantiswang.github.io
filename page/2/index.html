@@ -119,6 +119,113 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-详解CALayer-和-UIView的区别和联系" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/09/03/详解CALayer-和-UIView的区别和联系/" class="article-date">
+  	<time datetime="2015-09-03T12:45:12.000Z" itemprop="datePublished">2015-09-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/03/详解CALayer-和-UIView的区别和联系/">详解CALayer 和 UIView的区别和联系</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="前言">前言</h3><p>前面发了一篇iOS 面试的文章，在说到 UIView 和 CALayer 的区别和联系的时候，被喵神指出没有切中要点，所以这里就 CALayer 和 UIView 这个问题重新整理了下。这里会先分条解释，最后会在文章的结尾给出概括性总结。</p>
+<h4 id="1-首先UIView可以响应事件，Layer不可以-">1.首先UIView可以响应事件，Layer不可以.</h4><p>UIKit使用UIResponder作为响应对象，来响应系统传递过来的事件并进行处理。UIApplication、UIViewController、UIView、和所有从UIView派生出来的UIKit类（包括UIWindow）都直接或间接地继承自UIResponder类。</p>
+<p>在 UIResponder中定义了处理各种事件和事件传递的接口, 而 CALayer直接继承 NSObject，并没有相应的处理事件的接口。</p>
+<p>下面列举一些处理触摸事件的接口</p>
+<ul>
+<li>– touchesBegan:withEvent:</li>
+<li>– touchesMoved:withEvent:</li>
+<li>– touchesEnded:withEvent:</li>
+<li>– touchesCancelled:withEvent:<br>其实还有一些运动和远程控制事件等等，这里就不一一列举了。</li>
+</ul>
+<p>下面的两篇文章详细介绍了 iOS 事件的处理和传递</p>
+<p>参考链接：</p>
+<ol>
+<li><a href="http://blog.csdn.net/chun799/article/details/8223612" target="_blank" rel="external">http://blog.csdn.net/chun799/article/details/8223612</a></li>
+<li><a href="http://yishuiliunian.gitbooks.io/implementate-tableview-to-understand-ios/content/uikit/1-1-2.html" target="_blank" rel="external">http://yishuiliunian.gitbooks.io/implementate-tableview-to-understand-ios/content/uikit/1-1-2.html</a></li>
+</ol>
+<h4 id="2-View和CALayer的Frame映射及View如何创建CALayer-">2.View和CALayer的Frame映射及View如何创建CALayer.</h4><p>一个 Layer 的 frame 是由它的 anchorPoint,position,bounds,和 transform 共同决定的，而一个 View 的 frame 只是简单的返回 Layer的 frame，同样 View 的 center和 bounds 也是返回 Layer 的一些属性。（PS:center有些特列）为了证明这些，我做了如下的测试。</p>
+<p>首先我自定义了两个类CustomView,CustomLayer分别继承 UIView 和 CALayer</p>
+<p>在 CustomView 中重写了<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">+ (Class)layerClass</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> [CustomLayer class];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)setFrame:(<span class="built_in">CGRect</span>)frame</span><br><span class="line">&#123;</span><br><span class="line">    [<span class="keyword">super</span> setFrame:frame];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)setCenter:(<span class="built_in">CGPoint</span>)center</span><br><span class="line">&#123;</span><br><span class="line">    [<span class="keyword">super</span> setCenter:center];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)setBounds:(<span class="built_in">CGRect</span>)bounds</span><br><span class="line">&#123;</span><br><span class="line">    [<span class="keyword">super</span> setBounds:bounds];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>同样在 CustomLayer中同样重写这些方法。只是 <code>setCenter</code>方法改成<code>setPosition</code>方法</p>
+<p>我在两个类的初始化方法中都打下了断点<img src="/images/Snip20150820_12.png" alt="image"></p>
+<p>首先我们会发现，我们在 [view initWithFrame] 的时候调用私有方法【UIView _createLayerWithFrame】去创建 CALayer。</p>
+<p>然后我在创建 View 的时候，在 Layer 和 View 中Frame 相关的所有方法中都加上断点，可以看到大致如下的调用顺序如下<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[UIView _createLayerWithFrame]</span><br><span class="line">[Layer setBounds:bounds]</span><br><span class="line">[UIView setFrame：Frame]</span><br><span class="line">[Layer setFrame:frame]</span><br><span class="line">[Layer setPosition:position]</span><br><span class="line">[Layer setBounds:bounds]</span><br></pre></td></tr></table></figure></p>
+<p>我发现在创建的过程只有调用了 Layer 的设置尺寸和位置的然而并没有调用View 的 <code>SetCenter</code> 和 <code>SetBounds</code> 方法。<br>然后我发现当我修改了 view的 <code>bounds.size</code> 或者 <code>bounds.origin</code> 的时候也只会调用上边 Layer的一些方法。所以我大胆的猜一下，View 的 Center 和 Bounds 只是直接返回layer 对应的 Position 和 Bounds.</p>
+<p>View中frame getter方法，bounds和center，UIView并没有做什么工作；它只是简单的各自调用它底层的CALayer的frame，bounds和position方法。</p>
+<p>关于 Frame 的理解参考：<a href="http://www.cocoachina.com/industry/20131209/7498.html" target="_blank" rel="external">http://www.cocoachina.com/industry/20131209/7498.html</a></p>
+<h4 id="3-UIView主要是对显示内容的管理而_CALayer_主要侧重显示内容的绘制。">3.UIView主要是对显示内容的管理而 CALayer 主要侧重显示内容的绘制。</h4><p>我在 UIView 和 CALayer 分别重写了父类的方法。<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr_selector">[UIView drawRect:rect]</span><span class="comment">//UIView    </span></span><br><span class="line"></span><br><span class="line"><span class="attr_selector">[CALayer display]</span><span class="comment">//CALayer</span></span><br></pre></td></tr></table></figure></p>
+<p>然后我在上面两个方法加了断点，可以看到如下的执行。<br><img src="/images/Snip20150820_11.png" alt="image"></p>
+<p>可以看到 UIView 是 CALayer 的CALayerDelegate，我猜测是在代理方法内部[UIView(CALayerDelegate) drawLayer:inContext]调用 UIView 的 DrawRect方法，从而绘制出了 UIView 的内容.</p>
+<h4 id="4-在做_iOS_动画的时候，修改非_RootLayer的属性（譬如位置、背景色等）会默认产生隐式动画，而修改UIView则不会。">4.在做 iOS 动画的时候，修改非 RootLayer的属性（譬如位置、背景色等）会默认产生隐式动画，而修改UIView则不会。</h4><p>对于每一个 UIView 都有一个 layer,把这个 layer 且称作RootLayer,而不是 View 的根 Layer的叫做 非 RootLayer。我们对UIView的属性修改时时不会产生默认动画，而对单独 layer属性直接修改会，这个默认动画的时间缺省值是0.25s.<br>在 Core Animation 编程指南的 “How to Animate Layer-Backed Views” 中，对为什么会这样做出了一个解释：</p>
+<blockquote>
+<p>UIView 默认情况下禁止了 layer 动画，但是在 animation block 中又重新启用了它们</p>
+</blockquote>
+<p>是因为任何可动画的 layer 属性改变时，layer 都会寻找并运行合适的 ‘action’ 来实行这个改变。在 Core Animation 的专业术语中就把这样的动画统称为动作 (action，或者 CAAction)。</p>
+<p>layer 通过向它的 delegate 发送 actionForLayer:forKey: 消息来询问提供一个对应属性变化的 action。delegate 可以通过返回以下三者之一来进行响应：</p>
+<ol>
+<li>它可以返回一个动作对象，这种情况下 layer 将使用这个动作。</li>
+<li>它可以返回一个 nil， 这样 layer 就会到其他地方继续寻找。</li>
+<li>它可以返回一个 NSNull 对象，告诉 layer 这里不需要执行一个动作，搜索也会就此停止。<br>当 layer 在背后支持一个 view 的时候，view 就是它的 delegate；</li>
+</ol>
+<p>这部分的具体内容参考：<a href="http://objccn.io/issue-12-4/" target="_blank" rel="external">http://objccn.io/issue-12-4/</a></p>
+<h3 id="总结">总结</h3><p>总接来说就是如下几点：</p>
+<ul>
+<li>每个 UIView 内部都有一个 CALayer 在背后提供内容的绘制和显示，并且 UIView 的尺寸样式都由内部的 Layer 所提供。两者都有树状层级结构，layer 内部有 SubLayers，View 内部有 SubViews.但是 Layer 比 View 多了个AnchorPoint</li>
+<li>在 View显示的时候，UIView 做为 Layer 的 CALayerDelegate,View 的显示内容由内部的 CALayer 的 display</li>
+<li>CALayer 是默认修改属性支持隐式动画的，在给 UIView 的 Layer 做动画的时候，View 作为 Layer 的代理，Layer 通过 actionForLayer:forKey:向 View请求相应的 action(动画行为)</li>
+<li>layer 内部维护着三分 layer tree,分别是 presentLayer Tree(动画树),modeLayer Tree(模型树), Render Tree (渲染树),在做 iOS动画的时候，我们修改动画的属性，在动画的其实是 Layer 的 presentLayer的属性值,而最终展示在界面上的其实是提供 View的modelLayer</li>
+<li>两者最明显的区别是 View可以接受并处理事件，而 Layer 不可以</li>
+</ul>
+<h4 id="参考链接">参考链接</h4><p><a href="http://blog.csdn.net/weiwangchao_/article/details/7771538" target="_blank" rel="external">http://blog.csdn.net/weiwangchao_/article/details/7771538</a></p>
+<blockquote>
+<p>转自 <a href="http://www.jianshu.com/p/079e5cf0f014" target="_blank" rel="external">http://www.jianshu.com/p/079e5cf0f014</a></p>
+</blockquote>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-iOS开发之UITableView性能优化" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -937,93 +1044,6 @@
 
 
   
-    <article id="post-GCD实现单一资源的多读写" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/21/GCD实现单一资源的多读写/" class="article-date">
-  	<time datetime="2015-08-21T13:17:58.000Z" itemprop="datePublished">2015-08-21</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/21/GCD实现单一资源的多读写/">GCD实现单一资源的多读写</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>在多线程编程中，最常见的场景是如何保证线程安全，比如你可能经常遇到多线程访问某个dic（又或者是array或其他）造成的crash。<br>这篇文章里，我们讨论下如何使用GCD实现多线程读者与写者问题，也即单一资源的线程安全问题。</p>
-</blockquote>
-<p>首先，还是先将示例代码放出来好了，后面会有一些我遇到过的问题及改进介绍。如果你只想得到一个解决方案，只需要看第一节就OK，当然，也许你也有兴趣看看后面的部分。</p>
-<h3 id="解决方案与原理">解决方案与原理</h3><h4 id="ARC版本">ARC版本</h4><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">_ioQueue = dispatch_queue_create(<span class="string">"ioQueue"</span>, <span class="type">DISPATCH_QUEUE_CONCURRENT</span>);</span><br><span class="line">- (<span class="type">void</span>)setSafeObject:(id)<span class="keyword">object</span> forKey:(<span class="type">NSString</span> *)key</span><br><span class="line">&#123;</span><br><span class="line">    key = [key copy];</span><br><span class="line">    dispatch_barrier_async(self.ioQueue, ^&#123;</span><br><span class="line">        <span class="keyword">if</span> (key &amp;&amp; <span class="keyword">object</span>) &#123;</span><br><span class="line">            [_dic setObject:<span class="keyword">object</span> forKey:key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line">- (id)getSafeObjectForKey:(<span class="type">NSString</span> *)key</span><br><span class="line">&#123;</span><br><span class="line">    __block id <span class="literal">result</span> = <span class="keyword">nil</span>;</span><br><span class="line">    dispatch_sync(self.ioQueue, ^&#123;</span><br><span class="line">        <span class="literal">result</span> = [_dic objectForKey:key];</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>首先，我们需要创建一个私有的队列来处理读写操作。在这里不推荐使用<code>globe_queue</code>, 因为我们通过<code>dispatch_barrier_async</code>来保证写操作的互斥，我们当然不希望写操作阻塞住<code>globe_queue</code>中的其他不相关任务，我们只希望在写的同时，不会有其他的写操作或者读操作。</p>
-<blockquote>
-<p>同时，也不推荐给队列设置优先级，多数情况下使用default就可以了。而改变优先级往往会造成一些无法预料的问题，比如优先级反转(具体的可以参看参考文献)。</p>
-</blockquote>
-<p><img src="dispatch_barrier.png"><br>图片来自参考文献<br><code>dispatch_barrier_async</code>的block运行时机是，在它之前所有的任务执行完毕，并且在它后面的任务开始之前，期间不会有其他的任务执行。注意在<code>barrier</code>执行的时候，队列本质上如同一个串行队列，其执行完以后才会恢复到并行队列。</p>
-<p>另外一个值得注意的问题是，在写操作的时候，我们使用<code>dispatch_async</code>，而在读操作的时候我们使用<code>dispatch_sync</code>。很明显，这2个操作一个是异步的，一个是同步的。我们不需要使每次程序执行的时候都等待写操作完成，所以写操作异步执行，但是我们需要同步的执行读操作来保证程序能够立刻得到它想要的值。</p>
-<p>使用sync的时候需要极其的小心，因为稍不注意，就有可能产生死锁，这可能造成灾难性的后果。你肯定也注意到了在写操作的时候对key进行了copy, 关于此处的解释，插入一段来自参考文献的引用:</p>
-<blockquote>
-<p>函数调用者可以自由传递一个NSMutableString的key，并且能够在函数返回后修改它。因此我们必须对传入的字符串使用copy操作以确保函数能够正确地工作。如果传入的字符串不是可变的（也就是正常的NSString类型），调用copy基本上是个空操作。</p>
-</blockquote>
-<p>到这里整个基本示例代码已经完成，一般情况下能够满足我们的需要。下面来看看在MRC过程中我遇到的一些问题。</p>
-<h4 id="关于死锁">关于死锁</h4><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queueA<span class="comment">; // 串行队列</span></span><br><span class="line">dispatch_sync<span class="list">(<span class="keyword">queueA</span>, ^<span class="list">()</span>&#123;    </span><br><span class="line">    dispatch_sync<span class="list">(<span class="keyword">queueA</span>, ^<span class="list">()</span>&#123;        </span><br><span class="line">        foo<span class="list">()</span><span class="comment">;    </span></span><br><span class="line">    &#125;)</span><span class="comment">;</span></span><br><span class="line">&#125;)</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
-<p>造成死锁比较常见的情况可以简化成上面这段代码。<br><code>dispatch_sync</code>会同步的提交工作并在返回前等待其完成。第一个<code>dispatch_sync</code>正在运行并等待它的block完成，但是block不能够完成，它调用了第二个dispatch_sync，而第二个<code>dispatch_sync</code>会等待串行队列中已经存在的第一个任务完成，很明显这个任务无法完成，造成死锁。</p>
-<blockquote>
-<p>值得注意的是main_queue就是一个串行队列。</p>
-</blockquote>
-<h3 id="MRC下容易遇到的问题与解决方案">MRC下容易遇到的问题与解决方案</h3><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)setSafeObject:(id)<span class="keyword">object</span> forKey:(<span class="type">NSString</span> *)key</span><br><span class="line">&#123;</span><br><span class="line">    key = [key copy];</span><br><span class="line">    dispatch_barrier_async(self.ioQueue, ^&#123;</span><br><span class="line">        <span class="keyword">if</span> (key &amp;&amp; <span class="keyword">object</span>) &#123;</span><br><span class="line">            [_dic setObject:<span class="keyword">object</span> forKey:key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    [key release];</span><br><span class="line">&#125;</span><br><span class="line">- (id)getSafeObjectForKey:(<span class="type">NSString</span> *)key</span><br><span class="line">&#123;</span><br><span class="line">    __block id <span class="literal">result</span> = <span class="keyword">nil</span>;</span><br><span class="line">    dispatch_sync(self.ioQueue, ^&#123;</span><br><span class="line">        <span class="literal">result</span> = [_dic objectForKey:key];</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>首先我们看看上面这段代码，基本就是ARC版本转换过来的，看起来没问题。那么究竟是不是真的没问题，我们跑段代码试试看：<br><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//版本一</span><br><span class="line">- (<span class="type">void</span>)test</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000000</span>; i++) &#123;             </span><br><span class="line">        dispatch_async(dispatch_get_global_queue(<span class="type">DISPATCH_QUEUE_PRIORITY_DEFAULT</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">            [self setSafeObject:[<span class="type">NSString</span> stringWithFormat:@<span class="string">"86+131633829%i"</span>, i] forKey:<span class="type">KEY</span>];</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="type">NSString</span> *<span class="literal">result</span> = [self getSafeObjectForKey:<span class="type">KEY</span>];</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">"get string: %@, length : %lu"</span>, <span class="literal">result</span>, <span class="literal">result</span>.length);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>test执行后，很快就会发生crash，读操作的result会发生野指针。<br>如果你有经验的话，可能会发现问题:<br>如果某个线程a刚取出了result值，这次线程b开始执行写操作，造成线程a中的result值成为了一份过期的数据，如果正好线程b的runloop结束，很有可能旧的result内存地址被释放掉,这时线程a中的result就会发生野指针crash。<br>这时候，你可能会采取这样子的修改，代码如下: </p>
-<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//版本二</span><br><span class="line">- (<span class="type">void</span>)test</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000000</span>; i++) &#123;             </span><br><span class="line">        dispatch_async(dispatch_get_global_queue(<span class="type">DISPATCH_QUEUE_PRIORITY_DEFAULT</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">            [self setSafeObject:[<span class="type">NSString</span> stringWithFormat:@<span class="string">"86+131633829%i"</span>, i] forKey:<span class="type">KEY</span>];</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="type">NSString</span> *<span class="literal">result</span> = [[self getSafeObjectForKey:<span class="type">KEY</span>] retain];</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">"get string: %@, length : %lu"</span>, <span class="literal">result</span>, <span class="literal">result</span>.length);</span><br><span class="line">        [<span class="literal">result</span> release];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>运行之后会发现，仍然会crash，其实问题和上面一样，我们的改动没有真正的解决问题。最好的解决方案是在读操作之前就已经retain住了，看看最终版的代码吧:<br><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//最终版</span><br><span class="line">- (id)getSafeObjectForKey:(<span class="type">NSString</span> *)key</span><br><span class="line">&#123;</span><br><span class="line">    __block id <span class="literal">result</span> = <span class="keyword">nil</span>;</span><br><span class="line">    dispatch_sync(self.ioQueue, ^&#123;</span><br><span class="line">        <span class="literal">result</span> = [[_dic objectForKey:key] retain];</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> [<span class="literal">result</span> autorelease];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>注意retain过一定要释放掉，不然或造成内存泄露。</p>
-</blockquote>
-<p>再次验证后发现，程序不会crash了，恭喜。</p>
-<blockquote>
-<p>转自 <a href="http://luoyibu.com/" target="_blank" rel="external">http://luoyibu.com/</a> </p>
-</blockquote>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GCD/">GCD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Thread/">Thread</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1034,7 +1054,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2015 键盘
+    		&copy; 2016 键盘
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
