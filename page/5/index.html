@@ -119,6 +119,61 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-ios8-lame-arm64" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/11/07/ios8-lame-arm64/" class="article-date">
+  	<time datetime="2014-11-07T14:47:34.000Z" itemprop="datePublished">2014-11-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/07/ios8-lame-arm64/">iOS lame 实现录音转MP3格式</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>iOS 实现录音转MP3格式，下载lame源码，编译，将lame.h和libmp3lame.a导入工程。<br>编译脚本如下</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="shebang">#!/bin/sh</span><br><span class="line"></span></span><br><span class="line">CONFIGURE_FLAGS=<span class="string">"--disable-shared --disable-frontend"</span></span><br><span class="line"></span><br><span class="line">ARCHS=<span class="string">"arm64 armv7s x86_64 i386 armv7"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># directories</span></span><br><span class="line">SOURCE=<span class="string">"lame"</span></span><br><span class="line">FAT=<span class="string">"fat-lame"</span></span><br><span class="line"></span><br><span class="line">SCRATCH=<span class="string">"scratch-lame"</span></span><br><span class="line"><span class="comment"># must be an absolute path</span></span><br><span class="line">THIN=`<span class="built_in">pwd</span>`/<span class="string">"thin-lame"</span></span><br><span class="line"></span><br><span class="line">COMPILE=<span class="string">"y"</span></span><br><span class="line">LIPO=<span class="string">"y"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"$*"</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">	<span class="keyword">if</span> [ <span class="string">"$*"</span> = <span class="string">"lipo"</span> ]</span><br><span class="line">	<span class="keyword">then</span></span><br><span class="line">		<span class="comment"># skip compile</span></span><br><span class="line">		COMPILE=</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		ARCHS=<span class="string">"$*"</span></span><br><span class="line">		<span class="keyword">if</span> [ <span class="variable">$#</span> <span class="operator">-eq</span> <span class="number">1</span> ]</span><br><span class="line">		<span class="keyword">then</span></span><br><span class="line">			<span class="comment"># skip lipo</span></span><br><span class="line">			LIPO=</span><br><span class="line">		<span class="keyword">fi</span></span><br><span class="line">	<span class="keyword">fi</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$COMPILE</span>"</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">	CWD=`<span class="built_in">pwd</span>`</span><br><span class="line">	<span class="keyword">for</span> ARCH <span class="keyword">in</span> <span class="variable">$ARCHS</span></span><br><span class="line">	<span class="keyword">do</span></span><br><span class="line">		<span class="built_in">echo</span> <span class="string">"building <span class="variable">$ARCH</span>..."</span></span><br><span class="line">		mkdir -p <span class="string">"<span class="variable">$SCRATCH</span>/<span class="variable">$ARCH</span>"</span></span><br><span class="line">		<span class="built_in">cd</span> <span class="string">"<span class="variable">$SCRATCH</span>/<span class="variable">$ARCH</span>"</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> [ <span class="string">"<span class="variable">$ARCH</span>"</span> = <span class="string">"i386"</span> -o <span class="string">"<span class="variable">$ARCH</span>"</span> = <span class="string">"x86_64"</span> ]</span><br><span class="line">		<span class="keyword">then</span></span><br><span class="line">		    PLATFORM=<span class="string">"iPhoneSimulator"</span></span><br><span class="line">		    <span class="keyword">if</span> [ <span class="string">"<span class="variable">$ARCH</span>"</span> = <span class="string">"x86_64"</span> ]</span><br><span class="line">		    <span class="keyword">then</span></span><br><span class="line">		    	SIMULATOR=<span class="string">"-mios-simulator-version-min=7.0"</span></span><br><span class="line">                        HOST=x86_64-apple-darwin</span><br><span class="line">		    <span class="keyword">else</span></span><br><span class="line">		    	SIMULATOR=<span class="string">"-mios-simulator-version-min=5.0"</span></span><br><span class="line">                        HOST=i386-apple-darwin</span><br><span class="line">		    <span class="keyword">fi</span></span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		    PLATFORM=<span class="string">"iPhoneOS"</span></span><br><span class="line">		    SIMULATOR=</span><br><span class="line">                    HOST=arm-apple-darwin</span><br><span class="line">		<span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">		XCRUN_SDK=`<span class="built_in">echo</span> <span class="variable">$PLATFORM</span> | tr <span class="string">'[:upper:]'</span> <span class="string">'[:lower:]'</span>`</span><br><span class="line">		CC=<span class="string">"xcrun -sdk <span class="variable">$XCRUN_SDK</span> clang -arch <span class="variable">$ARCH</span>"</span></span><br><span class="line">		<span class="comment">#AS="$CWD/$SOURCE/extras/gas-preprocessor.pl $CC"</span></span><br><span class="line">		CFLAGS=<span class="string">"-arch <span class="variable">$ARCH</span> <span class="variable">$SIMULATOR</span>"</span></span><br><span class="line">		CXXFLAGS=<span class="string">"<span class="variable">$CFLAGS</span>"</span></span><br><span class="line">		LDFLAGS=<span class="string">"<span class="variable">$CFLAGS</span>"</span></span><br><span class="line"></span><br><span class="line">		CC=<span class="variable">$CC</span> <span class="variable">$CWD</span>/<span class="variable">$SOURCE</span>/configure \</span><br><span class="line">		    <span class="variable">$CONFIGURE_FLAGS</span> \</span><br><span class="line">                    --host=<span class="variable">$HOST</span> \</span><br><span class="line">		    --prefix=<span class="string">"<span class="variable">$THIN</span>/<span class="variable">$ARCH</span>"</span> \</span><br><span class="line">                    CC=<span class="string">"<span class="variable">$CC</span>"</span> CFLAGS=<span class="string">"<span class="variable">$CFLAGS</span>"</span> LDFLAGS=<span class="string">"<span class="variable">$LDFLAGS</span>"</span></span><br><span class="line"></span><br><span class="line">		make -j3 install</span><br><span class="line">		<span class="built_in">cd</span> <span class="variable">$CWD</span></span><br><span class="line">	<span class="keyword">done</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$LIPO</span>"</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"building fat binaries..."</span></span><br><span class="line">	mkdir -p <span class="variable">$FAT</span>/lib</span><br><span class="line">	<span class="built_in">set</span> - <span class="variable">$ARCHS</span></span><br><span class="line">	CWD=`<span class="built_in">pwd</span>`</span><br><span class="line">	<span class="built_in">cd</span> <span class="variable">$THIN</span>/<span class="variable">$1</span>/lib</span><br><span class="line">	<span class="keyword">for</span> LIB <span class="keyword">in</span> *.a</span><br><span class="line">	<span class="keyword">do</span></span><br><span class="line">		<span class="built_in">cd</span> <span class="variable">$CWD</span></span><br><span class="line">		lipo -create `find <span class="variable">$THIN</span> -name <span class="variable">$LIB</span>` -output <span class="variable">$FAT</span>/lib/<span class="variable">$LIB</span></span><br><span class="line">	<span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">	<span class="built_in">cd</span> <span class="variable">$CWD</span></span><br><span class="line">	cp -rf <span class="variable">$THIN</span>/<span class="variable">$1</span>/include <span class="variable">$FAT</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS/">iOS</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-uicollectionview-layout" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -605,67 +660,6 @@
 <p>通过自定义的button类继承UIButton我们可以覆写，设置title，image大小的方法。<br><figure class="highlight c++"><figcaption><span>UIButton.h</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (CGRect)titleRectForContentRect:(CGRect)contentRect;</span><br><span class="line">- (CGRect)imageRectForContentRect:(CGRect)contentRect;</span><br></pre></td></tr></table></figure></p>
 <p>重新设定他们所占的高度，使image和title上下分布<br><figure class="highlight c++"><figcaption><span>自定义button类,image和title上下分布</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">pragma</span> mark - 重写父类的方法</span></span><br><span class="line">- (CGRect)titleRectForContentRect:(CGRect)contentRect</span><br><span class="line">&#123;</span><br><span class="line">    CGFloat titleY = contentRect.size.height * kImageRatio - <span class="number">2</span>;</span><br><span class="line">    CGFloat titleHeight = contentRect.size.height - titleY;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> CGRectMake(<span class="number">4</span>, titleY, CGRectGetWidth(contentRect) - <span class="number">8</span>, titleHeight);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (CGRect)imageRectForContentRect:(CGRect)contentRect</span><br><span class="line">&#123;</span><br><span class="line">    CGRect rect = [super imageRectForContentRect:contentRect];</span><br><span class="line">    <span class="keyword">return</span> CGRectMake((contentRect.size.width - rect.size.width) / <span class="number">2</span>, <span class="number">4</span>, CGRectGetWidth(rect), contentRect.size.height * kImageRatio);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>重新设定他们所占的宽度，使image和title左右分布<br><figure class="highlight c++"><figcaption><span>自定义button类，image和title左右分布</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">pragma</span> mark - 重写父类的方法</span></span><br><span class="line">- (CGRect)titleRectForContentRect:(CGRect)contentRect</span><br><span class="line">&#123;</span><br><span class="line">    CGFloat titleX = contentRect.size.width * kImageRatio - <span class="number">2</span>;</span><br><span class="line">    CGFloat titleWidth = contentRect.size.width - titleX;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> CGRectMake(titleX, <span class="number">2</span>, titleWidth, CGRectGetHeight(contentRect) - <span class="number">4</span>);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (CGRect)imageRectForContentRect:(CGRect)contentRect</span><br><span class="line">&#123;</span><br><span class="line">    CGRect rect = [super imageRectForContentRect:contentRect];</span><br><span class="line">    <span class="keyword">return</span> CGRectMake(<span class="number">4</span>, (CGRectGetHeight(contentRect) - CGRectGetHeight(rect))/<span class="number">2</span>, contentRect.size.width * kImageRatio - <span class="number">8</span>, CGRectGetHeight(rect));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/IOS/">IOS</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-hmsegmentedcontrol-selected-section-textcolor" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/07/31/hmsegmentedcontrol-selected-section-textcolor/" class="article-date">
-  	<time datetime="2014-07-31T15:23:13.000Z" itemprop="datePublished">2014-07-31</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/07/31/hmsegmentedcontrol-selected-section-textcolor/">HMSegmentedControl-选中section的字体颜色</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>HMSegmentedControl是一个很常用的，比UISegmentedControl强大百倍的的开源控件库<br>效果如图<br><img src="/images/ios/UISegmentControl.png"></p>
-<p>图中所示，当前被选中的section的颜色并没有高亮，和其他section没有差异，相信很多开发者都有类似需求，把当前选中section高亮。</p>
-<p>阅读了下HMSegementedControl的源码，发现稍稍改动即可完成上述需求。<br>在HMSegmentControl.h中加入<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, strong) UIColor *selectedTextColor; <span class="comment">// default is [UIColor whiteColor]</span></span><br></pre></td></tr></table></figure></p>
-<p>然后在.m文件中给selectedTextColor初始化值，修改drawRect方法中加入几行代码即可</p>
-<figure class="highlight c++"><figcaption><span>修改后的- (void)drawRect:(CGRect)rect</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)drawRect:(CGRect)rect</span><br><span class="line">&#123;</span><br><span class="line">    [self.backgroundColor <span class="built_in">set</span>];</span><br><span class="line">    UIRectFill([self bounds]);</span><br><span class="line">    </span><br><span class="line">    [self.textColor <span class="built_in">set</span>];</span><br><span class="line">    </span><br><span class="line">    [self.sectionTitles enumerateObjectsUsingBlock:^(id titleString, NSUInteger idx, BOOL *stop) &#123;</span><br><span class="line">        CGFloat stringHeight = [titleString sizeWithFont:self.font].height;</span><br><span class="line">        CGFloat y = ((self.height - self.selectionIndicatorHeight) / <span class="number">2</span>) + (self.selectionIndicatorHeight - stringHeight / <span class="number">2</span>);</span><br><span class="line">        CGRect rect = CGRectMake(self.segmentWidth * idx, y, self.segmentWidth, stringHeight);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//HN: added by ywang</span></span><br><span class="line">        <span class="comment">//set current selected section's font color</span></span><br><span class="line">        <span class="keyword">if</span>(idx == _selectedIndex)</span><br><span class="line">        &#123;</span><br><span class="line">            [self.selectedTextColor <span class="built_in">set</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            [self.textColor <span class="built_in">set</span>];</span><br><span class="line">        &#125;</span><br><span class="line"><span class="preprocessor">#<span class="keyword">if</span> __IPHONE_OS_VERSION_MIN_REQUIRED &lt; <span class="number">60000</span></span></span><br><span class="line">        [titleString drawInRect:rect</span><br><span class="line">                       withFont:self.font</span><br><span class="line">                  lineBreakMode:UILineBreakModeClip</span><br><span class="line">                      alignment:UITextAlignmentCenter];</span><br><span class="line"><span class="preprocessor">#<span class="keyword">else</span></span></span><br><span class="line">        [titleString drawInRect:rect</span><br><span class="line">                       withFont:self.font</span><br><span class="line">                  lineBreakMode:NSLineBreakByClipping</span><br><span class="line">                      alignment:NSTextAlignmentCenter];</span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br><span class="line">        </span><br><span class="line">        self.selectedSegmentLayer.frame = [self frameForSelectionIndicator];</span><br><span class="line">        self.selectedSegmentLayer.backgroundColor = self.selectionIndicatorColor.CGColor;</span><br><span class="line">        [self.layer addSublayer:self.selectedSegmentLayer];</span><br><span class="line"></span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><br><br>使用时设置selectedTextColor的颜色，效果如图<br><img src="/images/ios/UISegmentControl-SelectedTextColor.png"></p>
-<p><br><br>注：现在HMSegementedControl已经支持选中的setion高亮了，并且支持图标的secion了，希望后续可以支持图标+文字的section (^O^)<br><a href="https://github.com/HeshamMegid/HMSegmentedControl.git" target="_blank" rel="external">HMSegmentedControl的github地址</a></p>
 
       
     </div>
